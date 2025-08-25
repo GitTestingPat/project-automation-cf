@@ -11,8 +11,8 @@ def test_create_booking_returns_valid_schema(auth_token):
 
     # Buscar vuelos
     response = requests.get(
-        f"{BASE_URL}/flights/search/",
-        params={"origin": "NYC", "destination": "LON"}  # <-- Agrega parámetros
+        f"{BASE_URL}/api/flights/search",
+        params={"from": "NYC", "to": "LON"}
     )
 
     assert response.status_code == 200, f"Error al buscar vuelos: {response.status_code}"
