@@ -19,11 +19,20 @@ def test_create_booking_returns_valid_schema(auth_token):
 
     flights = response.json()
 
+    # Verificar que la respuesta sea una lista (aunque esté vacía)
+    assert isinstance(flights, list), f"Se esperaba una lista de vuelos, se obtuvo: {type(flights)}"
+
     # Verificar que haya al menos un vuelo
-    assert len(flights) > 0, "No hay vuelos disponibles para reservar"
+    # Si no hay vuelos, la prueba fallará aquí, lo cual es correcto si se requiere uno.
+    assert len(flights) > 0, f"No hay vuelos disponibles para reservar. La API devolvió: {flights}"
+
+    # Verificar que el primer elemento tenga la clave 'id'
+    first_flight = flights[0]
+    assert isinstance(first_flight, dict), f"El primer elemento no es un diccionario: {type(first_flight)}"
+    assert "id" in first_flight, f"El primer vuelo no tiene clave 'id': {first_flight.keys()}"
 
     # Tomar el primer vuelo
-    flight_id = flights[0]["id"]
+    flight_id = first_flight["id"]
 
     # Crear una reserva
     booking_data = {
