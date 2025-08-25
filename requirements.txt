@@ -1,0 +1,7 @@
+pytest
+requests
+selenium
+pytest-bdd
+allure-pytest
+jsonschema
+behave
