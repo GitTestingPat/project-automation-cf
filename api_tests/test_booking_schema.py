@@ -14,7 +14,8 @@ def test_create_booking_returns_valid_schema(auth_token):
         f"{BASE_URL}/flights/",
         params={"origin": "NYC", "destination": "LON"}
     )
-
+    if response.status_code != 200:
+        print("Respuesta al buscar vuelos:", response.text)
     assert response.status_code == 200, f"Error al buscar vuelos: {response.status_code}"
 
     flights = response.json()
