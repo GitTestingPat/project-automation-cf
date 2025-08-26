@@ -12,7 +12,7 @@ def test_create_booking_returns_valid_schema(auth_token):
     # Buscar vuelos
     response = requests.get(
         f"{BASE_URL}/flights/",
-        params={"origin": "NYC", "destination": "LON"}
+        params={"origin": "MEX", "destination": "CUN"}
     )
     if response.status_code != 200:
         print("Respuesta al buscar vuelos:", response.text)
