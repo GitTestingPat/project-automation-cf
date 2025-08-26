@@ -50,7 +50,9 @@ def auth_token():
 @pytest.fixture
 def driver():
     """Fixture para crear un driver de Selenium con opciones comunes"""
-    driver = webdriver.Chrome()
+    options = Options()
+    options.add_argument(f"--user-data-dir=/tmp/chrome_profile_{uuid.uuid4()}")
+    driver = webdriver.Chrome(options=options)
     driver.implicitly_wait(10)
     yield driver
     driver.quit()
