@@ -1,4 +1,5 @@
 import time
+import uuid
 import requests
 import pytest
 from selenium import webdriver
@@ -13,9 +14,8 @@ os.makedirs(SCREENSHOTS_DIR, exist_ok=True)
 @pytest.fixture
 def auth_token():
     """Fixture que registra un usuario y devuelve un token JWT"""
-    # Generar datos únicos
-    timestamp = int(time.time())
-    email = f"user_{timestamp}@test.com"
+    # Generar email único usando uuid4 para evitar colisiones
+    email = f"user_{uuid.uuid4()}@test.com"
     password = "123456"
     full_name = "Test User"
 
@@ -23,14 +23,26 @@ def auth_token():
     signup_data = {"email": email, "password": password, "full_name": full_name}
     signup_response = requests.post(f"{BASE_URL}/auth/signup", json=signup_data)
 
-    assert signup_response.status_code == 201, f"Error en signup: {signup_response.text}"
+    # Mejorar diagnóstico en caso de error
+    if signup_response.status_code != 201:
+        print("ERROR en signup:")
+        print("Payload enviado:", signup_data)
+        print("Respuesta:", signup_response.text)
+        raise AssertionError(f"Error en signup ({signup_response.status_code}): {signup_response.text}")
 
     # 2. Hacer login
     login_data = {"username": email, "password": password}
     login_response = requests.post(f"{BASE_URL}/auth/login", data=login_data)
 
-    assert login_response.status_code == 200, f"Error en login: {login_response.text}"
-    token = login_response.json()["access_token"]
+    if login_response.status_code != 200:
+        print("ERROR en login:")
+        print("Payload enviado:", login_data)
+        print("Respuesta:", login_response.text)
+        raise AssertionError(f"Error en login ({login_response.status_code}): {login_response.text}")
+
+    token = login_response.json().get("access_token")
+    if not token:
+        raise AssertionError(f"No se obtuvo token en login: {login_response.text}")
 
     return token
 
@@ -48,36 +60,21 @@ def pytest_runtest_makereport(item, call):
     """
     Generar un screenshot automáticamente cuando una prueba de Selenium falla.
     """
-    # Obtener el resultado de la ejecución de la prueba
     outcome = yield
     report = outcome.get_result()
 
-    # Verificar si la prueba ha fallado durante la fase de ejecución ('call')
     if report.when == "call" and report.failed:
-        # Obtener la instancia del driver de Selenium utilizada en la prueba
         driver = None
-
-        # Intentar recuperar el driver desde los argumentos de la función de prueba (fixture)
         if hasattr(item, 'funcargs'):
             driver = item.funcargs.get('driver')
-
-        # Fallback: Intentar recuperar el driver como atributo de la instancia de la clase de prueba
         if driver is None:
             driver = getattr(item.instance, 'driver', None)
-
-        # Si se encuentra el driver, proceder a tomar el screenshot
         if driver:
-            # Crear el directorio de screenshots si no existe
             os.makedirs("screenshots", exist_ok=True)
-
-            # Generar una ruta de archivo única para el screenshot
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             screenshot_filename = f"{item.name}_{timestamp}.png"
             screenshot_path = os.path.join("screenshots", screenshot_filename)
-
-            # Guardar el screenshot usando el driver de Selenium
             try:
                 driver.save_screenshot(screenshot_path)
             except Exception:
-                # Silenciar errores al tomar el screenshot para no afectar el resultado de la prueba
                 pass

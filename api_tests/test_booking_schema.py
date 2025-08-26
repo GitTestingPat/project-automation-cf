@@ -11,7 +11,7 @@ def test_create_booking_returns_valid_schema(auth_token):
 
     # Buscar vuelos
     response = requests.get(
-        f"{BASE_URL}/flights",
+        f"{BASE_URL}/flights/",
         params={"origin": "NYC", "destination": "LON"}
     )
 
