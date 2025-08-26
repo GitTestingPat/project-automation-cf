@@ -5,6 +5,7 @@ import pytest
 from selenium import webdriver
 import os
 from datetime import datetime
+from selenium.webdriver.chrome.options import Options
 
 BASE_URL = "https://cf-automation-airline-api.onrender.com"
 
