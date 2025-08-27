@@ -53,11 +53,26 @@ def auth_token():
 
 @pytest.fixture
 def driver():
-    """Fixture para crear un driver de Selenium con opciones comunes"""
-    options = Options()
-    options.add_argument(f"--user-data-dir=/tmp/chrome_profile_{uuid.uuid4()}")
+    options = webdriver.ChromeOptions()
+
+    # ✅ Opciones obligatorias en GitHub Actions
+    options.add_argument("--headless=new")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--window-size=1920,1080")
+    options.add_argument("--disable-extensions")
+    options.add_argument("--disable-plugins")
+    options.add_argument("--disable-infobars")
+    options.add_argument("--disable-notifications")
+    options.add_argument("--disable-features=VizDisplayCompositor")
+
+    # 🔥 Usa un perfil limpio cada vez, sin guardar estado
+    options.add_argument("--disable-background-networking")
+    options.add_argument("--disable-background-timer-throttling")
+    options.add_argument("--disable-renderer-backgrounding")
+
     driver = webdriver.Chrome(options=options)
-    driver.implicitly_wait(10)
     yield driver
     driver.quit()
 
