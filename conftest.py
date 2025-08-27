@@ -51,30 +51,41 @@ def auth_token():
     return token
 
 
+import tempfile
+import shutil
+
+
 @pytest.fixture
 def driver():
-    options = webdriver.ChromeOptions()
+    # Crear un directorio temporal único
+    temp_user_data_dir = tempfile.mkdtemp()
 
-    # ✅ Opciones obligatorias en GitHub Actions
+    options = webdriver.ChromeOptions()
     options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
     options.add_argument("--window-size=1920,1080")
+
+    # ✅ Usa el directorio temporal
+    # options.add_argument(f"--user-data-dir={temp_user_data_dir}")
+
+    # Otras opciones seguras
     options.add_argument("--disable-extensions")
     options.add_argument("--disable-plugins")
     options.add_argument("--disable-infobars")
     options.add_argument("--disable-notifications")
-    options.add_argument("--disable-features=VizDisplayCompositor")
-
-    # 🔥 Usa un perfil limpio cada vez, sin guardar estado
-    options.add_argument("--disable-background-networking")
-    options.add_argument("--disable-background-timer-throttling")
-    options.add_argument("--disable-renderer-backgrounding")
 
     driver = webdriver.Chrome(options=options)
+
+    # Pasar el directorio al driver para que se borre después
+    driver.temp_user_data_dir = temp_user_data_dir
+
     yield driver
+
+    # ✅ Cerrar y borrar el directorio
     driver.quit()
+    shutil.rmtree(temp_user_data_dir, ignore_errors=True)
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
