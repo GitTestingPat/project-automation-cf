@@ -2,6 +2,9 @@ from selenium import webdriver
 import pytest
 from pages.cinema_home_page import CinemaHomePage
 
+'''
+Prueba TC-WEB-13 Verificar título principal
+'''
 
 def test_homepage_has_hero_text():
     driver = webdriver.Chrome()

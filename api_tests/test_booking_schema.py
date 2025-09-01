@@ -4,6 +4,10 @@ import os
 from jsonschema import validate, ValidationError
 from schemas.booking_schema import BOOKING_SCHEMA
 
+'''
+Prueba TC-API-21 Crear reserva válida
+'''
+
 # Detectar entorno de CI
 IN_CI = os.getenv("CI") == "true"
 

@@ -4,6 +4,10 @@ from jsonschema import validate, ValidationError
 from schemas.user_schema import USER_SCHEMA
 import time
 
+'''
+Prueba TC-API-01 Registrar usuario válido
+'''
+
 BASE_URL = "https://cf-automation-airline-api.onrender.com"
 
 def test_signup_returns_valid_schema():

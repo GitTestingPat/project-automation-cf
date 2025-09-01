@@ -1,6 +1,9 @@
 from pages.shophub_home_page import HomePage
 import pytest
 
+'''
+Pruebas TC-WEB-01, TC-WEB-02 Verificar carga de página principal, Ir a "Men's Clothes"
+'''
 
 def test_can_open_shophub_and_check_title(driver):
     home_page = HomePage(driver)

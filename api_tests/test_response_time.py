@@ -5,6 +5,11 @@ import pytest
 BASE_URL = "https://cf-automation-airline-api.onrender.com"
 
 
+'''
+Prueba TC-API-10 Medir tiempo de respuesta de
+/airports
+'''
+
 def test_get_airports_response_time_under_2_seconds():
     """
     Verificar que el endpoint /airports responda en menos de 2 segundos.
