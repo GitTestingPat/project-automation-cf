@@ -25,6 +25,14 @@ def test_signup_returns_valid_schema():
     # Usar el endpoint correcto para registro público
     response = requests.post(f"{BASE_URL}/auth/signup", json=user_data)
 
+    # Manejar posible error 500 del servidor de la API
+    if response.status_code == 500:
+        pytest.fail(
+            f"La API devolvió un error 500 (Internal Server Error) al intentar registrar un usuario. "
+            f"Esto indica un posible fallo interno en el servidor de la API de prueba. "
+            f"Cuerpo de la respuesta: {response.text}"
+        )
+
     # Verificar que el registro sea exitoso
     assert response.status_code == 201, f"Expected 201, got {response.status_code}. Body: {response.text}"
 

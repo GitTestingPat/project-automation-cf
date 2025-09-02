@@ -104,8 +104,8 @@ def test_create_flight_as_admin():
     new_flight_data = {
         "origin": "NYC",  # Código IATA válido de ejemplo
         "destination": "LAX",  # Código IATA válido de ejemplo
-        "departure_time": future_time.isoformat() + "Z",  # Formato ISO 8601
-        "arrival_time": arrival_time.isoformat() + "Z",   # Formato ISO 8601
+        "departure_time": future_time.isoformat(),
+        "arrival_time": arrival_time.isoformat(),
         "base_price": 299.99,
         "aircraft_id": aircraft_id  # ID del avión recién creado
     }
