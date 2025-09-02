@@ -111,5 +111,6 @@ def test_create_airport():
         f"Esperado: {new_airport_data['country']}, Obtenido: {created_airport['country']}"
     )
 
-    print(f"✅ Aeropuerto creado exitosamente. IATA: {created_airport['iata_code']}, Ciudad: {created_airport['city']}")
+    print(f"✅ Aeropuerto creado exitosamente. IATA: {created_airport['iata_code']}, "
+          f"Ciudad: {created_airport['city']}")
 
