@@ -1,7 +1,7 @@
 import requests
 import pytest
 import time
-from datetime import timezone
+from datetime import datetime, timedelta, timezone
 from datetime import datetime, timedelta
 from jsonschema import validate
 
@@ -231,15 +231,38 @@ def test_update_flight_as_admin():
         f"El aircraft_id no debería haber cambiado. "
         f"Esperado: {updated_flight_data['aircraft_id']}, Obtenido: {updated_flight['aircraft_id']}"
     )
-    # Confirmar que las fechas también se hayan actualizado
-    assert updated_flight["departure_time"] == updated_flight_data["departure_time"], (
-        f"La hora de salida no se actualizó. "
-        f"Esperado: {updated_flight_data['departure_time']}, Obtenido: {updated_flight['departure_time']}"
-    )
-    assert updated_flight["arrival_time"] == updated_flight_data["arrival_time"], (
-        f"La hora de llegada no se actualizó. "
-        f"Esperado: {updated_flight_data['arrival_time']}, Obtenido: {updated_flight['arrival_time']}"
-    )
+    # Confirmar que las fechas también se hayan actualizado.
+    # La API normaliza el formato de la fecha al devolver el recurso (ej. usando 'Z' en vez de '+00:00').
+    # Por lo tanto, se comparan los objetos datetime parseados, no los strings directamente.
+    try:
+        expected_departure_dt = datetime.fromisoformat(updated_flight_data["departure_time"].replace("Z",
+                                                                                                     "+00:00"))
+        actual_departure_dt = datetime.fromisoformat(updated_flight["departure_time"].replace("Z", "+00:00"))
+        assert actual_departure_dt == expected_departure_dt, (
+            f"La hora de salida no se actualizó correctamente. "
+            f"Esperado (parseado): {expected_departure_dt}, Obtenido (parseado): {actual_departure_dt}"
+        )
+    except ValueError as e:
+        pytest.fail(
+            f"Error al parsear las fechas para comparar la hora de salida. "
+            f"Esperado: {updated_flight_data['departure_time']}, Obtenido: {updated_flight['departure_time']}. "
+            f"Error: {e}"
+        )
+
+    try:
+        expected_arrival_dt = datetime.fromisoformat(updated_flight_data["arrival_time"].replace("Z",
+                                                                                                 "+00:00"))
+        actual_arrival_dt = datetime.fromisoformat(updated_flight["arrival_time"].replace("Z", "+00:00"))
+        assert actual_arrival_dt == expected_arrival_dt, (
+            f"La hora de llegada no se actualizó correctamente. "
+            f"Esperado (parseado): {expected_arrival_dt}, Obtenido (parseado): {actual_arrival_dt}"
+        )
+    except ValueError as e:
+         pytest.fail(
+            f"Error al parsear las fechas para comparar la hora de llegada. "
+            f"Esperado: {updated_flight_data['arrival_time']}, Obtenido: {updated_flight['arrival_time']}. "
+            f"Error: {e}"
+        )
 
     print(
         f"✅ Vuelo actualizado exitosamente. ID: {updated_flight['id']}, Nuevo Origen: {updated_flight['origin']}, "

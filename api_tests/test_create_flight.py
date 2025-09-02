@@ -102,12 +102,12 @@ def test_create_flight_as_admin():
     arrival_time = future_time + timedelta(hours=3)
 
     new_flight_data = {
-        "origin": "NYC",  # Código IATA válido de ejemplo
-        "destination": "LAX",  # Código IATA válido de ejemplo
+        "origin": "NYC",  # Código IATA válido
+        "destination": "LAX",  # Código IATA válido
         "departure_time": future_time.isoformat(),
         "arrival_time": arrival_time.isoformat(),
         "base_price": 299.99,
-        "aircraft_id": aircraft_id  # ID del avión recién creado
+        "aircraft_id": aircraft_id  # ID del avión creado
     }
 
     # 4. Hacer la solicitud POST a /flights
