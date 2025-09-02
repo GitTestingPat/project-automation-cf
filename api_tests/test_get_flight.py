@@ -92,7 +92,7 @@ def create_test_flight_for_retrieval(admin_token):
         pytest.fail(f"Falló la creación del avión de prueba para vuelo: {e}")
 
     # 2. Preparar datos para el nuevo vuelo.
-    future_time = datetime.utcnow() + timedelta(hours=4)
+    future_time = datetime.now(timezone.utc) + timedelta(hours=4)
     arrival_time = future_time + timedelta(hours=5)
 
     new_flight_data = {

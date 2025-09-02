@@ -1,6 +1,7 @@
 import requests
 import pytest
 import time
+from datetime import timezone
 from datetime import datetime, timedelta
 from jsonschema import validate
 
@@ -97,7 +98,7 @@ def test_create_flight_as_admin():
 
     # 3. Preparar datos para el nuevo vuelo.
     # Usar códigos IATA válidos para origen y destino (3 letras mayúsculas).
-    future_time = datetime.utcnow() + timedelta(hours=2)
+    future_time = datetime.now(timezone.utc) + timedelta(hours=2)
     arrival_time = future_time + timedelta(hours=3)
 
     new_flight_data = {

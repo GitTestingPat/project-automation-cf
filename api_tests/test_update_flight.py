@@ -92,7 +92,7 @@ def create_test_flight_for_update(admin_token):
         pytest.fail(f"Falló la creación del avión de prueba para vuelo: {e}")
 
     # 2. Preparar datos para el nuevo vuelo.
-    future_time = datetime.utcnow() + timedelta(hours=6)
+    future_time = datetime.now(timezone.utc) + timedelta(hours=6)
     arrival_time = future_time + timedelta(hours=7)
 
     new_flight_data = {
@@ -151,7 +151,7 @@ def test_update_flight_as_admin():
     flight_id_to_update = create_test_flight_for_update(token)
 
     # 3. Preparar datos actualizados.
-    updated_departure_time = datetime.utcnow() + timedelta(hours=8)
+    updated_departure_time = datetime.now(timezone.utc) + timedelta(hours=8)
     updated_arrival_time = updated_departure_time + timedelta(hours=9)
 
     updated_flight_data = {
