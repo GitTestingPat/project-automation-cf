@@ -99,8 +99,8 @@ def create_test_flight_for_update(admin_token):
     new_flight_data = {
         "origin": "LHR",  # Código IATA válido
         "destination": "CDG",  # Código IATA válido
-        "departure_time": future_time.isoformat() + "Z",  # Formato ISO 8601
-        "arrival_time": arrival_time.isoformat() + "Z",  # Formato ISO 8601
+        "departure_time": future_time.isoformat(),
+        "arrival_time": arrival_time.isoformat(),
         "base_price": 450.00,
         "aircraft_id": aircraft_id  # ID del avión creado
     }
@@ -158,8 +158,8 @@ def test_update_flight_as_admin():
     updated_flight_data = {
         "origin": "DXB",  # Nuevo origen
         "destination": "SIN",  # Nuevo destino
-        "departure_time": updated_departure_time.isoformat() + "Z",  # Nueva hora de salida
-        "arrival_time": updated_arrival_time.isoformat() + "Z",  # Nueva hora de llegada
+        "departure_time": updated_departure_time.isoformat(),  # Nueva hora de salida
+        "arrival_time": updated_arrival_time.isoformat(),  # Nueva hora de llegada
         "base_price": 550.75,  # Nuevo precio base
         "aircraft_id": "aircraft-id-placeholder"  # Placeholder, será reemplazado
     }

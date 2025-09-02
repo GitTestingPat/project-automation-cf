@@ -99,8 +99,8 @@ def create_test_flight_for_retrieval(admin_token):
     new_flight_data = {
         "origin": "MEX",  # Código IATA válido
         "destination": "BCN",  # Código IATA válido
-        "departure_time": future_time.isoformat() + "Z",  # Formato ISO 8601
-        "arrival_time": arrival_time.isoformat() + "Z",  # Formato ISO 8601
+        "departure_time": future_time.isoformat(),
+        "arrival_time": arrival_time.isoformat(),
         "base_price": 599.99,
         "aircraft_id": aircraft_id  # ID del avión creado
     }
