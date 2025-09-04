@@ -1,7 +1,6 @@
 import requests
 import pytest
-
-BASE_URL = "https://cf-automation-airline-api.onrender.com"
+from conftest import BASE_URL
 
 """
 Caso de prueba: TC-API-04: Iniciar sesión con credenciales válidas.

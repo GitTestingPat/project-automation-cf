@@ -5,6 +5,10 @@ from conftest import BASE_URL
 from datetime import datetime, timedelta, timezone
 from jsonschema import validate
 
+"""
+TC-API-20: Crear reserva.
+Objetivo: Crear una nueva reserva para un usuario autorizado.
+"""
 
 def test_create_booking_as_user(user_token, flight_id):
     """
@@ -99,7 +103,8 @@ def test_create_booking_as_user(user_token, flight_id):
             f"Esperado: {new_booking_data['passengers'][i]['passport']}, Obtenido: {passenger['passport']}"
         )
         # El campo 'seat' puede estar ausente o ser null si no se asignó
-        # assert "seat" in passenger # No se verifica su presencia si es opcional
+        # assert "seat" in passenger
+        # No se verifica su presencia si es opcional
 
     print(
         f"✅ Reserva creada exitosamente. ID: {created_booking['id']}, Vuelo ID: {created_booking['flight_id']}, "

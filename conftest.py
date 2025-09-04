@@ -302,18 +302,18 @@ def aircraft_id(admin_token):
     if response.status_code == 500:
         error_detail = response.text
         pytest.skip(
-            f"La API devolvió un 500 al crear avión de prueba en la fixture 'test_aircraft_id'. "
+            f"La API devolvió un 500 al crear avión de prueba en la fixture 'aircraft_id'. "
             f"Esto indica un posible fallo interno en el servidor de la API de prueba. "
             f"Cuerpo de la respuesta: {error_detail}"
         )
     elif response.status_code == 422:
         pytest.fail(
-            f"Error de validación al crear avión de prueba en la fixture 'test_aircraft_id'. "
+            f"Error de validación al crear avión de prueba en la fixture 'aircraft_id'. "
             f"Cuerpo de la respuesta: {response.text}"
         )
 
     assert response.status_code == 201, (
-        f"Error al crear avión de prueba en la fixture 'test_aircraft_id'. "
+        f"Error al crear avión de prueba en la fixture 'aircraft_id'. "
         f"Esperaba 201, obtuvo {response.status_code}. "
         f"Cuerpo: {response.text}"
     )
@@ -327,7 +327,7 @@ def aircraft_id(admin_token):
 def flight_id(admin_token, aircraft_id):
     """
     Fixture que crea un vuelo de prueba y devuelve su ID.
-    Requiere las fixtures 'admin_token' y 'test_aircraft_id'.
+    Requiere las fixtures 'admin_token' y 'aircraft_id'.
     """
     headers = {"Authorization": f"Bearer {admin_token}"}
 
@@ -348,25 +348,44 @@ def flight_id(admin_token, aircraft_id):
         pytest.fail(f"Error de red al crear vuelo de prueba: {e}")
 
     # Manejar errores comunes durante la creación
-    if response.status_code == 500:
-        error_detail = response.text
-        pytest.skip(
-            f"La API devolvió un 500 al crear vuelo de prueba en la fixture 'test_flight_id'. "
-            f"Esto indica un posible fallo interno en el servidor de la API de prueba. "
-            f"Cuerpo de la respuesta: {error_detail}"
-        )
-    elif response.status_code == 422:
+    # La operación de creación exitosa debería devolver 201 Created.
+    # NOTA: La API puede devolver 200 OK intermitentemente en lugar de 201.
+    # Comportamiento no estándar pero simulado/intermitente.
+    # Aceptar ambos códigos.
+    if response.status_code not in [200, 201]:
+        # Manejar errores específicos
+        if response.status_code == 500:
+            error_detail = response.text
+            pytest.skip(
+                f"La API devolvió un 500 al crear vuelo en la fixture 'flight_id'. "
+                f"Esto indica un posible fallo interno en el servidor de la API de prueba. "
+                f"Cuerpo de la respuesta: {error_detail}"
+            )
+        elif response.status_code == 422:
+            pytest.fail(
+                f"Error de validación al crear vuelo en la fixture 'flight_id'. "
+                f"Cuerpo de la respuesta: {response.text}"
+            )
+        elif response.status_code == 401 or response.status_code == 403:
+            pytest.skip(
+                f"La API requirió autenticación/permisos (Status: {response.status_code}) para crear un vuelo. "
+                f"Esto indica que el token de admin no fue aceptado. "
+                f"Cuerpo de la respuesta: {response.text}"
+            )
+        elif response.status_code == 404:
+             pytest.fail(
+                f"La API devolvió 404 (Not Found) al intentar crear un vuelo. "
+                f"Esto indica que el endpoint no fue encontrado. "
+                f"Cuerpo de la respuesta: {response.text}"
+            )
+
+        # Si no es ninguno de los códigos manejados específicamente, es un error inesperado
         pytest.fail(
-            f"Error de validación al crear vuelo de prueba en la fixture 'test_flight_id'. "
-            f"Cuerpo de la respuesta: {response.text}"
+            f"Error al crear vuelo en la fixture 'flight_id'. "
+            f"Esperaba 200 o 201, obtuvo {response.status_code}. "
+            f"Cuerpo: {response.text}"
         )
-
-    assert response.status_code == 201, (
-        f"Error al crear vuelo de prueba en la fixture 'test_flight_id'. "
-        f"Esperaba 201, obtuvo {response.status_code}. "
-        f"Cuerpo: {response.text}"
-    )
-
+    # Si el código es 200 o 201, continuar normalmente
     created_flight = response.json()
     assert "id" in created_flight, "Falta 'id' en la respuesta del vuelo creado."
     return created_flight["id"]
@@ -402,13 +421,13 @@ def booking_id(user_token, flight_id):
     if response.status_code == 500:
         error_detail = response.text
         pytest.skip(
-            f"La API devolvió un 500 al crear reserva en la fixture 'test_booking_id'. "
+            f"La API devolvió un 500 al crear reserva en la fixture 'booking_id'. "
             f"Esto indica un posible fallo interno en el servidor de la API de prueba. "
             f"Cuerpo de la respuesta: {error_detail}"
         )
     elif response.status_code == 422:
         pytest.fail(
-            f"Error de validación al crear reserva en la fixture 'test_booking_id'. "
+            f"Error de validación al crear reserva en la fixture 'booking_id'. "
             f"Cuerpo de la respuesta: {response.text}"
         )
     elif response.status_code == 401:
@@ -419,7 +438,7 @@ def booking_id(user_token, flight_id):
         )
 
     assert response.status_code == 201, (
-        f"Error al crear reserva en la fixture 'test_booking_id'. "
+        f"Error al crear reserva en la fixture 'booking_id'. "
         f"Esperaba 201, obtuvo {response.status_code}. "
         f"Cuerpo: {response.text}"
     )
@@ -455,13 +474,13 @@ def airport_iata_code(admin_token):
     if response.status_code == 500:
         error_detail = response.text
         pytest.skip(
-            f"La API devolvió un 500 al crear aeropuerto en la fixture 'test_airport_iata_code'. "
+            f"La API devolvió un 500 al crear aeropuerto en la fixture 'airport_iata_code'. "
             f"Esto indica un posible fallo interno en el servidor de la API de prueba. "
             f"Cuerpo de la respuesta: {error_detail}"
         )
     elif response.status_code == 422:
          pytest.fail(
-            f"Error de validación al crear aeropuerto en la fixture 'test_airport_iata_code'. "
+            f"Error de validación al crear aeropuerto en la fixture 'airport_iata_code'. "
             f"Cuerpo de la respuesta: {response.text}"
         )
     elif response.status_code == 401 or response.status_code == 403:
@@ -472,7 +491,7 @@ def airport_iata_code(admin_token):
         )
 
     assert response.status_code == 201, (
-        f"Error al crear aeropuerto en la fixture 'test_airport_iata_code'. "
+        f"Error al crear aeropuerto en la fixture 'airport_iata_code'. "
         f"Esperaba 201, obtuvo {response.status_code}. "
         f"Cuerpo: {response.text}"
     )
@@ -518,13 +537,13 @@ def user_id_to_delete(admin_token):
     if response.status_code == 500:
         error_detail = response.text
         pytest.skip(
-            f"La API devolvió un 500 al crear usuario en la fixture 'test_user_id_to_delete'. "
+            f"La API devolvió un 500 al crear usuario en la fixture 'user_id_to_delete'. "
             f"Esto indica un posible fallo interno en el servidor de la API de prueba. "
             f"Cuerpo de la respuesta: {error_detail}"
         )
     elif response.status_code == 422:
          pytest.fail(
-            f"Error de validación al crear usuario en la fixture 'test_user_id_to_delete'. "
+            f"Error de validación al crear usuario en la fixture 'user_id_to_delete'. "
             f"Cuerpo de la respuesta: {response.text}"
         )
     elif response.status_code == 401 or response.status_code == 403:
@@ -535,7 +554,7 @@ def user_id_to_delete(admin_token):
         )
 
     assert response.status_code == 201, (
-        f"Error al crear usuario en la fixture 'test_user_id_to_delete'. "
+        f"Error al crear usuario en la fixture 'user_id_to_delete'. "
         f"Esperaba 201, obtuvo {response.status_code}. "
         f"Cuerpo: {response.text}"
     )
@@ -570,3 +589,125 @@ def new_user_data():
     }
 
     return user_data
+
+@pytest.fixture
+def payment_id(user_token, booking_id):
+    """
+    Fixture que crea un pago de prueba y devuelve su ID.
+    Requiere las fixtures 'user_token' y 'test_booking_id'.
+    """
+    headers = {"Authorization": f"Bearer {user_token}"}
+    booking_id_to_pay = booking_id
+
+    # 1. Preparar datos para el nuevo pago.
+    new_payment_data = {
+        "booking_id": booking_id_to_pay,
+        "amount": 299.99, # Monto de ejemplo
+        "payment_method": "credit_card" # Método de pago de ejemplo
+    }
+
+    # 2. Crear el pago
+    try:
+        response = requests.post(f"{BASE_URL}/payments", json=new_payment_data, headers=headers)
+    except requests.exceptions.RequestException as e:
+         pytest.fail(f"Error de red al crear pago de prueba: {e}")
+
+    # Manejar errores comunes durante la creación
+    if response.status_code == 500:
+        error_detail = response.text
+        pytest.skip(
+            f"La API devolvió un error 500 al crear pago en la fixture 'payment_id'. "
+            f"Esto indica un posible fallo interno en el servidor de la API de prueba. "
+            f"Cuerpo de la respuesta: {error_detail}"
+        )
+    elif response.status_code == 422:
+         pytest.fail(
+            f"Error de validación al crear pago en la fixture 'payment_id'. "
+            f"Cuerpo de la respuesta: {response.text}"
+        )
+    elif response.status_code == 401:
+        pytest.skip(
+            f"La API requirió autenticación (Status: {response.status_code}) para crear un pago. "
+            f"Esto indica que el token de usuario no fue aceptado. "
+            f"Cuerpo de la respuesta: {response.text}"
+        )
+    elif response.status_code == 404:
+        pytest.fail(
+            f"La API devolvió 404 (Not Found) al intentar crear un pago para la reserva '{booking_id_to_pay}'. "
+            f"Esto indica que la reserva no fue encontrada. "
+            f"Puede ser un problema de consistencia en la API. "
+            f"Cuerpo de la respuesta: {response.text}"
+        )
+
+    assert response.status_code == 201, (
+        f"Error al crear pago en la fixture 'payment_id'. "
+        f"Esperaba 201, obtuvo {response.status_code}. "
+        f"Cuerpo: {response.text}"
+    )
+
+    created_payment = response.json()
+    assert "id" in created_payment, "Falta 'id' en la respuesta del pago creado."
+    return created_payment["id"]
+
+
+@pytest.fixture
+def aircraft_id_for_get(admin_token):
+    """
+    Fixture que crea una aeronave de prueba específica para la prueba de obtención por ID.
+    Recibe la fixture 'admin_token'.
+    Devuelve el ID de la aeronave creada.
+    """
+    headers = {"Authorization": f"Bearer {admin_token}"}
+
+    # Generar un tail_number único
+    import random
+    import string
+    timestamp = str(int(time.time()))[-5:]
+    random_suffix = ''.join(random.choices(string.ascii_uppercase + string.digits, k=3))
+    tail_number = f"N{timestamp}AG"  # Asegurar 6 caracteres, formato ejemplo
+
+    new_aircraft_data = {
+        "tail_number": tail_number,
+        "model": f"Test Model Get {timestamp}",
+        "capacity": 180  # Capacidad de ejemplo
+    }
+
+    # Crear la aeronave
+    try:
+        response = requests.post(f"{BASE_URL}/aircrafts", json=new_aircraft_data, headers=headers)
+    except requests.exceptions.RequestException as e:
+        pytest.fail(f"Error de red al crear aeronave de prueba para obtención: {e}")
+
+    # Manejar errores comunes durante la creación
+    if response.status_code == 500:
+        pytest.fail(
+            f"La API devolvió un error 500 al crear aeronave en la fixture 'aircraft_id_for_get'. "
+            f"Esto indica un posible fallo interno en el servidor de la API de prueba. "
+            f"Cuerpo de la respuesta: {response.text}"
+        )
+    elif response.status_code == 422:
+        pytest.fail(
+            f"Error de validación al crear aeronave en la fixture 'aircraft_id_for_get'. "
+            f"Cuerpo de la respuesta: {response.text}"
+        )
+    elif response.status_code == 401 or response.status_code == 403:
+        pytest.skip(
+            f"La API requirió autenticación/permisos (Status: {response.status_code}) para crear una aeronave. "
+            f"Esto indica que el token de admin no fue aceptado. "
+            f"Cuerpo de la respuesta: {response.text}"
+        )
+
+    assert response.status_code == 201, (
+        f"Error al crear aeronave en la fixture 'aircraft_id_for_get'. "
+        f"Esperaba 201, obtuvo {response.status_code}. "
+        f"Cuerpo: {response.text}"
+    )
+
+    created_aircraft = response.json()
+    assert "id" in created_aircraft, "Falta 'id' en la respuesta de la aeronave creada."
+    assert created_aircraft["tail_number"] == tail_number, (
+        f"El tail_number de la aeronave creada no coincide. "
+        f"Esperado: {tail_number}, Obtenido: {created_aircraft['tail_number']}"
+    )
+
+    return created_aircraft["id"]

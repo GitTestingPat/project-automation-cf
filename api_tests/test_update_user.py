@@ -2,8 +2,7 @@ import requests
 import pytest
 import time
 from jsonschema import validate
-
-BASE_URL = "https://cf-automation-airline-api.onrender.com"
+from conftest import BASE_URL
 
 """
 Caso de prueba: TC-API-08: Actualizar usuario (PUT /users/{user_id})
@@ -83,7 +82,7 @@ def test_update_user_as_admin():
     original_password = user_data_for_update["password"]
 
     # 3. Preparar datos para la actualización.
-    # Actualizar solo el nombre completo, ya que el rol podría tener restricciones según la API.
+    # Actualizar solo el nombre completo.
     updated_data = {
         "email": original_email,  # Reenviar el email original
         "password": original_password,  # Reenviar la contraseña original
@@ -103,7 +102,7 @@ def test_update_user_as_admin():
             f"Cuerpo de la respuesta: {response.text}"
         )
 
-    # La operación de actualización debería devolver 200 OK
+    # La operación de actualización debe devolver 200 OK
     assert response.status_code == 200, (
         f"Error al actualizar usuario. "
         f"Esperaba 200, obtuvo {response.status_code}. "

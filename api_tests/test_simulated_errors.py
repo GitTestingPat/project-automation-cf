@@ -1,12 +1,11 @@
 import requests
 import pytest
 import time
+from conftest import BASE_URL
 
-BASE_URL = "https://cf-automation-airline-api.onrender.com"
-
-'''
-Pruebas TC-API-31 o TC-API-32 Probar endpoint que simula error (400/500)
-'''
+"""
+Pruebas TC-API-31 o TC-API-32 Probar endpoint con error 400/500
+"""
 
 def test_signup_endpoint_returns_known_error():
     """

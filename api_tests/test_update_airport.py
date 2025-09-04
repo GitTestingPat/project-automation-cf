@@ -17,7 +17,7 @@ def test_update_airport_as_admin(admin_token, airport_iata_code):
     Este test recibe 'admin_token' y 'airport_iata' de los fixtures.
     """
     headers = {"Authorization": f"Bearer {admin_token}"}
-    iata_code_to_update = airport_iata_code # El código IATA ya viene del fixture
+    iata_code_to_update = airport_iata_code # El código IATA viene del fixture
 
     # 3. Preparar datos actualizados
     updated_data = {

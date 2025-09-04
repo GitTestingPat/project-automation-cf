@@ -5,14 +5,18 @@ from conftest import BASE_URL
 from datetime import datetime, timedelta, timezone
 from jsonschema import validate
 
+"""
+TC-API-18: Actualizar vuelo.
+Objetivo: Confirmar que el un vuelo creado siga existiendo con los mismos datos enviados.
+"""
 
 def test_update_flight_as_admin(admin_token, flight_id):
     """
     TC-API-18: Actualizar vuelo.
-    Este test ahora recibe 'admin_token' y 'test_flight_id' de los fixtures.
+    Este test ahora recibe 'admin_token' y 'flight_id' de los fixtures.
     """
     headers = {"Authorization": f"Bearer {admin_token}"}
-    flight_id_to_update = flight_id # El ID del vuelo ya viene del fixture
+    flight_id_to_update = flight_id # El ID del vuelo viene del fixture
 
     # 3. Preparar datos actualizados.
     updated_departure_time = datetime.now(timezone.utc) + timedelta(hours=8)

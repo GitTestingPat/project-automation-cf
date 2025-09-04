@@ -2,13 +2,13 @@ import requests
 import pytest
 from jsonschema import validate, ValidationError
 from schemas.user_schema import USER_SCHEMA
+from conftest import BASE_URL
 import time
 
-'''
+"""
 Prueba TC-API-01 Registrar usuario válido
-'''
-
-BASE_URL = "https://cf-automation-airline-api.onrender.com"
+Objetivo: Comprobar que se pueda registrar en el sistema un usuario con datos válidos.
+"""
 
 def test_signup_returns_valid_schema():
     # Generar un email único con timestamp

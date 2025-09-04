@@ -6,6 +6,11 @@ import string
 from conftest import BASE_URL
 from jsonschema import validate
 
+"""
+TC-API-11: Crear aeropuerto.
+Objetivo : Crear un nuevo aeropuerto con código IATA válido.
+"""
+
 def test_create_airport(admin_token):
     """
     TC-API-11: Crear aeropuerto.

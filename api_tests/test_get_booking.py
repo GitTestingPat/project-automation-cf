@@ -73,9 +73,9 @@ def test_get_booking_by_id(user_token, booking_id):
         f"Esperado: {booking_id_to_get}, Obtenido: {booking_data['id']}"
     )
 
-    # Validaciones básicas de contenido (pueden ser más estrictas si se desea)
-    assert booking_data["flight_id"] # Validar que no esté vacío
-    assert booking_data["user_id"] # Validar que no esté vacío
+    # Verificaciones básicas de contenido (pueden ser más estrictas si se desea)
+    assert booking_data["flight_id"] # Verificar que no esté vacío
+    assert booking_data["user_id"] # Verificar que no esté vacío
     assert booking_data["status"] in ["draft", "paid", "checked_in", "cancelled"], (
         f"Estado de reserva inválido: {booking_data['status']}"
     )

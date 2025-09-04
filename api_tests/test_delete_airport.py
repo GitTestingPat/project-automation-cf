@@ -6,6 +6,11 @@ import string
 from conftest import BASE_URL
 from jsonschema import validate
 
+"""
+TC-API-14: Eliminar aeropuerto.
+Objetivo: Eliminar un aeropuerto ya creado usando datos válidos.
+"""
+
 def test_delete_airport_as_admin(admin_token, airport_iata_code):
     """
     TC-API-14: Eliminar aeropuerto.

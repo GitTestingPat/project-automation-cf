@@ -6,6 +6,11 @@ from datetime import timezone
 from datetime import datetime, timedelta
 from jsonschema import validate
 
+"""
+TC-API-16: Crear vuelo.
+Objetivo: crear un nuevo vuelo con fechas y códigos válidos.
+"""
+
 def test_create_flight_as_admin(admin_token, aircraft_id):
     """
     TC-API-16: Crear vuelo.

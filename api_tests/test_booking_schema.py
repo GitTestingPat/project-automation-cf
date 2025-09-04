@@ -1,6 +1,7 @@
 import requests
 import pytest
 import os
+from conftest import BASE_URL
 from jsonschema import validate, ValidationError
 from schemas.booking_schema import BOOKING_SCHEMA
 
@@ -11,13 +12,11 @@ Prueba TC-API-21 Crear reserva válida
 # Detectar entorno de CI
 IN_CI = os.getenv("CI") == "true"
 
-BASE_URL = "https://cf-automation-airline-api.onrender.com"
-
 
 def test_create_booking_returns_valid_schema(auth_token):
     """
     Verifica que la creación de una reserva devuelva un esquema válido.
-    En entornos de CI, se aceptan errores 500, 400 y listas vacías → se salta la prueba.
+    Para entornos CI, se aceptan errores 500, 400 y listas vacías → se salta la prueba.
     """
     headers = {"Authorization": f"Bearer {auth_token}"}
 
@@ -43,7 +42,7 @@ def test_create_booking_returns_valid_schema(auth_token):
         if response.status_code == 404:
             pytest.skip("La API devolvió 404 (No encontrado). Se acepta en CI.")
 
-    # Validación estricta solo si no estamos en CI
+    # Verificación estricta solo si no hay presencia en CI
     assert response.status_code == 200, (
         f"Error al buscar vuelos: {response.status_code}. Respuesta: {response.text}"
     )
@@ -56,7 +55,7 @@ def test_create_booking_returns_valid_schema(auth_token):
 
     assert isinstance(flights, list), f"Se esperaba una lista de vuelos, se obtuvo: {type(flights)}"
 
-    # 🔹 Si la lista está vacía y estamos en CI → saltar
+    # 🔹 Si la lista está vacía y no hay presencia en CI → saltar
     if len(flights) == 0:
         pytest.skip("No hay vuelos disponibles. Saltando prueba (lista vacía).")
 

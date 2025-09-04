@@ -1,8 +1,7 @@
 import requests
 import pytest
 from jsonschema import validate
-
-BASE_URL = "https://cf-automation-airline-api.onrender.com"
+from conftest import BASE_URL
 
 """
 Caso de prueba: TC-API-05: Listar todos los usuarios (autenticado)
@@ -20,7 +19,8 @@ def get_admin_token():
     response = requests.post(f"{BASE_URL}/auth/login", data=login_data)
 
     # Comprueba login exitoso para continuar
-    assert response.status_code == 200, f"Falló el login de admin. Status: {response.status_code}, Body: {response.text}"
+    assert response.status_code == 200, (f"Falló el login de admin. Status: {response.status_code}, "
+                                         f"Body: {response.text}")
 
     token_data = response.json()
     return token_data["access_token"]
@@ -52,7 +52,7 @@ def test_list_users_as_admin():
     users = response.json()
     assert isinstance(users, list), f"Se esperaba una lista de usuarios, se obtuvo {type(users)}"
 
-    # 5. Validar que cada usuario en la lista tenga la estructura básica esperada
+    # 5. Verificar que cada usuario en la lista tenga la estructura básica esperada
     if users:
         first_user = users[0]
         assert "id" in first_user, "Falta 'id' en el objeto de usuario"

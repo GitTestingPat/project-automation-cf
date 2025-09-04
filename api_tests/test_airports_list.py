@@ -1,13 +1,11 @@
 import requests
 import pytest
 from jsonschema import validate
-
-
-BASE_URL = "https://cf-automation-airline-api.onrender.com"
+from conftest import BASE_URL
 
 """
-    TC-API-10: Listar todos los aeropuertos.
-    Objetivo: Verificar que se puedan listar todos los aeropuertos disponibles.
+TC-API-10: Listar todos los aeropuertos.
+Objetivo: Verificar que se puedan listar todos los aeropuertos disponibles.
 """
 
 def test_list_airports():
@@ -24,7 +22,7 @@ def test_list_airports():
     # Verificar que haya al menos un aeropuerto (o ajustar según el estado conocido de la API)
     # assert len(airports) > 0, "La lista de aeropuertos está vacía"
 
-    # Ejemplo de validación básica de un elemento (si la lista no está vacía)
+    # Verificación básica de un elemento (si la lista no está vacía)
     if airports:
         first_airport = airports[0]
         # Verificar campos básicos esperados

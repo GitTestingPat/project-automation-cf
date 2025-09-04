@@ -90,15 +90,15 @@ def test_get_flight_by_id(admin_token, flight_id):
         f"Esperado: {flight_id_to_get}, Obtenido: {flight_data['id']}"
     )
 
-    # Validaciones básicas de contenido
-    assert flight_data["origin"]  # Validar que no esté vacío
-    assert flight_data["destination"] # Validar que no esté vacío
-    assert flight_data["departure_time"] # Validar que no esté vacío
-    assert flight_data["arrival_time"] # Validar que no esté vacío
+    # Verificaciones básicas de contenido
+    assert flight_data["origin"]  # Verificar que no esté vacío
+    assert flight_data["destination"] # Verificar que no esté vacío
+    assert flight_data["departure_time"] # Verificar que no esté vacío
+    assert flight_data["arrival_time"] # Verificar que no esté vacío
     assert isinstance(flight_data["base_price"], (int, float)), (
         f"El base_price debe ser un número. Obtenido: {type(flight_data['base_price'])}"
     )
-    assert flight_data["aircraft_id"] # Validar que no esté vacío
+    assert flight_data["aircraft_id"] # Verificar que no esté vacío
     assert isinstance(flight_data["available_seats"], int), (
         f"El available_seats debe ser un entero. Obtenido: {type(flight_data['available_seats'])}"
     )

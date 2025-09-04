@@ -4,6 +4,11 @@ import time
 from conftest import BASE_URL
 from jsonschema import validate
 
+"""
+TC-API-06: Crear usuario como admin.
+Objetivo: crear un nuevo usuario con permisos de administrador.              
+"""
+
 def test_create_user_as_admin(admin_token, new_user_data):
     """
     TC-API-06: Crear usuario como admin.
@@ -34,7 +39,7 @@ def test_create_user_as_admin(admin_token, new_user_data):
         f"Cuerpo de la respuesta: {response.text}"
     )
 
-    # 5. Validar la estructura del usuario creado (esquema UserOut)
+    # 5. Verificar la estructura del usuario creado (esquema UserOut)
     created_user = response.json()
     assert isinstance(created_user, dict), f"Se esperaba un diccionario, se obtuvo {type(created_user)}"
 

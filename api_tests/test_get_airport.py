@@ -14,7 +14,7 @@ def test_get_airport_by_iata_code(airport_iata_code):
     """
     TC-API-15: Obtener aeropuerto.
     """
-    iata_code_to_get = airport_iata_code # El código IATA ya viene del fixture
+    iata_code_to_get = airport_iata_code # El código IATA viene del fixture
 
     # 2. Hacer la solicitud GET a /airports/{iata_code}
     response = requests.get(f"{BASE_URL}/airports/{iata_code_to_get}")

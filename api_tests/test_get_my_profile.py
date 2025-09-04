@@ -1,8 +1,7 @@
 import requests
 import pytest
 from jsonschema import validate
-
-BASE_URL = "https://cf-automation-airline-api.onrender.com"
+from conftest import BASE_URL
 
 """
 Caso de prueba: TC-API-07: Obtener mi perfil (GET /users/me/)

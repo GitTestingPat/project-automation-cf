@@ -4,6 +4,10 @@ import time
 from jsonschema import validate
 from conftest import BASE_URL
 
+"""
+TC-API-09: Eliminar usuario.
+Objetivo: eliminar un usuario previamente creado.
+"""
 
 def test_delete_user_as_admin(admin_token, user_id_to_delete):
     """

@@ -5,6 +5,10 @@ from conftest import BASE_URL
 from datetime import datetime, timedelta, timezone
 from jsonschema import validate
 
+"""
+TC-API-19: Eliminar vuelo.
+Objetivo: Eliminar un vuelo previamente creado usando datos válidos.
+"""
 
 def test_delete_flight_as_admin(admin_token, flight_id):
     """
