@@ -1,12 +1,11 @@
 import requests
 import pytest
+from conftest import BASE_URL
 
 """
 Caso de prueba: TC-API-15: Buscar vuelos NYC -> LON
 Objetivo: Verificar que se puedan buscar vuelos entre dos ciudades usando parámetros válidos.
 """
-
-BASE_URL = "https://cf-automation-airline-api.onrender.com"
 
 def test_list_airports():
     # Probar un endpoint que funciona

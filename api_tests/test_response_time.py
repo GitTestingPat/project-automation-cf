@@ -4,7 +4,7 @@ import pytest
 from conftest import BASE_URL
 
 """
-Prueba TC-API-10 Medir tiempo de respuesta del endpoint /airports
+Prueba TC-API-32 Medir tiempo de respuesta del endpoint /airports
 Objetivo: verificar el tiempo que le toma al endpoint responder a la petición
 """
 

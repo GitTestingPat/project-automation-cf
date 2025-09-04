@@ -3,13 +3,13 @@ import pytest
 from conftest import BASE_URL
 
 """
-Caso de prueba: TC-API-03: Registrar con email inválido (Negativo)
+Caso de prueba: TC-API-02: Registrar con email inválido (Negativo)
 Objetivo: Verificar que la API devuelva un error 422 cuando se intenta registrar un usuario con un email con formato inválido.
 """
 
 def test_signup_with_invalid_email():
     """
-    TC-API-03: Registrar con email inválido (Negativo).
+    TC-API-02: Registrar con email inválido (Negativo).
     """
     # Datos para el registro con email inválido
     invalid_email = "invalid_email" # Ejemplo de email inválido
