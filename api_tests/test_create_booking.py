@@ -6,7 +6,7 @@ from datetime import datetime, timedelta, timezone
 from jsonschema import validate
 
 """
-TC-API-20: Crear reserva.
+TC-API-21: Crear reserva.
 Objetivo: Crear una nueva reserva para un usuario autorizado.
 """
 

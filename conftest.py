@@ -711,3 +711,103 @@ def aircraft_id_for_get(admin_token):
     )
 
     return created_aircraft["id"]
+
+@pytest.fixture
+def create_test_booking_for_listing(user_token, admin_token, aircraft_id):
+    """
+    Crea una reserva de prueba para luego listarla.
+    Requiere 'user_token', 'admin_token' y 'aircraft_id' de las fixtures.
+    Devuelve el ID de la reserva creada.
+    """
+    user_headers = {"Authorization": f"Bearer {user_token}"}
+    admin_headers = {"Authorization": f"Bearer {admin_token}"}
+
+    # 1. Crear un vuelo de prueba usando el avión proporcionado por la fixture
+    future_time = datetime.now(timezone.utc) + timedelta(hours=12)
+    arrival_time = future_time + timedelta(hours=13)
+
+    new_flight_data = {
+        "origin": "MAD",  # Código IATA válido
+        "destination": "FCO",  # Código IATA válido
+        "departure_time": future_time.isoformat(),
+        "arrival_time": arrival_time.isoformat(),
+        "base_price": 399.99,
+        "aircraft_id": aircraft_id  # ID del avión viene del fixture
+    }
+
+    # Crear el vuelo
+    create_flight_response = requests.post(f"{BASE_URL}/flights", json=new_flight_data, headers=admin_headers)
+
+    # Manejar errores comunes durante la creación del vuelo
+    if create_flight_response.status_code == 500:
+        pytest.fail(
+            f"La API devolvió un error 500 al crear vuelo para la prueba de listado de reservas. "
+            f"Esto indica un posible fallo interno en el servidor de la API de prueba. "
+            f"Cuerpo de la respuesta: {create_flight_response.text}"
+        )
+    elif create_flight_response.status_code == 422:
+        pytest.fail(
+            f"Error de validación al crear vuelo para la prueba de listado de reservas. "
+            f"Cuerpo de la respuesta: {create_flight_response.text}"
+        )
+    elif create_flight_response.status_code == 401 or create_flight_response.status_code == 403:
+        pytest.skip(
+            f"La API requirió autenticación/permisos (Status: {create_flight_response.status_code}) "
+            f"para crear un vuelo. "
+            f"Esto indica que el token de admin no fue aceptado o ha expirado. "
+            f"Cuerpo de la respuesta: {create_flight_response.text}"
+        )
+
+    assert create_flight_response.status_code == 201, (
+        f"Error al crear vuelo para la prueba de listado de reservas. "
+        f"Esperaba 201, obtuvo {create_flight_response.status_code}. "
+        f"Cuerpo de la respuesta: {create_flight_response.text}"
+    )
+
+    created_flight = create_flight_response.json()
+    assert "id" in created_flight, "Falta 'id' en la respuesta del vuelo creado."
+    flight_id = created_flight["id"]
+
+    # 2. Preparar datos para la nueva reserva.
+    new_booking_data = {
+        "flight_id": flight_id,
+        "passengers": [
+            {
+                "full_name": "Pasajero Para Listar",
+                "passport": "P11111111"
+            }
+        ]
+    }
+
+    # 3. Crear la reserva
+    create_booking_response = requests.post(f"{BASE_URL}/bookings", json=new_booking_data, headers=user_headers)
+
+    # Manejar errores comunes durante la creación de la reserva
+    if create_booking_response.status_code == 500:
+        pytest.fail(
+            f"La API devolvió un error 500 al crear reserva para la prueba de listado. "
+            f"Esto indica un posible fallo interno en el servidor de la API de prueba. "
+            f"Cuerpo de la respuesta: {create_booking_response.text}"
+        )
+    elif create_booking_response.status_code == 422:
+        pytest.fail(
+            f"Error de validación al crear reserva para la prueba de listado. "
+            f"Cuerpo de la respuesta: {create_booking_response.text}"
+        )
+    elif create_booking_response.status_code == 401 or create_booking_response.status_code == 403:
+        pytest.skip(
+            f"La API requirió autenticación/permisos (Status: {create_booking_response.status_code}) "
+            f"para crear una reserva. "
+            f"Esto indica que el token de usuario no fue aceptado o ha expirado. "
+            f"Cuerpo de la respuesta: {create_booking_response.text}"
+        )
+
+    assert create_booking_response.status_code == 201, (
+        f"Error al crear reserva para la prueba de listado. "
+        f"Esperaba 201, obtuvo {create_booking_response.status_code}. "
+        f"Cuerpo de la respuesta: {create_booking_response.text}"
+    )
+
+    created_booking = create_booking_response.json()
+    assert "id" in created_booking, "Falta 'id' en la respuesta de la reserva creada."
+    return created_booking["id"]
