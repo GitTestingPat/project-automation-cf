@@ -113,4 +113,21 @@ Dado que el proyecto demuestra competencias completas en:
 - Configuración de CI/CD
 - Documentación
 
-Se considera que esta limitación puntual **no invalida la calidad general del proyecto**. Refleja un desafío común en la automatización que involucra servicios externos y se documenta como parte del aprendizaje y la transparencia del proceso.
+Se considera que esta limitación puntual **no invalida la calidad general del proyecto**. 
+Refleja un desafío común en la automatización que involucra servicios externos y se documenta como parte del 
+aprendizaje y la transparencia del proceso.
+
+### Bug Conocido en ShopHub - Registro con Email Duplicado
+
+La página de registro de ShopHub (`/signup`) **no muestra ningún mensaje de error** cuando se intenta registrar 
+un usuario con un email que ya existe en el sistema.
+
+*   **Comportamiento esperado:** Mostrar un mensaje como "Este email ya está registrado" o "Email already exists".
+*   **Comportamiento observado:** La página recarga y no muestra feedback al usuario. El registro simplemente 
+* "falla en silencio".
+*   **Impacto:** El usuario no sabe por qué no se completó el registro.
+*   **Prueba automatizada afectada:** `TC-WEB-07: Registrar con email ya existente (Negativo)` en 
+* `web_tests/test_shophub_signup_existing_email.py`.
+*   **Resultado de la prueba:** `FAILED` con el mensaje: "No se encontró un mensaje de error...".
+
+Este comportamiento es un **bug real** en la aplicación web de prueba y ha sido documentado como tal. La prueba automatizada está correctamente implementada para detectar este fallo.
