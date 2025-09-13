@@ -71,9 +71,7 @@ behave features/
 
 ## 📈 Reportes
 
-Los reportes se generan automáticamente al ejecutar las pruebas.
-
-Para generar un reporte HTML con Allure:
+Para generar reportes con Allure:
 
 1. Generación de reportes dentro del proyecto:
 ```bash
