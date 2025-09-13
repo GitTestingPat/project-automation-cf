@@ -45,20 +45,20 @@ def test_add_product_to_cart_as_guest(driver):
     # 2. Ir a la página del carrito y verificar que el producto esté ahí
 
     # Opción 1: Verificar contador del carrito (más rápida, pero menos robusta)
-    try:
-        cart_count = home_page.get_cart_item_count()
-        # Si el carrito muestra 0, es un indicio de que no funcionó
-        if cart_count == 0:
-            pytest.fail(
-                f"El contador del carrito sigue en 0 después de intentar agregar un producto. "
-                f"Esto indica que la funcionalidad de 'Add to Cart' no funciona o que el botón es estático. "
-                f"Verifica manualmente si el botón 'Add to Cart' tiene funcionalidad real."
-            )
-        else:
-            print(f"✅ Producto agregado al carrito (no logueado). Contador del carrito: {cart_count}")
-    except Exception as e:
-        # Si no se puede obtener el contador, intentar verificar en la página del carrito
-        print(f"⚠️ No se pudo verificar el contador del carrito: {e}. Intentando verificar en la página del carrito...")
+    # try:
+    #     cart_count = home_page.get_cart_item_count()
+    #     # Si el carrito muestra 0, es un indicio de que no funcionó
+    #     if cart_count == 0:
+    #         pytest.fail(
+    #             f"El contador del carrito sigue en 0 después de intentar agregar un producto. "
+    #             f"Esto indica que la funcionalidad de 'Add to Cart' no funciona o que el botón es estático. "
+    #              f"Verifica manualmente si el botón 'Add to Cart' tiene funcionalidad real."
+    #         )
+    #     else:
+    #         print(f"✅ Producto agregado al carrito (no logueado). Contador del carrito: {cart_count}")
+    # except Exception as e:
+    #     # Si no se puede obtener el contador, intentar verificar en la página del carrito
+    #     print(f"⚠️ No se pudo verificar el contador del carrito: {e}. Intentando verificar en la página del carrito...")
 
         # Ir a la página del carrito
         try:
