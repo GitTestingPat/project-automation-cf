@@ -3,6 +3,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.keys import Keys
 
 class HomePage:
     def __init__(self, driver: WebDriver):
@@ -99,6 +100,23 @@ class HomePage:
 
         # Devolver una nueva instancia de CategoryPage
         return CategoryPage(self.driver)
+
+    def search_product(self, query: str):
+        """
+        Busca un producto por su nombre en el campo de búsqueda.
+        """
+        # Localizador del campo de búsqueda
+        SEARCH_INPUT = (By.CSS_SELECTOR, "input[placeholder='Search products...']")
+
+        # Encontrar el campo de búsqueda
+        search_input = self.driver.find_element(*SEARCH_INPUT)
+
+        # Limpiar el campo y escribir la consulta
+        search_input.clear()
+        search_input.send_keys(query)
+
+        # Presionar Enter para iniciar la búsqueda
+        search_input.send_keys(Keys.RETURN)
 
     def get_products_count(self):
         return len(self.driver.find_elements(*self.PRODUCT_CARD))

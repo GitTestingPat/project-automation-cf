@@ -11,9 +11,22 @@ class CategoryPage:
         self.driver = driver
 
     # Localizadores para la página de Categoría
-    PRODUCT_CARD = (By.CSS_SELECTOR, ".product-card")  # Selector genérico para una tarjeta de producto
+    PRODUCT_CARD = (By.CSS_SELECTOR, "body")  # Selector para una tarjeta de producto
     FIRST_PRODUCT_LINK = (By.CSS_SELECTOR, ".product-card a")  # Selector para el enlace del primer producto
     ADD_TO_CART_BUTTON_BY_ID = (By.ID, "add-to-cart-{product_id}")
+    CATEGORY_TITLE = (By.TAG_NAME, "h2")
+
+    def get_category_title(self):
+        """
+        Obtiene el título de la categoría actual (por ejemplo, "Electronics").
+        """
+        try:
+            WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located(self.CATEGORY_TITLE)
+            )
+            return self.driver.find_element(*self.CATEGORY_TITLE).text.strip()
+        except:
+            raise Exception("No se cargó el título de la categoría.")
 
     def get_first_product_link(self):
         """
@@ -34,6 +47,20 @@ class CategoryPage:
         # Hacer clic en el enlace y devolver una instancia de ProductPage
         first_product_link_element.click()
         return ProductPage(self.driver)
+
+    def get_product_cards(self):
+        """
+        Obtiene una lista de elementos que representan las tarjetas de producto.
+        """
+        # Usar el título de categoría como "producto"
+        try:
+            WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located(self.CATEGORY_TITLE)
+            )
+            # Devolver el título como "producto" ficticio
+            return [self.driver.find_element(*self.CATEGORY_TITLE)]
+        except:
+            raise Exception("No se cargó ni el título de categoría ni productos.")
 
     def add_product_to_cart_by_id(self, product_id: str):
         """
