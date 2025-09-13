@@ -75,8 +75,12 @@ Los reportes se generan automáticamente al ejecutar las pruebas.
 
 Para generar un reporte HTML con Allure:
 
+1. Generación de reportes dentro del proyecto:
 ```bash
 pytest --alluredir=./reportes
+```
+2. Generación de reportes web
+```bash
 allure serve ./reportes
 ```
 
