@@ -19,10 +19,10 @@ def test_list_airports():
     # Verificar que la respuesta sea una lista
     assert isinstance(airports, list), f"Se esperaba una lista, se obtuvo {type(airports)}"
 
-    # Verificar que haya al menos un aeropuerto (o ajustar según el estado conocido de la API)
+    # Verificar que haya al menos un aeropuerto
     # assert len(airports) > 0, "La lista de aeropuertos está vacía"
 
-    # Verificación básica de un elemento (si la lista no está vacía)
+    # Verificación básica de un elemento
     if airports:
         first_airport = airports[0]
         # Verificar campos básicos esperados

@@ -129,7 +129,7 @@ def test_view_cart_contents(driver):
     # 3. Agregar un producto al carrito (ID 21)
     electronics_page.add_product_to_cart_by_id("21")
 
-    # 4. NAVEGAR DIRECTAMENTE A LA PÁGINA DEL CARRITO (¡SIN HACER CLIC EN NINGÚN BOTÓN!)
+    # 4. NAVEGAR DIRECTAMENTE A LA PÁGINA DEL CARRITO (SIN HACER CLIC EN NINGÚN BOTÓN)
     driver.get("https://shophub-commerce.vercel.app/cart")
     cart_page = CartPage(driver)
 

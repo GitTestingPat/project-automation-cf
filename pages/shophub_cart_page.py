@@ -10,7 +10,7 @@ class CartPage:
 
     # Localizador para el mensaje "Your Cart is Empty"
     EMPTY_CART_MESSAGE = (By.XPATH, "//h1[text()='Your Cart is Empty']")
-    # Localizador TEMPORAL para productos en el carrito. AJUSTAR ESTO.
+    # Localizador para productos en el carrito.
     CART_ITEM = (By.XPATH, "//div[contains(@class, 'cart-item')] | //div[@data-product-id]")
 
     def get_cart_items(self):
@@ -25,5 +25,5 @@ class CartPage:
             # Si el mensaje desaparece, intentar encontrar los elementos del carrito
             return self.driver.find_elements(*self.CART_ITEM)
         except TimeoutException:
-            # Si el mensaje sigue visible después de 10 segundos, el carrito está vacío
+            # Si el mensaje sigue visible después de 10 segundos, indica que el carrito está vacío
             return []

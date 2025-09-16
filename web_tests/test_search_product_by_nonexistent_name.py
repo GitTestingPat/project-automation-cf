@@ -15,7 +15,7 @@ def test_search_product_by_nonexistent_name(driver):
     home_page = HomePage(driver)
     home_page.go_to()
 
-    # 2. Buscar un producto que definitivamente no existe
+    # 2. Buscar un producto que no existe
     nonexistent_term = "XyZ123_NoExiste_@#!"
     home_page.search_product(nonexistent_term)
 

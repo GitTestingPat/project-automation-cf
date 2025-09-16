@@ -11,7 +11,7 @@ def test_login_with_valid_credentials():
     """
     TC-API-03: Iniciar sesión con credenciales válidas.
     """
-    # Credenciales de un usuario que se sabe existe y es válido.
+    # Credenciales de usuario existente y válido.
     login_data = {
         "username": "admin@demo.com",
         "password": "admin123"

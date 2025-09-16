@@ -23,7 +23,7 @@ def test_register_with_existing_email(driver):
     signup_page = home_page.click_sign_up()
 
     # 3. Preparar datos para el registro con email existente.
-    # Usar un email que ya existe en la API de prueba.
+    # Usar un email que ya existe en la API.
     existing_email = "admin@demo.com"
     test_password = "SecurePass123!"
     full_name = "Test User Existing"

@@ -20,7 +20,7 @@ def test_successful_login(driver):
     login_page.login("testuser@example.com", "password123")
 
     # --- Verificación de éxito ---
-    # Como no hay mensajes de error claros, verificamos el éxito por ausencia de la página de login.
+    # Verificar el éxito por ausencia de la página de login (ya que no hay mensajes de error claros).
     # Opciones:
     # 1. Verificar que el título haya cambiado
     # 2. Verificar que un elemento que solo aparece al estar logueado esté presente
@@ -32,7 +32,7 @@ def test_successful_login(driver):
     )
     print("✅ Login exitoso: El título ya no contiene 'Login'.")
 
-# Ejemplo de prueba negativa.
+# Prueba negativa.
 def test_failed_login(driver):
     """
     Verificar el comportamiento al ingresar credenciales inválidas.

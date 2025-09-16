@@ -67,7 +67,7 @@ class CategoryPage:
         Hacer clic en el botón 'Add to Cart' de un producto específico por su ID.
         Espera a que un posible overlay desaparezca antes de hacer clic.
         """
-        # 1. Esperar a que un posible overlay desaparezca
+        # 1. Esperar a que el overlay desaparezca
         try:
             WebDriverWait(self.driver, 10).until(
                 EC.invisibility_of_element_located((By.CSS_SELECTOR, "div.fixed.inset-0.z-50"))

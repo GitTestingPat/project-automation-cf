@@ -84,15 +84,14 @@ def test_add_product_to_cart_as_logged_in_user(driver):
             f"Error: {e}"
         )
 
-    # 10. Esperar a que un posible overlay desaparezca antes de hacer clic en el producto
+    # 10. Esperar a que un overlay desaparezca antes de hacer clic en el producto
     try:
         WebDriverWait(driver, 10).until(
             EC.invisibility_of_element_located((By.CSS_SELECTOR, "div.fixed.inset-0.z-50"))
         )
         print("✅ Overlay desapareció (o no estaba presente).")
     except:
-        # Si el overlay no desaparece en 10 segundos, continuar de todos modos
-        # (puede que no sea un bloqueo real o que el selector no sea exacto)
+        # Si el overlay no desaparece en 10 segundos, continuar
         print("⚠️  No se encontró un overlay o no desapareció en 10 segundos. Continuando...")
 
     # 11. Hacer clic en el primer producto de la lista
@@ -109,15 +108,14 @@ def test_add_product_to_cart_as_logged_in_user(driver):
             f"Error: {e}"
         )
 
-    # 12. Esperar a que un posible overlay desaparezca antes de hacer clic en "Add to Cart"
+    # 12. Esperar a que un overlay desaparezca antes de hacer clic en "Add to Cart"
     try:
         WebDriverWait(driver, 10).until(
             EC.invisibility_of_element_located((By.CSS_SELECTOR, "div.fixed.inset-0.z-50"))
         )
         print("✅ Overlay desapareció (o no estaba presente) antes de hacer clic en 'Add to Cart'.")
     except:
-        # Si el overlay no desaparece en 10 segundos, continuar de todos modos
-        # (puede que no sea un bloqueo real o que el selector no sea exacto)
+        # Si el overlay no desaparece en 10 segundos, continuar
         print("⚠️  No se encontró un overlay o no desapareció en 10 segundos antes de hacer clic en "
               "'Add to Cart'. Continuando...")
 
@@ -136,10 +134,6 @@ def test_add_product_to_cart_as_logged_in_user(driver):
         )
 
     # 14. Verificar que el producto se haya agregado al carrito
-    # Opciones:
-    # 1. Verificar que el contador del carrito aumente (si está visible)
-    # 2. Ir a la página del carrito y verificar que el producto esté ahí
-
     # Opción 1: Verificar contador del carrito
     try:
         cart_count_element = WebDriverWait(driver, 10).until(
@@ -156,7 +150,7 @@ def test_add_product_to_cart_as_logged_in_user(driver):
         # Si no se encuentra el contador, intentar verificar en la página del carrito
         print(f"⚠️ No se pudo verificar el contador del carrito: {e}. Intentando verificar en la página del carrito...")
 
-        # Ir a la página del carrito
+        # Opción 2: Ir a la página del carrito
         try:
             cart_link = WebDriverWait(driver, 10).until(
                 EC.element_to_be_clickable((By.LINK_TEXT, "Cart"))

@@ -77,4 +77,3 @@ def test_update_airport_as_admin(admin_token, airport_iata_code):
 
     print(f"✅ Aeropuerto actualizado exitosamente. IATA: {updated_airport['iata_code']}, Nueva Ciudad: "
           f"{updated_airport['city']}, Nuevo País: {updated_airport['country']}")
-

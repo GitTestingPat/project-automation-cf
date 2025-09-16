@@ -14,7 +14,7 @@ def test_list_airports():
     # Verificar que la respuesta sea 200
     assert response.status_code == 200
 
-    # Convertimos a JSON
+    # Convertir a JSON
     airports = response.json()
 
     # Verificamos que sea una lista y no esté vacía

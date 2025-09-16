@@ -47,14 +47,12 @@ def test_register_new_user_with_valid_credentials(driver):
     # (Por ejemplo, si la página muestra un mensaje de error en lugar de redirigir)
 
     # Opción 1: Verificar que se redirija a la página de login
-    # (Ajusta esta verificación según el comportamiento real de ShopHub después del registro)
-    expected_title_after_signup = "Login"  # Ajusta según el título real
+    expected_title_after_signup = "Login"
     if expected_title_after_signup.lower() in driver.title.lower():
         print(f"✅ Registro exitoso. Redirigido a la página de login. Título: {driver.title}")
         return  # Salir de la prueba, ya que el registro fue exitoso
 
     # Opción 2: Verificar que aparezca un mensaje de éxito en la misma página
-    # (Ajusta este selector según el elemento real que muestra el mensaje de éxito)
     try:
         success_message_element = driver.find_element(By.CSS_SELECTOR, ".alert-success, .success-message")
         success_message_text = success_message_element.text
@@ -66,11 +64,9 @@ def test_register_new_user_with_valid_credentials(driver):
         pass
 
     # Opción 3: Verificar que el botón de "Sign Up" ya no esté presente
-    # (Esto indicaría que la página cambió, posiblemente a login o dashboard)
     try:
         signup_button = driver.find_element(*signup_page.SIGN_UP_BUTTON)
         # Si el botón sigue presente, el registro puede no haber sido exitoso
-        # (A menos que el botón exista en otra parte de la página, por ejemplo, en el header)
     except:
         # Si el botón no se encuentra, es un buen indicio de que el registro fue exitoso
         print(

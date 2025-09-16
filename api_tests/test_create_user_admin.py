@@ -54,5 +54,4 @@ def test_create_user_as_admin(admin_token, new_user_data):
     # Validar que el campo 'role' sea válido
     if "role" in created_user:
          assert created_user["role"] in ["passenger", "admin"], f"Rol inválido: {created_user['role']}"
-
     print(f"✅ Usuario creado exitosamente como admin. ID: {created_user['id']}, Email: {created_user['email']}")

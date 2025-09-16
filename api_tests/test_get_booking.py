@@ -73,7 +73,7 @@ def test_get_booking_by_id(user_token, booking_id):
         f"Esperado: {booking_id_to_get}, Obtenido: {booking_data['id']}"
     )
 
-    # Verificaciones básicas de contenido (pueden ser más estrictas si se desea)
+    # Verificaciones básicas de contenido
     assert booking_data["flight_id"] # Verificar que no esté vacío
     assert booking_data["user_id"] # Verificar que no esté vacío
     assert booking_data["status"] in ["draft", "paid", "checked_in", "cancelled"], (
@@ -88,6 +88,3 @@ def test_get_booking_by_id(user_token, booking_id):
         assert "passport" in passenger and passenger["passport"]
 
     print(f"✅ Reserva obtenida exitosamente. ID: {booking_data['id']}, Estado: {booking_data['status']}")
-
-
-

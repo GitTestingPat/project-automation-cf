@@ -102,12 +102,6 @@ def test_create_booking_as_user(user_token, flight_id):
             f"El pasaporte del pasajero {i} no coincide. "
             f"Esperado: {new_booking_data['passengers'][i]['passport']}, Obtenido: {passenger['passport']}"
         )
-        # El campo 'seat' puede estar ausente o ser null si no se asignó
-        # assert "seat" in passenger
-        # No se verifica su presencia si es opcional
-
     print(
         f"✅ Reserva creada exitosamente. ID: {created_booking['id']}, Vuelo ID: {created_booking['flight_id']}, "
         f"Estado: {created_booking['status']}")
-
-

@@ -6,7 +6,6 @@ import uuid
 def before_scenario(context, scenario):
     """Se ejecuta antes de cada escenario"""
     options = Options()
-    # options.add_argument(f"--user-data-dir=/tmp/chrome_profile_{uuid.uuid4()}")
     context.driver = webdriver.Chrome(options=options)
     context.driver.implicitly_wait(10)
 

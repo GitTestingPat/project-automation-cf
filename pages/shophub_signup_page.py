@@ -46,11 +46,11 @@ class SignupPage:
         Hacer clic en el botón 'Sign Up'.
         Espera a que el spinner de carga desaparezca antes de hacer clic.
         """
-        # 1. Definir el localizador del spinner (basado en tu inspección)
+        # 1. Definir el localizador del spinner
         SPINNER = (By.CSS_SELECTOR, "svg.lucide-loader-circle.animate-spin")
 
-        # 2. Esperar a que el spinner desaparezca (si está presente)
-        # Usamos un tiempo de espera razonable, por ejemplo, 10 segundos.
+        # 2. Esperar a que el spinner desaparezca
+        # Usar un tiempo de espera de 10 segundos.
         try:
             WebDriverWait(self.driver, 10).until(
                 EC.invisibility_of_element_located(SPINNER)

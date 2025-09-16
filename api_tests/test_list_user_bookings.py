@@ -61,7 +61,6 @@ def test_list_user_bookings_as_authenticated_user(user_token, admin_token, aircr
     assert isinstance(bookings, list), f"Se esperaba una lista, se obtuvo {type(bookings)}"
 
     # Verificar que al menos la reserva creada esté en la lista
-    # (Puede haber otras si el usuario tiene más reservas)
     assert len(bookings) > 0, "La lista de reservas del usuario está vacía."
 
     # Buscar la reserva creada en la lista

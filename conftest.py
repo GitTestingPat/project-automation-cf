@@ -37,8 +37,7 @@ def pytest_runtest_makereport(item, call):
         # Intentar obtener la instancia del driver de Selenium
         driver = None
         try:
-            # Método más robusto y simple de obtener el driver del item de la prueba
-            # Asume que la prueba lo pasó como argumento o lo tiene como atributo self.driver
+            # Asumir que la prueba lo pasó como argumento o lo tiene como atributo self.driver
             if hasattr(item, 'funcargs'):
                 # Si la prueba usa el fixture 'driver' como argumento
                 driver = item.funcargs.get('driver')
@@ -82,7 +81,7 @@ def auth_token():
     """
     # Generar email único usando uuid4 para evitar colisiones
     email = f"user_{uuid.uuid4()}@test.com"
-    password = "SecurePass123!"  # Mejorar la contraseña
+    password = "SecurePass123!"
     full_name = "Test User"
 
     # 1. Registrar usuario
@@ -92,7 +91,7 @@ def auth_token():
     except requests.exceptions.RequestException as e:
         pytest.skip(f"Error de red al intentar registrar usuario: {e}")
 
-    # Aceptar 500 y saltar la prueba
+    # Aceptar error 500 y saltar la prueba
     if signup_response.status_code == 500:
         error_detail = signup_response.text
         pytest.skip(
@@ -165,7 +164,7 @@ def user_token():
     elif signup_response.status_code == 400:
         error_detail = signup_response.json().get("detail", "")
         if "already registered" in str(error_detail).lower():
-            # Aunque es muy improbable con el email único, manejarlo
+            # Aunque sea improbable con el email único, manejar errores
             pytest.fail(
                 f"Error inesperado en fixture 'user_token': El email '{test_email}' ya estaba registrado. "
                 f"Esto es inusual con un email generado. "
@@ -204,7 +203,7 @@ def user_token():
         token_data = login_response.json()
         return token_data["access_token"]
     else:
-        # Indica si el login falla después de crear el usuario, hay un error
+        # Indica si el login falla después de crear el usuario
         pytest.fail(
             f"Falló el login en fixture 'user_token' del usuario de prueba recién creado. "
             f"Status: {login_response.status_code}, Body: {login_response.text}. "
@@ -348,8 +347,8 @@ def flight_id(admin_token, aircraft_id):
         pytest.fail(f"Error de red al crear vuelo de prueba: {e}")
 
     # Manejar errores comunes durante la creación
-    # La operación de creación exitosa debería devolver 201 Created.
-    # NOTA: La API puede devolver 200 OK intermitentemente en lugar de 201.
+    # La operación de creación exitosa debe devolver 201 Created.
+    # La API puede devolver 200 OK intermitentemente en lugar de 201.
     # Comportamiento no estándar pero simulado/intermitente.
     # Aceptar ambos códigos.
     if response.status_code not in [200, 201]:
@@ -561,7 +560,6 @@ def user_id_to_delete(admin_token):
 
     created_user = response.json()
     assert "id" in created_user, "Falta 'id' en la respuesta del usuario creado."
-    # Se puede añadir más verificaciones si se desea
 
     return created_user["id"]
 
@@ -602,7 +600,7 @@ def payment_id(user_token, booking_id):
     # 1. Preparar datos para el nuevo pago.
     new_payment_data = {
         "booking_id": booking_id_to_pay,
-        "amount": 299.99, # Monto de ejemplo
+        "amount": 299.99,
         "payment_method": "credit_card" # Método de pago de ejemplo
     }
 
@@ -664,12 +662,12 @@ def aircraft_id_for_get(admin_token):
     import string
     timestamp = str(int(time.time()))[-5:]
     random_suffix = ''.join(random.choices(string.ascii_uppercase + string.digits, k=3))
-    tail_number = f"N{timestamp}AG"  # Asegurar 6 caracteres, formato ejemplo
+    tail_number = f"N{timestamp}AG"  # Asegurar 6 caracteres
 
     new_aircraft_data = {
         "tail_number": tail_number,
         "model": f"Test Model Get {timestamp}",
-        "capacity": 180  # Capacidad de ejemplo
+        "capacity": 180
     }
 
     # Crear la aeronave

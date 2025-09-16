@@ -43,7 +43,7 @@ def test_login_with_invalid_password():
         f"Cuerpo de la respuesta: {response.text}"
     )
 
-    # 4. Validar el mensaje de error (opcional pero recomendado)
+    # 4. Validar el mensaje de error
     error_body = response.json()
     assert isinstance(error_body, dict), f"Se esperaba un diccionario, se obtuvo {type(error_body)}"
     assert "detail" in error_body, "Falta 'detail' en la respuesta de error"

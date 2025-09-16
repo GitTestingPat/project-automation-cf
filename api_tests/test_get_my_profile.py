@@ -13,7 +13,7 @@ def get_valid_user_token():
     Obtiene un token JWT para un usuario registrado.
     Reutiliza las credenciales conocidas que funcionan para login.
     """
-    # Datos de un usuario registrado que se sabe válido.
+    # Datos de un usuario registrado válido.
     login_data = {
         "username": "admin@demo.com",
         "password": "admin123"
@@ -40,7 +40,7 @@ def test_get_my_profile():
     response = requests.get(f"{BASE_URL}/users/me/", headers=headers)
 
     # 3. Verificar que la respuesta sea exitosa (200 OK)
-    # Manejar el posible error 500 del servidor de la API de prueba
+    # Manejar el posible error 500 del servidor de la API
     if response.status_code == 500:
         pytest.fail(
             f"La API devolvió un error 500 (Internal Server Error) al intentar obtener el perfil. "

@@ -96,7 +96,5 @@ def test_create_flight_as_admin(admin_token, aircraft_id):
         f"El available_seats debe estar presente y ser un entero. "
         f"Obtenido: {created_flight.get('available_seats')} (tipo: {type(created_flight.get('available_seats'))})"
     )
-
     print(f"✅ Vuelo creado exitosamente. ID: {created_flight['id']}, Origen: {created_flight['origin']}, "
           f"Destino: {created_flight['destination']}")
-

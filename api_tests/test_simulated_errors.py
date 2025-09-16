@@ -27,6 +27,5 @@ def test_signup_endpoint_returns_known_error():
 
     if response.status_code in [500]:
         print(f"✅ Error simulado detectado: {response.status_code}")
-        # Opcional: verificar el cuerpo del error si es predecible
     elif response.status_code == 201:
         print(f"ℹ️  Registro exitoso (201). El endpoint pudo haber dejado de simular errores.")

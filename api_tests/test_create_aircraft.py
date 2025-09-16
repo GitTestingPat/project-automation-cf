@@ -26,7 +26,7 @@ def test_create_aircraft_as_admin(admin_token):
     new_aircraft_data = {
         "tail_number": tail_number,
         "model": f"Test Model {timestamp}",
-        "capacity": 180 # Capacidad de ejemplo
+        "capacity": 180
     }
 
     # 3. Hacer la solicitud POST a /aircrafts

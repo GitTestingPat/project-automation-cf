@@ -88,6 +88,5 @@ def test_create_payment_as_user(user_token, booking_id):
     assert created_payment["status"] in ["pending", "success", "failed"], (
         f"Estado de pago inválido: {created_payment['status']}"
     )
-
     print(f"✅ Pago creado exitosamente. ID: {created_payment['id']}, Booking ID: {created_payment['booking_id']}, "
           f"Estado: {created_payment['status']}")
