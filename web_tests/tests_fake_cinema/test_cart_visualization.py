@@ -3,7 +3,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pages.fake_cinema.cinema_home_page import CinemaHomePage
+from selenium.common.exceptions import NoSuchElementException
 import time
+
 
 def test_cart_visualization_before_payment(driver):
     """
@@ -16,8 +18,8 @@ def test_cart_visualization_before_payment(driver):
         home_page.go_to()
         print("[DEBUG] Navegando a detalle de Jurassic World...")
         home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
-        print("[DEBUG] Seleccionando fecha '16'...")
-        home_page.select_date("16")
+        print("[DEBUG] Seleccionando fecha")
+        home_page.select_date("20") # Si no se cambia esta fecha la prueba siempre fallará
         print("[DEBUG] Seleccionando primera hora disponible...")
         home_page.select_first_available_time()
         print("[DEBUG] Seleccionando primer asiento disponible...")
@@ -74,7 +76,7 @@ def test_cart_visualization_before_payment(driver):
                 empty_msg = driver.find_element(By.XPATH, "//*[contains(text(), 'No hay productos en el carrito')]")
                 if empty_msg.is_displayed():
                     raise Exception("¡El mensaje 'No hay productos...' sigue visible! La app no actualizó el carrito.")
-            except:
+            except Exception:
                 print("[DEBUG] ✅ Mensaje de carrito vacío no está visible. Bien.")
 
             print("[INFO] ¡Prueba TC-WEB-20 completada con éxito! Carrito cargado con productos.")
@@ -87,3 +89,6 @@ def test_cart_visualization_before_payment(driver):
             print(body_text)
             print("=" * 50)
             raise Exception(f"No se detectaron productos en el carrito: {str(e)}")
+    except Exception as main_e:
+        print(f"[CRITICAL] Error no controlado en la prueba: {str(main_e)}")
+        raise

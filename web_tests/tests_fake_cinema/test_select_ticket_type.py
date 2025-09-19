@@ -6,6 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pages.fake_cinema.cinema_home_page import CinemaHomePage
 
+
 def test_confirm_ticket_type(driver):
     """
     TC-WEB-19: Confirmación de Tipo de Boleto
@@ -17,8 +18,8 @@ def test_confirm_ticket_type(driver):
         home_page.go_to()
         print("[DEBUG] Navegando a detalle de Jurassic World...")
         home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
-        print("[DEBUG] Seleccionando fecha '16'...")
-        home_page.select_date("16")
+        print("[DEBUG] Seleccionando fecha")
+        home_page.select_date("20") # Si no se cambia esta fecha la prueba siempre fallará
         print("[DEBUG] Seleccionando primera hora disponible...")
         home_page.select_first_available_time()
         print("[DEBUG] Seleccionando primer asiento disponible...")
@@ -53,3 +54,7 @@ def test_confirm_ticket_type(driver):
         home_page.confirm_tickets_selection()
 
         print("[INFO] ¡Prueba completada con éxito!")
+
+    except Exception as e:
+        print(f"[CRITICAL] Error durante la prueba TC-WEB-19: {str(e)}")
+        raise  # Re-lanza la excepción para que pytest la marque como fallida

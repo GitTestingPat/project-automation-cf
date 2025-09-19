@@ -2,7 +2,7 @@ import pytest
 from pages.fake_cinema.cinema_home_page import CinemaHomePage
 
 
-def select_date_and_time(driver):
+def test_select_date_and_time(driver):
     """
     TC-WEB-17: Selección de Fecha y Hora de Proyección
     - Descripción: Verificar que el usuario pueda elegir una fecha y la primera hora disponible.
