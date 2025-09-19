@@ -10,7 +10,7 @@ def test_select_date_and_time(driver):
     """
     # Arrange
     home_page = CinemaHomePage(driver)
-    target_date = "14"
+    target_date = "20" # ESTA FECHA DEBE CAMBIARSE PARA REALIZAR LA PRUEBA
 
     # Act
     home_page.go_to()
