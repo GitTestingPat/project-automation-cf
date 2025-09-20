@@ -2,11 +2,19 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
+import time
 import re
 
 class CinemaHomePage:
     def __init__(self, driver):
         self.driver = driver
+        self.timeout = 5
+
+    # Localizadores para el botón "Elige tu cine"
+    CHOOSE_CINEMA_BUTTON_ARIA = (By.CSS_SELECTOR, '[aria-label="Elige tu cine"] [role="generic"]')
+    CHOOSE_CINEMA_BUTTON_HEADER_SPAN = (By.CSS_SELECTOR, 'header span')
+    CHOOSE_CINEMA_BUTTON_XPATH = (By.XPATH, '/html/body/div[1]/header/div/div[2]/button[1]/span')
+    CHOOSE_CINEMA_BUTTON_TEXT = (By.XPATH, "//*[text()='Elige tu cine']")
 
     # Localizador del título principal (el héroe)
     HERO_TITLE = (By.TAG_NAME, "h2")
@@ -97,8 +105,133 @@ class CinemaHomePage:
 
     SEAT_GRID_CONTAINER = (By.XPATH, "//div[contains(@class, 'seat-grid')]")
 
+    # Localizador del botón "Proceder al pago"
+    PROCEED_TO_CHECKOUT_BUTTON = (By.XPATH, "//button[contains(text(), 'Proceder al pago')]")
+
+    # --- Localizadores para el Formulario de Pago (Checkout) ---
+    FIRST_NAME_FIELD = (By.ID, "firstName")
+    LAST_NAME_FIELD = (By.ID, "lastName")
+    EMAIL_FIELD = (By.ID, "email")
+    CARD_NAME_FIELD = (By.ID, "cardName")
+    CARD_NUMBER_FIELD = (By.ID, "cardNumber")
+    CVV_FIELD = (By.ID, "cvv")
+
+    # Botón "Confirmar pago"
+    CONFIRM_PAYMENT_BUTTON = (By.XPATH, "//button[contains(text(), 'Confirmar pago') and @type='submit']")
+
+    # Botón "Proceder al pago"
+    PROCEED_TO_CHECKOUT_BUTTON = (By.XPATH, "//button[contains(text(), 'Proceder al pago')]")
+
+    # Botón "Volver al inicio" presente en página de confirmación o checkout finalizado
+    BACK_TO_HOME_BUTTON = (By.XPATH, "//button[contains(text(), 'Volver al inicio')]")
+
     def go_to(self):
         self.driver.get("https://fake-cinema.vercel.app/")
+
+    def click_choose_cinema_button(self):
+        """Intenta hacer clic en el botón 'Elige tu cine' usando diferentes estrategias de localización."""
+        locators = [
+            self.CHOOSE_CINEMA_BUTTON_ARIA,
+            self.CHOOSE_CINEMA_BUTTON_HEADER_SPAN,
+            self.CHOOSE_CINEMA_BUTTON_XPATH,
+            self.CHOOSE_CINEMA_BUTTON_TEXT
+        ]
+
+        for locator in locators:
+            try:
+                element = WebDriverWait(self.driver, 5).until(
+                    EC.element_to_be_clickable(locator)
+                )
+                from selenium.webdriver.common.action_chains import ActionChains
+                actions = ActionChains(self.driver)
+                actions.move_to_element_with_offset(element, 74, 10).click().perform()
+                return
+            except Exception:
+                continue
+
+        # Si ningún localizador funciona, lanzar una excepción
+        raise Exception("No se pudo encontrar o hacer clic en el botón 'Elige tu cine'")
+
+    def click_film_classification_tag(self, film_number):
+        """
+        Hace clic en la etiqueta de clasificación de la película especificada
+        """
+        wait = WebDriverWait(self.driver, self.timeout)
+
+        # Localizadores para la etiqueta de clasificación de la película
+        locators = [
+            (By.CSS_SELECTOR, f'div.grid > div:nth-of-type({film_number}) div.border-transparent'),
+            (By.XPATH, f'/html/body/div[1]/main/section[2]/div[2]/div[{film_number}]/div/div/div[1]')
+        ]
+
+        # Intentar con cada localizador hasta que uno funcione
+        element = None
+        for locator in locators:
+            try:
+                element = wait.until(EC.element_to_be_clickable(locator))
+                if element:
+                    break
+            except:
+                continue
+
+        if element:
+            element.click()
+        else:
+            raise Exception(f"No se pudo encontrar la etiqueta de clasificación para la película {film_number}")
+
+    def is_classification_visible(self, classification):
+        """
+        Verifica si una clasificación específica es visible en la página
+        """
+        try:
+            # Buscar elementos que contengan el texto de la clasificación
+            elements = self.driver.find_elements(By.XPATH, f"//*[contains(text(), '{classification}')]")
+            return len(elements) > 0
+        except:
+            return False
+
+    def click_food_tab(self):
+        # Localizar el enlace "Alimentos" usando múltiples estrategias
+        locator = (
+            By.XPATH, "//a[contains(text(),'Alimentos')] | "
+                      "//header//nav/a[2] | "
+                      "//a[normalize-space(text())='Alimentos']"
+        )
+        element = WebDriverWait(self.driver, 5).until(
+            EC.element_to_be_clickable(locator)
+        )
+        element.click()
+
+    def click_first_food_item(self):
+        # Localizar el primer artículo de comida
+        locator = (
+            By.XPATH, "//main//a[1]//p[@class='text-sm'] | "
+                      "//main/div/a[1]/div/p[1]"
+        )
+        element = WebDriverWait(self.driver, 5).until(
+            EC.element_to_be_clickable(locator)
+        )
+        element.click()
+
+    def click_add_to_cart_button(self):
+        # Localizar el botón "Agregar al carrito"
+        locator = (
+            By.XPATH, "//button[contains(text(),'Agregar al carrito')] | "
+                      "//main//button | "
+                      "//button[@aria-label='Agregar al carrito']"
+        )
+        element = WebDriverWait(self.driver, 5).until(
+            EC.element_to_be_clickable(locator)
+        )
+        element.click()
+
+    def is_cart_updated(self):
+        """
+        SIMULA verificar si el carrito se actualizó.
+        Como en el sitio real el botón NO HACE NADA.
+        Esto hará que la prueba falle intencionalmente.
+        """
+        return False
 
     def get_hero_text(self):
         return self.driver.find_element(*self.HERO_TITLE).text
@@ -236,6 +369,142 @@ class CinemaHomePage:
         except Exception as e:
             self.driver.save_screenshot("debug_seat_by_number_failed.png")
             raise Exception(f"No se pudo seleccionar un asiento por número: {str(e)}")
+
+    def select_multiple_seats(self, count=2):
+        """
+        Selecciona múltiples asientos disponibles, evitando los ya seleccionados.
+        :param count: Número de asientos a seleccionar.
+        :return: Lista de textos de los asientos seleccionados.
+        """
+        selected_seats = []
+
+        for i in range(count):
+            try:
+                # XPath dinámico: busca asientos disponibles (fondo azul) que NO estén ya en selected_seats
+                xpath_condition = " and ".join([f"not(contains(text(), '{s}'))" for s in selected_seats]) \
+                    if selected_seats else "1=1"
+                seat_locator = (
+                    By.XPATH,
+                    f"//button[contains(@class, 'bg-blue') and string-length(text()) = 1 and text() >= '1' "
+                    f"and text() <= '9' and ({xpath_condition})]"
+                )
+
+                print(f"[POM DEBUG] Buscando asiento #{i + 1} con XPath: {seat_locator[1]}...")
+                seat = WebDriverWait(self.driver, 15).until(
+                    EC.element_to_be_clickable(seat_locator)
+                )
+
+                seat_text = seat.text.strip()
+                print(f"[POM DEBUG] Encontré el asiento: {seat_text}")
+
+                # Hacer clic con JavaScript
+                self.driver.execute_script("arguments[0].click();", seat)
+                print(f"[POM DEBUG] Clic ejecutado en asiento '{seat_text}' con JavaScript.")
+
+                selected_seats.append(seat_text)
+
+                # Esperar a que el contador de asientos en el carrito refleje la selección actual
+                WebDriverWait(self.driver, 5).until(
+                    lambda d: d.find_element(By.XPATH,
+                                             "//*[starts-with(normalize-space(), 'Asientos (')]").text.strip().startswith(
+                        f"Asientos ({len(selected_seats)})")
+                )
+                print(f"[POM DEBUG] ✅ Contador de asientos actualizado a: {len(selected_seats)}")
+
+            except Exception as e:
+                raise Exception(f"No se pudo seleccionar el asiento #{i + 1}: {str(e)}")
+
+        # Esperar a que el botón "Comprar boletos" esté habilitado
+        WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable(self.BUY_TICKETS_BUTTON)
+        )
+        print(f"[POM DEBUG] ✅ {len(selected_seats)} asientos seleccionados. Botón de compra habilitado.")
+
+        return selected_seats
+
+    def is_total_price_displayed(self, expected_price):
+        """
+        Verifica si el precio total esperado está presente en la pantalla, con múltiples reintentos.
+        """
+        possible_formats = [
+            f"${expected_price}",
+            f"${expected_price}.00",
+            f"Total: ${expected_price}",
+            f"Total: ${expected_price}.00",
+            f"Total ${expected_price}",
+            f"{expected_price}",  # solo número
+            f"{expected_price}.00"
+        ]
+
+        # Esperar hasta 10 segundos a que ALGUNO de los formatos aparezca
+        for _ in range(3):  # Reintentar hasta 3 veces
+            for price_format in possible_formats:
+                try:
+                    # Buscar y esperar a que sea visible
+                    element = WebDriverWait(self.driver, 5).until(
+                        EC.visibility_of_element_located((By.XPATH,
+                                                          f"//*[contains(normalize-space(), '{price_format}')]"))
+                    )
+                    if element.is_displayed():
+                        print(f"[POM DEBUG] ✅ Precio visible encontrado: '{price_format}'")
+                        return True
+                except:
+                    continue
+            time.sleep(0.3)  # Esperar antes de reintentar
+
+        print(f"[POM DEBUG] ❌ Ningún formato del precio ${expected_price} fue encontrado tras múltiples intentos.")
+        # Imprimir texto completo de la página para debugging
+        body_text = self.driver.find_element(By.TAG_NAME, "body").text
+        print("TEXTO COMPLETO DE LA PÁGINA:")
+        print("=" * 60)
+        print(body_text)
+        print("=" * 60)
+        return False
+
+    def deselect_seats(self, seat_texts):
+        """
+        Deselecciona asientos previamente seleccionados haciendo clic en ellos nuevamente.
+        :param seat_texts: Lista de textos de los asientos a deseleccionar (ej. ['1', '2', '3']).
+        :return: Lista de textos de los asientos que fueron deseleccionados.
+        """
+        deselected_seats = []
+
+        for seat_text in seat_texts:
+            try:
+                # Buscar el asiento POR TEXTO
+                seat_locator = (
+                    By.XPATH,
+                    f"//button[contains(@class, 'bg-blue') and normalize-space(text()) = '{seat_text}']"
+                )
+
+                print(f"[POM DEBUG] Buscando asiento seleccionado '{seat_text}' para deseleccionar...")
+                seat = WebDriverWait(self.driver, 15).until(
+                    EC.element_to_be_clickable(seat_locator)
+                )
+
+                # Hacer clic con JavaScript para deseleccionar
+                self.driver.execute_script("arguments[0].click();", seat)
+                print(f"[POM DEBUG] Clic ejecutado en asiento '{seat_text}' para deseleccionar.")
+
+                deselected_seats.append(seat_text)
+
+                # Esperar a que el asiento vuelva a estar disponible (fondo azul)
+                WebDriverWait(self.driver, 5).until(
+                    lambda d: "bg-blue" in seat.get_attribute("class")
+                )
+
+            except Exception as e:
+                print(f"[POM DEBUG] ❌ No se pudo deseleccionar el asiento '{seat_text}': {str(e)}")
+                continue  # Continuar con los siguientes, no fallar la prueba aún
+
+        # Esperar a que el botón "Comprar boletos" se deshabilite o el precio desaparezca
+        print("[POM DEBUG] Esperando a que la UI refleje la deselección...")
+        WebDriverWait(self.driver, 10).until(
+            EC.text_to_be_present_in_element((By.XPATH, "//*[contains(normalize-space(), 'Asientos (0)')]"),
+                                             "Asientos (0)")
+        )
+
+        return deselected_seats
 
     def click_buy_tickets_button(self):
         """Haz clic en el botón 'Comprar boletos'."""
@@ -378,3 +647,66 @@ class CinemaHomePage:
                 print(f"[DEBUG] H2 #{i}: '{h.text}'")
         except:
             pass
+
+    def click_proceed_to_checkout(self):
+        """Haz clic en el botón 'Proceder al pago'."""
+        print("[POM DEBUG] Buscando botón 'Proceder al pago'...")
+        proceed_button = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable(self.PROCEED_TO_CHECKOUT_BUTTON)
+        )
+        proceed_button.click()
+        print("[POM DEBUG] Botón 'Proceder al pago' clickeado.")
+
+    def fill_payment_form(self, first_name, last_name, email, card_name, card_number, cvv):
+        """
+        Rellena el formulario de datos de pago en la página de checkout.
+        :param first_name: Nombre del titular
+        :param last_name: Apellido del titular
+        :param email: Correo electrónico
+        :param card_name: Nombre en la tarjeta
+        :param card_number: Número de tarjeta
+        :param cvv: Código de seguridad
+        """
+        print("[POM DEBUG] Rellenando campo Nombre...")
+        first_name_field = WebDriverWait(self.driver, 15).until(
+            EC.element_to_be_clickable(self.FIRST_NAME_FIELD)
+        )
+        first_name_field.clear()
+        first_name_field.send_keys(first_name)
+
+        print("[POM DEBUG] Rellenando campo Apellido...")
+        last_name_field = WebDriverWait(self.driver, 15).until(
+            EC.element_to_be_clickable(self.LAST_NAME_FIELD)
+        )
+        last_name_field.clear()
+        last_name_field.send_keys(last_name)
+
+        print("[POM DEBUG] Rellenando campo Email...")
+        email_field = WebDriverWait(self.driver, 15).until(
+            EC.element_to_be_clickable(self.EMAIL_FIELD)
+        )
+        email_field.clear()
+        email_field.send_keys(email)
+
+        print("[POM DEBUG] Rellenando campo Nombre de la tarjeta...")
+        card_name_field = WebDriverWait(self.driver, 15).until(
+            EC.element_to_be_clickable(self.CARD_NAME_FIELD)
+        )
+        card_name_field.clear()
+        card_name_field.send_keys(card_name)
+
+        print("[POM DEBUG] Rellenando campo Número de tarjeta...")
+        card_number_field = WebDriverWait(self.driver, 15).until(
+            EC.element_to_be_clickable(self.CARD_NUMBER_FIELD)
+        )
+        card_number_field.clear()
+        card_number_field.send_keys(card_number)
+
+        print("[POM DEBUG] Rellenando campo CVV...")
+        cvv_field = WebDriverWait(self.driver, 15).until(
+            EC.element_to_be_clickable(self.CVV_FIELD)
+        )
+        cvv_field.clear()
+        cvv_field.send_keys(cvv)
+
+        print("[POM DEBUG] ✅ Formulario de pago completado.")
