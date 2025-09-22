@@ -9,6 +9,7 @@ class CinemaHomePage:
     def __init__(self, driver):
         self.driver = driver
         self.timeout = 5
+        self.wait = WebDriverWait(driver, 5)
 
     # Localizadores para el botón "Elige tu cine"
     CHOOSE_CINEMA_BUTTON_ARIA = (By.CSS_SELECTOR, '[aria-label="Elige tu cine"] [role="generic"]')
@@ -127,6 +128,36 @@ class CinemaHomePage:
 
     def go_to(self):
         self.driver.get("https://fake-cinema.vercel.app/")
+
+    def click_movie_card(self):
+        print("[USER FLOW] Seleccionando película: '¡El mismo héroe, como nunca antes!'...")
+        movie_card_locator = (
+            By.CSS_SELECTOR,
+            'div.grid > div:nth-of-type(2) > div > a'
+        )
+        element = self.wait.until(EC.element_to_be_clickable(movie_card_locator))
+        element.click()
+        print("[USER FLOW] Entrando a la página de detalles de la película...")
+
+    def click_showtime_button(self):
+        print("[USER FLOW] Seleccionando horario de función...")
+        showtime_button_locator = (
+            By.CSS_SELECTOR,
+            'div.space-y-8 > div:nth-of-type(1) a:nth-of-type(1) > button'
+        )
+        element = self.wait.until(EC.element_to_be_clickable(showtime_button_locator))
+        element.click()
+        print("[USER FLOW] Entrando a la sala de cine virtual...")
+
+    def click_wheelchair_icon(self):
+        print("[USER FLOW] Haciendo clic en el ícono de accesibilidad (silla de ruedas)...")
+        wheelchair_icon_locator = (
+            By.CSS_SELECTOR,
+            'div:nth-of-type(4) > button.hover\\:bg-accent'
+        )
+        element = self.wait.until(EC.element_to_be_clickable(wheelchair_icon_locator))
+        element.click()
+        print("[USER FLOW] ¡Clic registrado! Pero... no ocurrió ningún cambio visible en la interfaz.")
 
     def click_choose_cinema_button(self):
         """Intenta hacer clic en el botón 'Elige tu cine' usando diferentes estrategias de localización."""

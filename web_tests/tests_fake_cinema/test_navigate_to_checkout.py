@@ -19,7 +19,7 @@ def test_navigate_to_checkout(driver):
         print("[DEBUG] Navegando a detalle de Jurassic World...")
         home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
         print("[DEBUG] Seleccionando fecha")
-        home_page.select_date("20")  # Si no se cambia esta fecha la prueba siempre fallará
+        home_page.select_date("22")  # Si no se cambia esta fecha la prueba siempre fallará
         print("[DEBUG] Seleccionando primera hora disponible...")
         home_page.select_first_available_time()
         print("[DEBUG] Seleccionando primer asiento disponible...")
@@ -109,7 +109,6 @@ def test_navigate_to_checkout(driver):
         print(f"[DEBUG] URL ACTUAL DESPUÉS DE PROCEDER AL PAGO: {driver.current_url}")
 
         # Verificar que la URL contiene 'checkout' o similar
-        # Si la aplicación usa otra ruta, ajustar según sea necesario
         assert "checkout" in driver.current_url.lower(), f"Esperaba estar en una página de checkout, pero estoy en: {driver.current_url}"
 
         # Alternativamente, verificar la presencia de elementos característicos de la página de checkout
