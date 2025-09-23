@@ -6,7 +6,7 @@ from pages.fake_cinema.cinema_home_page import CinemaHomePage
 import time
 
 
-def test_attempted_purchase_whithout_seat_selection(driver):
+def test_attempt_purchase_whithout_seat_selection(driver):
     """
     TC-WEB-35: Intento de Compra sin Selección de Asiento
     La prueba que el botón "Comprar boletos" debe estar deshabilitado.

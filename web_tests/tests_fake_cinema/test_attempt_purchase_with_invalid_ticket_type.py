@@ -6,7 +6,7 @@ from pages.fake_cinema.cinema_home_page import CinemaHomePage
 import time
 
 
-def test_attempted_purchase_with_invalid_ticket_type(driver):
+def test_attempt_purchase_with_invalid_ticket_type(driver):
     """
     TC-WEB-36: Intento de Compra con Tipo de Boleto Inválido
     El sistema debe mostrar un mensaje de error: "La cantidad debe coincidir con los asientos seleccionados".

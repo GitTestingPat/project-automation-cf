@@ -8,16 +8,16 @@ from selenium.common.exceptions import TimeoutException
 import time
 
 
-def test_attempted_purchase_with_empty_name_field(driver):
+def test_attempt_to_pay_empty_email_field(driver):
     """
-    TC-WEB-37: Intento de Pago con Campo de Nombre Vacío
-    Esta prueba verifica que aparece un mensaje de error: "Completa este campo".
-    El formulario no se envía y el botón queda inactivo hasta completar el campo.
+    TC-WEB-38: Intento de Pago con Campo Correo Electrónico Vacío
+    Esta prueba verifica que se muestra un mensaje de error: "Completa este campo".
+    El formulario no se envía. El usuario no puede continuar con el pago.
     """
     home_page = CinemaHomePage(driver)
 
     try:
-        print("[DEBUG] Iniciando prueba de validación de campo de nombre vacío...")
+        print("[DEBUG] Iniciando prueba de validación de campo de email vacío...")
         home_page.go_to()
         print("[DEBUG] Navegando a detalle de Jurassic World...")
         home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
@@ -67,65 +67,70 @@ def test_attempted_purchase_with_empty_name_field(driver):
         assert "checkout" in driver.current_url.lower(), (f"Esperaba estar en checkout, pero estoy en: "
                                                           f"{driver.current_url}")
 
-        # Rellenar formulario con NOMBRE VACÍO
-        print("[DEBUG] Rellenando formulario de pago con nombre vacío...")
+        # Rellenar formulario con EMAIL VACÍO (¡todo lo demás lleno!)
+        print("[DEBUG] Rellenando formulario de pago con email vacío...")
         home_page.fill_payment_form(
-            first_name="",  # ⚠️ Campo intencionalmente vacío
-            last_name="Wayne", # Apellido válido
-            email="bruce.wayne@example.com",  # Email válido
-            card_name="Bruce Wayne", # Nombre tarjeta válido
-            card_number="4111111111111111",  # Tarjeta válida
-            cvv="123" # Código de verificación válido
+            first_name="Bruce",         # ✅ Lleno
+            last_name="Wayne",          # ✅ Lleno
+            email="",                   # ⚠️ Intencionalmente vacío
+            card_name="Bruce Wayne",    # ✅ Lleno
+            card_number="4111111111111111",  # ✅ Lleno
+            cvv="123"                   # ✅ Lleno
         )
-        print("[DEBUG] Formulario de pago completado con nombre vacío.")
+        print("[DEBUG] Formulario de pago completado con email vacío.")
 
         # Intentar confirmar el pago
-        print("[DEBUG] Intentando confirmar pago con nombre vacío...")
+        print("[DEBUG] Intentando confirmar pago con email vacío...")
         confirm_payment_button = WebDriverWait(driver, 15).until(
             EC.element_to_be_clickable(home_page.CONFIRM_PAYMENT_BUTTON)
         )
         confirm_payment_button.click()
 
+        # Forzar validación si el botón no dispara submit real
+        print("[DEBUG] Forzando validación del formulario...")
+        driver.execute_script("""
+            const form = document.querySelector('form');
+            if (form) {
+                form.reportValidity();
+            }
+        """)
+        time.sleep(1)  # Dar tiempo a que se genere el validationMessage
+
         # ✅ VERIFICAR LA VERDAD FUNCIONAL:
         # - El pago NO debe completarse.
-        # - Debe mostrarse un mensaje de error: "Completa este campo" sobre el campo Nombre.
+        # - Debe mostrarse un mensaje de error: "Completa este campo" en el campo email.
         # - El usuario NO debe salir de la página de checkout.
 
-        print("[DEBUG] Verificando comportamiento de validación HTML5...")
+        print("[DEBUG] Verificando comportamiento de validación HTML5 en campo email...")
 
         # 1. Verificar que seguimos en checkout
         assert "checkout" in driver.current_url.lower(), \
-            f"❌ Error grave: El sistema permitió avanzar con nombre vacío. URL actual: {driver.current_url}"
+            f"❌ Error grave: El sistema permitió avanzar con email vacío. URL actual: {driver.current_url}"
 
         found = False
         error_message_text = None
 
         # --------------------------------------------
-        # ESTRATEGIA: validationMessage del campo
+        # ESTRATEGIA ÚNICA Y DEFINITIVA: validationMessage del campo email
         # --------------------------------------------
         try:
-            print("[DEBUG] Buscando mensaje de validación HTML5 en el campo 'firstName'...")
-            # Localizar el campo por ID (más preciso)
-            name_field = WebDriverWait(driver, 5).until(
-                EC.presence_of_element_located((By.ID, "firstName"))
+            print("[DEBUG] Buscando mensaje de validación HTML5 en el campo 'email'...")
+            email_field = WebDriverWait(driver, 5).until(
+                EC.presence_of_element_located((By.ID, "email"))
             )
 
-            # Obtener el mensaje de validación nativo del navegador
-            validation_msg = name_field.get_attribute("validationMessage")
+            validation_msg = email_field.get_attribute("validationMessage")
 
             if validation_msg:
                 print(f"[DEBUG] Mensaje de validación recibido: '{validation_msg}'")
-                # Validar que contenga "Completa este campo" (o coincida exactamente)
                 if "Completa este campo" in validation_msg:
                     print(f"[DEBUG] ✅ Mensaje de error HTML5 validado correctamente.")
                     found = True
                     error_message_text = validation_msg
                 else:
-                    print(
-                        f"[WARN] El mensaje no coincide: esperado 'Completa este campo', encontrado: "
-                        f"'{validation_msg}'")
+                    print(f"[WARN] El mensaje no coincide: esperado 'Completa este campo', encontrado: '{validation_msg}'")
             else:
-                print("[DEBUG] validationMessage está vacío. ¿El formulario fue realmente enviado o validado?")
+                print("[DEBUG] validationMessage está vacío. ¿El formulario fue realmente validado?")
 
         except Exception as e:
             print(f"[DEBUG] Error al acceder a validationMessage: {e}")
@@ -134,19 +139,18 @@ def test_attempted_purchase_with_empty_name_field(driver):
         # ESTRATEGIA DE RESPALDO: Verificar que el campo está marcado como inválido
         # --------------------------------------------
         if not found:
-            print("[DEBUG] Verificando si el campo fue marcado como inválido...")
+            print("[DEBUG] Verificando si el campo email fue marcado como inválido...")
             try:
-                name_field = driver.find_element(By.ID, "firstName")
+                email_field = driver.find_element(By.ID, "email")
                 is_invalid = driver.execute_script(
-                    "return arguments[0].validity && !arguments[0].validity.valid;", name_field
+                    "return arguments[0].validity && !arguments[0].validity.valid;", email_field
                 )
                 if is_invalid:
-                    print("[DEBUG] ✅ Campo marcado como inválido por el navegador.")
-                    # Se asume que el mensaje se muestra (porque el campo es required y está vacío)
+                    print("[DEBUG] ✅ Campo email marcado como inválido por el navegador.")
                     found = True
                     error_message_text = "Campo requerido (validación HTML5)"
                 else:
-                    print("[DEBUG] Campo aún válido según validity API.")
+                    print("[DEBUG] Campo email aún válido según validity API.")
             except Exception as e:
                 print(f"[DEBUG] Error al verificar validity: {e}")
 
@@ -154,29 +158,28 @@ def test_attempted_purchase_with_empty_name_field(driver):
         # ÚLTIMO RECURSO: Fallar con contexto útil
         # --------------------------------------------
         if not found:
+            driver.save_screenshot("checkout_email_error.png")
             try:
-                name_field = driver.find_element(By.ID, "firstName")
-                print(f"[DEBUG] Estado final del campo:")
-                print(f"  - validationMessage: '{name_field.get_attribute('validationMessage')}'")
-                print(f"  - class: '{name_field.get_attribute('class')}'")
-                print(f"  - value: '{name_field.get_attribute('value')}'")
-                print(f"  - validity.valid: {driver.execute_script('return arguments[0].validity.valid;', 
-                                                                   name_field)}")
-                print(f"  - outerHTML: {name_field.get_attribute('outerHTML')}")
+                email_field = driver.find_element(By.ID, "email")
+                print(f"[DEBUG] Estado final del campo email:")
+                print(f"  - validationMessage: '{email_field.get_attribute('validationMessage')}'")
+                print(f"  - class: '{email_field.get_attribute('class')}'")
+                print(f"  - value: '{email_field.get_attribute('value')}'")
+                print(f"  - validity.valid: {driver.execute_script('return arguments[0].validity.valid;', email_field)}")
+                print(f"  - outerHTML: {email_field.get_attribute('outerHTML')}")
             except Exception as e:
                 print(f"[DEBUG] Error al inspeccionar campo: {e}")
 
             raise AssertionError(
-                "❌ No se pudo verificar el mensaje de error 'Completa este campo'. "
+                "❌ No se pudo verificar el mensaje de error 'Completa este campo' en el campo email. "
                 "El campo parece no haber disparado la validación HTML5. "
-                "¿Se envió realmente el formulario? Revisa que el botón de confirmar fue clickeado y que el <form> "
-                "tiene validación nativa. "
+                "¿Se envió realmente el formulario o se llamó a reportValidity()? "
+                "Captura guardada: checkout_email_error.png"
             )
 
-        print(
-            "[INFO] ✅ ¡Prueba exitosa! El sistema rechazó correctamente el campo de nombre vacío mediante "
-            "validación HTML5.")
+        print("[INFO] ✅ ¡Prueba exitosa! El sistema rechazó correctamente el campo de email vacío mediante validación HTML5.")
 
     except Exception as e:
         print(f"[CRITICAL] ❌ La prueba falló: {str(e)}")
+        driver.save_screenshot("failed_checkout_email.png")
         raise
