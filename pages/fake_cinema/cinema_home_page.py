@@ -585,6 +585,30 @@ class CinemaHomePage:
         except:
             return False
 
+    def confirm_error_message(self):
+        """ Verifica que el mensaje de error 'La cantidad debe coincidir con los asientos seleccionados' esté visible. """
+        error_message_locator = (By.XPATH,
+                                 "//p[@role='alert' and contains(text(), 'La cantidad debe coincidir con los asientos seleccionados')]")
+        WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located(error_message_locator),
+            message="El mensaje de error esperado no se mostró en el tiempo esperado."
+        )
+        error_element = self.driver.find_element(*error_message_locator)
+        assert error_element.is_displayed(), "El mensaje de error no está visible."
+        print("[DEBUG] Mensaje de error verificado correctamente.")
+
+    def is_confirm_button_disabled(self):
+        """ Verifica que el botón 'Confirmar' esté deshabilitado. """
+        confirm_button_locator = (By.XPATH, "//button[contains(text(), 'Confirmar')]")
+        button = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located(confirm_button_locator)
+        )
+        is_disabled = button.get_attribute("disabled") is not None or button.get_attribute(
+            "aria-disabled") == "true"
+        assert is_disabled, "El botón 'Confirmar' debe estar inactivo, pero está habilitado."
+        print("[DEBUG] Botón 'Confirmar' verificado como inactivo.")
+
+
     def is_cart_summary_visible(self):
         """Verifica si el resumen del carrito está visible en el modal."""
         try:

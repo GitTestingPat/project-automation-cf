@@ -19,7 +19,7 @@ def test_navigate_to_checkout(driver):
         print("[DEBUG] Navegando a detalle de Jurassic World...")
         home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
         print("[DEBUG] Seleccionando fecha")
-        home_page.select_date("22")  # Si no se cambia esta fecha la prueba siempre fallará
+        home_page.select_date("23")  # Si no se cambia esta fecha la prueba siempre fallará
         print("[DEBUG] Seleccionando primera hora disponible...")
         home_page.select_first_available_time()
         print("[DEBUG] Seleccionando primer asiento disponible...")
@@ -48,7 +48,7 @@ def test_navigate_to_checkout(driver):
         # --- VERIFICAR QUE ESTAMOS EN LA PÁGINA DEL CARRITO ---
         print(f"[DEBUG] URL ACTUAL DESPUÉS DE CONFIRMAR: {driver.current_url}")
 
-        # Espera extra para que React renderice
+        # Espera extra para que la página renderice
         time.sleep(3)
 
         print(f"[DEBUG] URL ACTUAL DESPUÉS DE 3 SEGUNDOS: {driver.current_url}")

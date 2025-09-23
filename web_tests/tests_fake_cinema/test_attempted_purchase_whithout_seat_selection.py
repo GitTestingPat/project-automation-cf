@@ -6,9 +6,11 @@ from pages.fake_cinema.cinema_home_page import CinemaHomePage
 import time
 
 
-def test_page_reload_during_checkout_process(driver):
+def test_attempted_purchase_whithout_seat_selection(driver):
     """
-    TC-WEB-34:
+    TC-WEB-35: Intento de Compra sin Selección de Asiento
+    La prueba que el botón "Comprar boletos" debe estar deshabilitado.
+    O bien, al intentar hacer clic, aparece un mensaje de error: "Por favor, seleccione al menos un asiento".
     """
     home_page = CinemaHomePage(driver)
 
@@ -18,7 +20,7 @@ def test_page_reload_during_checkout_process(driver):
         print("[DEBUG] Navegando a detalle de Jurassic World...")
         home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
         print("[DEBUG] Seleccionando fecha...")
-        home_page.select_date("22")  # Ajustar según disponibilidad real
+        home_page.select_date("23")  # Ajustar según disponibilidad real
         print("[DEBUG] Seleccionando primera hora disponible...")
         home_page.select_first_available_time()
 
@@ -31,8 +33,7 @@ def test_page_reload_during_checkout_process(driver):
         # Verificar que el botón esté deshabilitado (por atributo 'disabled' o por clase CSS)
         # Opción 1: Verificar atributo 'disabled'
         is_disabled = buy_button.get_attribute("disabled") is not None
-        # Opción 2: Si usas clases como 'disabled', puedes verificar:
-        # is_disabled = "disabled" in buy_button.get_attribute("class")
+        # Verificar clase 'disabled':
 
         assert is_disabled, ("El botón 'Comprar boletos' debería estar deshabilitado si no se han seleccionado "
                              "asientos.")
