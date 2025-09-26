@@ -22,7 +22,7 @@ def test_fill_payment_data(driver):
         print("[DEBUG] Navegando a detalle de Jurassic World...")
         home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
         print("[DEBUG] Seleccionando fecha")
-        home_page.select_date("23")  # Si no se cambia esta fecha la prueba siempre fallará
+        home_page.select_date("26")  # Si no se cambia esta fecha la prueba siempre fallará
         print("[DEBUG] Seleccionando primera hora disponible...")
         home_page.select_first_available_time()
         print("[DEBUG] Seleccionando primer asiento disponible...")

@@ -13,7 +13,7 @@ def test_select_seat_in_hall(driver):
     # Act
     home_page.go_to()
     home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
-    home_page.select_date("23") # La fecha debe cambiar cada vez que se corre la prueba
+    home_page.select_date("26") # La fecha debe cambiar cada vez que se corre la prueba
     home_page.select_first_available_time()
     selected_seat = home_page.select_first_available_seat()
 
@@ -22,4 +22,4 @@ def test_select_seat_in_hall(driver):
         "El asiento no se marcó como seleccionado después de hacer clic."
 
     print(f"\n[INFO] Asiento seleccionado: {selected_seat}")
-    print("[INFO] ¡Prueba PASADA! Se detectó '80' en pantalla, indicando que el asiento fue seleccionado.")
+    print("[INFO] ¡Prueba EXITOSA! Se detectó '80' en pantalla, indicando que el asiento fue seleccionado.")

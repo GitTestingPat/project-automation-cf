@@ -453,6 +453,14 @@ class CinemaHomePage:
 
         return selected_seats
 
+    def get_first_occupied_seat(self):
+        """
+        Localiza el primer asiento ocupado (deshabilitado) en la sala.
+        """
+        return WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "button[disabled]"))
+        )
+
     def is_total_price_displayed(self, expected_price):
         """
         Verifica si el precio total esperado está presente en la pantalla, con múltiples reintentos.
