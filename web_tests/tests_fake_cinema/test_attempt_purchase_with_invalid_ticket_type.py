@@ -8,7 +8,7 @@ import time
 
 def test_attempt_purchase_with_invalid_ticket_type(driver):
     """
-    TC-WEB-36: Intento de Compra con Tipo de Boleto Inválido
+    TC-WEB-36: Intento de compra con tipo de boleto inválido, seleccionando un solo asiento
     El sistema debe mostrar un mensaje de error: "La cantidad debe coincidir con los asientos seleccionados".
     El botón "Confirmar" permanece inactivo hasta que se ingrese un valor válido.
     """
@@ -20,7 +20,7 @@ def test_attempt_purchase_with_invalid_ticket_type(driver):
         print("[DEBUG] Navegando a detalle de Jurassic World...")
         home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
         print("[DEBUG] Seleccionando fecha...")
-        home_page.select_date("26")  # Ajustar según disponibilidad real
+        home_page.select_date("27")  # Ajustar según disponibilidad real
         print("[DEBUG] Seleccionando primera hora disponible...")
         home_page.select_first_available_time()
         print("[DEBUG] Seleccionando primer asiento disponible...")

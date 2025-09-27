@@ -500,6 +500,37 @@ class CinemaHomePage:
         print("=" * 60)
         return False
 
+    def is_total_price_displayed_strict(self, expected_price):
+        """
+        Verifica si el precio total esperado está presente en la pantalla,
+        usando SOLO formatos que incluyan el símbolo '$'.
+        Evita falsos positivos (ej. coincidencias con "80" en scripts o atributos).
+        """
+        strict_formats = [
+            f"${expected_price}.00",
+            f"${expected_price}",
+            f"Total: ${expected_price}.00",
+            f"Total: ${expected_price}",
+            f"Total ${expected_price}.00",
+            f"Total ${expected_price}",
+        ]
+
+        for _ in range(3):
+            for fmt in strict_formats:
+                try:
+                    element = WebDriverWait(self.driver, 5).until(
+                        EC.visibility_of_element_located((By.XPATH, f"//*[contains(text(), '{fmt}')]"))
+                    )
+                    if element.is_displayed():
+                        print(f"[POM DEBUG] ✅ Precio estricto encontrado: '{fmt}'")
+                        return True
+                except:
+                    continue
+            time.sleep(0.3)
+
+        print(f"[POM DEBUG] ❌ Precio estricto '${expected_price}' NO encontrado.")
+        return False
+
     def deselect_seats(self, seat_texts):
         """
         Deselecciona asientos previamente seleccionados haciendo clic en ellos nuevamente.
