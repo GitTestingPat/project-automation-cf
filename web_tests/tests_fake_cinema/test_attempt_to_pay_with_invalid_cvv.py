@@ -25,7 +25,7 @@ def test_attempt_to_pay_with_invalid_cvv_field(driver):
         print("[DEBUG] Navegando a detalle de Jurassic World...")
         home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
         print("[DEBUG] Seleccionando fecha...")
-        home_page.select_date("26") # Ajustar la fecha
+        home_page.select_date("29") # Ajustar la fecha
         print("[DEBUG] Seleccionando primera hora disponible...")
         home_page.select_first_available_time()
         print("[DEBUG] Seleccionando primer asiento disponible...")
@@ -163,7 +163,7 @@ def test_attempt_to_pay_with_invalid_cvv_field(driver):
             else:
                 print("[DEBUG] ⚠️ El campo CVV NO tiene indicador visual de error.")
 
-            # ✅ Este es el hallazgo clave: el sistema no muestra mensaje ni bloquea correctamente
+            # ✅ Hallazgo clave: el sistema no muestra mensaje ni bloquea correctamente
             raise AssertionError(
                 "❌ ¡BUG FUNCIONAL! El sistema no muestra ningún mensaje de error como "
                 "'CVV debe tener exactamente 3 dígitos' cuando se ingresa un valor inválido ('ABC'). "

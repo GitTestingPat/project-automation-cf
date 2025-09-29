@@ -3,7 +3,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from pages.fake_cinema.cinema_home_page import CinemaHomePage
 
-
+"""
+    TC-WEB-43: Intento de cambiar de película sin confirmar la selección.
+    El sistema redirige a la nueva película. El carrito se mantiene en estado vacio.
+"""
 def test_attempt_change_movie_without_confirming_selection(driver):
     # Inicializar la página principal usando el Page Object Model
     home_page = CinemaHomePage(driver)
