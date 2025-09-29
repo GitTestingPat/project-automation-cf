@@ -247,6 +247,9 @@ def driver():
         # Silenciar errores al cerrar
         pass
 
+@pytest.fixture
+def scenario_state():
+    return {}
 
 # --- Fixtures para Recursos de Prueba Específicos ---
 
