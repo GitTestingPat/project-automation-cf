@@ -39,9 +39,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Behave tests
-        run: |
-          cd behave_tests
-          python -m behave features
+        run: PYTHONPATH=. behave behave_tests/features
 
       - name: Run pytest-bdd tests
         run: |

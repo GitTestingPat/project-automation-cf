@@ -54,9 +54,13 @@ pytest api_tests/ -v
 ```bash
 pytest web_tests/ -v
 ```
-### 4. Ejecutar escenarios BDD
+### 4. Ejecutar escenarios BDD con behave
 ```bash
-behave features/
+./run_behave.sh
+```
+### 5. Ejecutar escenarios BDD con pytest BDD
+```bash
+pytest pytest_bdd_tests/ -v
 ```
 
 ## 🧪 Cobertura del proyecto
