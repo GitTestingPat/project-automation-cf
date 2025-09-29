@@ -27,12 +27,6 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Install ChromeDriver (for Selenium)
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y chromium-chromedriver
-          echo "/usr/lib/chromium-browser/" >> $GITHUB_PATH
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -42,5 +36,4 @@ jobs:
         run: PYTHONPATH=. behave behave_tests/features
 
       - name: Run pytest-bdd tests
-        run: |
-          pytest pytest_bdd_tests/ -v --tb=short
+        run: pytest pytest_bdd_tests/ -v --tb=short
