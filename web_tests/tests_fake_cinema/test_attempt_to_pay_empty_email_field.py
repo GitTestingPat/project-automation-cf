@@ -181,5 +181,4 @@ def test_attempt_to_pay_empty_email_field(driver):
 
     except Exception as e:
         print(f"[CRITICAL] ❌ La prueba falló: {str(e)}")
-        driver.save_screenshot("failed_checkout_email.png")
         raise
