@@ -15,7 +15,7 @@ def before_scenario(context, scenario):
     options.add_argument("--disable-gpu")
     options.add_argument("--window-size=1920,1080")
 
-    # Usa webdriver-manager para obtener el driver automáticamente
+    # Usar webdriver-manager para obtener el driver automáticamente
     service = Service(ChromeDriverManager().install())
     context.driver = webdriver.Chrome(service=service, options=options)
     context.driver.implicitly_wait(10)

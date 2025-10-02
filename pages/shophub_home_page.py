@@ -3,6 +3,7 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
 class HomePage:
@@ -131,3 +132,32 @@ class HomePage:
         from pages.shophub_signup_page import SignupPage
         # Devolver una nueva instancia de SignupPage
         return SignupPage(self.driver)
+
+    def click_category_by_visible_text(self, category_name: str):
+        """
+        Hace clic en cualquier elemento visible que contenga EXACTAMENTE el texto de la categoría.
+        Útil para sitios donde las categorías no son <a> sino <h3>, <div>, etc.
+        """
+        # XPath: busca cualquier elemento que tenga texto visible igual a category_name
+        locator = (
+            By.XPATH,
+            f"//*[normalize-space()='{category_name}']"
+        )
+
+        # Esperar a que aparezca
+        element = WebDriverWait(self.driver, 15).until(
+            EC.presence_of_element_located(locator)
+        )
+
+        # Hacer scroll hasta el elemento (por si está fuera de vista)
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
+
+        # Esperar a que sea clickeable
+        WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable(locator)
+        )
+
+        # Hacer clic con ActionChains para mayor fiabilidad
+        ActionChains(self.driver).move_to_element(element).click().perform()
+        from pages.shophub_category_page import CategoryPage
+        return CategoryPage(self.driver)

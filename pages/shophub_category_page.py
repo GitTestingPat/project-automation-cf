@@ -93,3 +93,64 @@ class CategoryPage:
                 f"Esto indica un posible fallo en la interacción con el botón o en su localizador. "
                 f"Error: {e}"
             )
+
+    def find_and_click_product_by_name(self, product_name: str):
+        """
+        Busca un producto por su nombre visible en la página de categoría y hace clic en él.
+        Devuelve una instancia de ProductPage.
+        """
+        # Suponemos que cada tarjeta de producto tiene un <h3> o <p> con el nombre
+        PRODUCT_NAME_LOCATOR = (By.CSS_SELECTOR, ".product-card h3, .product-card p")
+
+        # Esperar a que al menos un producto esté presente
+        WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, ".product-card"))
+        )
+
+        # Obtener todas las tarjetas de producto
+        product_cards = self.driver.find_elements(By.CSS_SELECTOR, ".product-card")
+
+        for card in product_cards:
+            try:
+                name_element = card.find_element(*PRODUCT_NAME_LOCATOR)
+                if product_name.lower() in name_element.text.strip().lower():
+                    # Hacer clic en el enlace o en la tarjeta completa
+                    link = card.find_element(By.TAG_NAME, "a")
+                    link.click()
+                    from pages.shophub_product_page import ProductPage
+                    return ProductPage(self.driver)
+            except:
+                continue
+
+        raise Exception(f"Producto '{product_name}' no encontrado en la categoría.")
+
+    def add_product_to_cart_by_name(self, product_name: str):
+        """
+        Busca un producto por nombre en la página de categoría y hace clic en su botón 'Add to Cart'.
+        """
+        # Suponemos que cada tarjeta tiene:
+        # - un nombre en <h3> o <p>
+        # - un botón con ID como "add-to-cart-123"
+        PRODUCT_CARD = (By.CSS_SELECTOR, ".product-card")
+        PRODUCT_NAME_IN_CARD = (By.CSS_SELECTOR, "h3, p")
+        ADD_TO_CART_BUTTON = (By.XPATH, ".//button[starts-with(@id, 'add-to-cart-')]")
+
+        # Esperar a que los productos carguen
+        WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located(PRODUCT_CARD)
+        )
+
+        product_cards = self.driver.find_elements(*PRODUCT_CARD)
+        for card in product_cards:
+            try:
+                name_element = card.find_element(*PRODUCT_NAME_IN_CARD)
+                if product_name.lower() in name_element.text.strip().lower():
+                    # Encontrar el botón de "Add to Cart" dentro de esta tarjeta
+                    add_button = card.find_element(*ADD_TO_CART_BUTTON)
+                    add_button.click()
+                    print(f"✅ Producto '{product_name}' agregado al carrito desde la categoría.")
+                    return
+            except Exception as e:
+                continue
+
+        raise Exception(f"Producto '{product_name}' no encontrado o no se pudo agregar al carrito.")

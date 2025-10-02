@@ -27,3 +27,20 @@ class CartPage:
         except TimeoutException:
             # Si el mensaje sigue visible después de 10 segundos, indica que el carrito está vacío
             return []
+
+    def is_product_in_cart(self, product_name: str) -> bool:
+        """
+        Verifica si un producto con el nombre dado está presente en el carrito.
+        """
+        cart_items = self.get_cart_items()
+        PRODUCT_NAME_IN_CART = (By.CSS_SELECTOR, "h3, p")
+
+        for item in cart_items:
+            try:
+                name_elements = item.find_elements(*PRODUCT_NAME_IN_CART)
+                for el in name_elements:
+                    if product_name.lower() in el.text.strip().lower():
+                        return True
+            except:
+                continue
+        return False
