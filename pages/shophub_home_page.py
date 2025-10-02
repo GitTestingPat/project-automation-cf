@@ -15,6 +15,7 @@ class HomePage:
     WOMEN_CLOTHES_LINK = (By.LINK_TEXT, "Women's Clothes")
     ELECTRONICS_LINK = (By.LINK_TEXT, "Electronics")
     CART_LINK = (By.XPATH, "/html/body/header/div/div[2]/a[3]/button")
+    CART_LINK_ROBUST = (By.CSS_SELECTOR, "header a[href='/cart']")
     CART_BADGE = (By.XPATH, "/html/body/header/div/div[2]/a[3]/button/div")
     LOGIN_BUTTON = (By.LINK_TEXT, "Login")
     PRODUCT_CARD = (By.CSS_SELECTOR, ".product-card")
@@ -48,6 +49,9 @@ class HomePage:
         # Devolver una nueva instancia de LoginPage
         return LoginPage(self.driver)
 
+    def get_first_product_link(self):
+        return self.driver.find_element(By.CSS_SELECTOR, "a[href^='/product']")
+
     def go_to_cart(self):
         """
         Hacer clic en el enlace 'Cart' y navegar a la página del carrito.
@@ -61,6 +65,18 @@ class HomePage:
         from pages.shophub_cart_page import CartPage
 
         # Devolver una nueva instancia de CartPage
+        return CartPage(self.driver)
+
+    def go_to_cart_robust(self):
+        """
+        Navega al carrito usando un localizador más confiable.
+        """
+        cart_link = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable(self.CART_LINK_ROBUST)
+        )
+        cart_link.click()
+
+        from pages.shophub_cart_page import CartPage
         return CartPage(self.driver)
 
     def get_cart_item_count(self):
@@ -81,9 +97,15 @@ class HomePage:
         """Hacer clic en el botón desplegable 'Categories'."""
         self.driver.find_element(*self.CATEGORIES_DROPDOWN_BUTTON).click()
 
+    # def click_mens_category(self):
+    #     """Hacer clic en la categoría 'Men's Clothes'."""
+    #     self.driver.find_element(*self.MEN_CLOTHES_LINK).click()
+
     def click_mens_category(self):
         """Hacer clic en la categoría 'Men's Clothes'."""
         self.driver.find_element(*self.MEN_CLOTHES_LINK).click()
+        from pages.shophub_category_page import CategoryPage
+        return CategoryPage(self.driver)
 
     def click_womens_category(self):
         """Hacer clic en la categoría 'Women's Clothes'."""

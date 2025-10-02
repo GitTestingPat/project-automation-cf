@@ -70,7 +70,7 @@ def test_register_new_user_with_valid_credentials(driver):
     except:
         # Si el botón no se encuentra, es un buen indicio de que el registro fue exitoso
         print(
-            f"✅ Registro exitoso. El botón de 'Sign Up' ya no está presente en la página actual. "
+            f"✅ Registro de usuario exitoso. El botón de 'Sign Up' ya no está presente en la página actual. "
             f"Título: {driver.title}")
         return  # Salir de la prueba, ya que el registro fue exitoso
 

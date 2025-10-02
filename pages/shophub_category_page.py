@@ -128,7 +128,7 @@ class CategoryPage:
         """
         Busca un producto por nombre en la página de categoría y hace clic en su botón 'Add to Cart'.
         """
-        # Suponemos que cada tarjeta tiene:
+        # Cada tarjeta tiene:
         # - un nombre en <h3> o <p>
         # - un botón con ID como "add-to-cart-123"
         PRODUCT_CARD = (By.CSS_SELECTOR, ".product-card")
