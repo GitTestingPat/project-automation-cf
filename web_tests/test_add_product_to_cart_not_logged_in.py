@@ -58,7 +58,8 @@ def test_add_product_to_cart_as_guest(driver):
     #         print(f"✅ Producto agregado al carrito (no logueado). Contador del carrito: {cart_count}")
     # except Exception as e:
     #     # Si no se puede obtener el contador, intentar verificar en la página del carrito
-    #     print(f"⚠️ No se pudo verificar el contador del carrito: {e}. Intentando verificar en la página del carrito...")
+    #     print(f"⚠️ No se pudo verificar el contador del carrito: {e}. Intentando verificar
+        #     en la página del carrito...")
 
         # Ir a la página del carrito
         try:

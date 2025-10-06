@@ -25,7 +25,7 @@ def test_attempt_to_pay_with_invalid_cvv_field(driver):
         print("[DEBUG] Navegando a detalle de Jurassic World...")
         home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
         print("[DEBUG] Seleccionando fecha...")
-        home_page.select_date("29") # Ajustar la fecha
+        home_page.select_date("7") # Ajustar según disponibilidad real
         print("[DEBUG] Seleccionando primera hora disponible...")
         home_page.select_first_available_time()
         print("[DEBUG] Seleccionando primer asiento disponible...")
@@ -84,7 +84,7 @@ def test_attempt_to_pay_with_invalid_cvv_field(driver):
         input_type = cvv_field.get_attribute("type")
         print(f"[DEBUG] Atributos del campo CVV -> pattern: '{pattern}', type: '{input_type}'")
 
-        # ✅ Aquí está el BUG: no hay pattern="\d{3}" ni type="number", por eso acepta "ABC"
+        # ✅ Presencia del BUG: no hay pattern="\d{3}" ni type="number", por eso acepta "ABC"
 
         # Intentar confirmar el pago
         print("[DEBUG] Intentando confirmar pago con CVV inválido...")

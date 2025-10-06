@@ -22,7 +22,7 @@ def test_attempt_to_pay_empty_email_field(driver):
         print("[DEBUG] Navegando a detalle de Jurassic World...")
         home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
         print("[DEBUG] Seleccionando fecha...")
-        home_page.select_date("26")  # Ajustar según disponibilidad real
+        home_page.select_date("7")  # Ajustar según disponibilidad real
         print("[DEBUG] Seleccionando primera hora disponible...")
         home_page.select_first_available_time()
         print("[DEBUG] Seleccionando primer asiento disponible...")
@@ -67,7 +67,7 @@ def test_attempt_to_pay_empty_email_field(driver):
         assert "checkout" in driver.current_url.lower(), (f"Esperaba estar en checkout, pero estoy en: "
                                                           f"{driver.current_url}")
 
-        # Rellenar formulario con EMAIL VACÍO (¡todo lo demás lleno!)
+        # Rellenar formulario con EMAIL VACÍO
         print("[DEBUG] Rellenando formulario de pago con email vacío...")
         home_page.fill_payment_form(
             first_name="Bruce",         # ✅ Lleno
@@ -111,7 +111,7 @@ def test_attempt_to_pay_empty_email_field(driver):
         error_message_text = None
 
         # --------------------------------------------
-        # ESTRATEGIA ÚNICA Y DEFINITIVA: validationMessage del campo email
+        # ESTRATEGIA: validationMessage del campo email
         # --------------------------------------------
         try:
             print("[DEBUG] Buscando mensaje de validación HTML5 en el campo 'email'...")
@@ -128,7 +128,8 @@ def test_attempt_to_pay_empty_email_field(driver):
                     found = True
                     error_message_text = validation_msg
                 else:
-                    print(f"[WARN] El mensaje no coincide: esperado 'Completa este campo', encontrado: '{validation_msg}'")
+                    print(f"[WARN] El mensaje no coincide: esperado 'Completa este campo', encontrado: "
+                          f"'{validation_msg}'")
             else:
                 print("[DEBUG] validationMessage está vacío. ¿El formulario fue realmente validado?")
 
@@ -165,7 +166,8 @@ def test_attempt_to_pay_empty_email_field(driver):
                 print(f"  - validationMessage: '{email_field.get_attribute('validationMessage')}'")
                 print(f"  - class: '{email_field.get_attribute('class')}'")
                 print(f"  - value: '{email_field.get_attribute('value')}'")
-                print(f"  - validity.valid: {driver.execute_script('return arguments[0].validity.valid;', email_field)}")
+                print(f"  - validity.valid: {driver.execute_script('return arguments[0].validity.valid;', 
+                                                                   email_field)}")
                 print(f"  - outerHTML: {email_field.get_attribute('outerHTML')}")
             except Exception as e:
                 print(f"[DEBUG] Error al inspeccionar campo: {e}")
@@ -177,7 +179,8 @@ def test_attempt_to_pay_empty_email_field(driver):
                 "Captura guardada: checkout_email_error.png"
             )
 
-        print("[INFO] ✅ ¡Prueba exitosa! El sistema rechazó correctamente el campo de email vacío mediante validación HTML5.")
+        print("[INFO] ✅ ¡Prueba exitosa! El sistema rechazó correctamente el campo de email vacío mediante "
+              "validación HTML5.")
 
     except Exception as e:
         print(f"[CRITICAL] ❌ La prueba falló: {str(e)}")

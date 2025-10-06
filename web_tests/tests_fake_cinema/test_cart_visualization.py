@@ -19,7 +19,7 @@ def test_cart_visualization_before_payment(driver):
         print("[DEBUG] Navegando a detalle de Jurassic World...")
         home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
         print("[DEBUG] Seleccionando fecha")
-        home_page.select_date("26") # Si no se cambia esta fecha la prueba siempre fallará
+        home_page.select_date("7") # Ajustar según disponibilidad real
         print("[DEBUG] Seleccionando primera hora disponible...")
         home_page.select_first_available_time()
         print("[DEBUG] Seleccionando primer asiento disponible...")
@@ -73,16 +73,19 @@ def test_cart_visualization_before_payment(driver):
 
             # Verificar que NO esté el mensaje de carrito vacío
             try:
-                empty_msg = driver.find_element(By.XPATH, "//*[contains(text(), 'No hay productos en el carrito')]")
+                empty_msg = driver.find_element(By.XPATH, "//*[contains(text(), "
+                                                          "'No hay productos en el carrito')]")
                 if empty_msg.is_displayed():
-                    raise Exception("¡El mensaje 'No hay productos...' sigue visible! La app no actualizó el carrito.")
+                    raise Exception("¡El mensaje 'No hay productos...' "
+                                    "sigue visible! La app no actualizó el carrito.")
             except Exception:
                 print("[DEBUG] ✅ Mensaje de carrito vacío no está visible. Bien.")
 
             print("[INFO] ¡Prueba TC-WEB-20 completada con éxito! Carrito cargado con productos.")
 
         except Exception as e:
-            print("[DEBUG] ❌ No se encontró ningún indicador de producto. Imprimiendo texto completo de la página...")
+            print("[DEBUG] ❌ No se encontró ningún indicador de producto. Imprimiendo "
+                  "texto completo de la página...")
             body_text = driver.find_element(By.TAG_NAME, "body").text
             print("TEXTO COMPLETO DE LA PÁGINA:")
             print("=" * 50)

@@ -18,7 +18,7 @@ def test_create_payment_as_user(user_token, booking_id):
     # 3. Preparar datos para el nuevo pago.
     new_payment_data = {
         "booking_id": booking_id_to_pay,
-        "amount": 299.99, # Monto de ejemplo, debe coincidir con el de la reserva o ser mayor/igual
+        "amount": 299.99, # Monto debe coincidir con el de la reserva o ser mayor/igual
         "payment_method": "credit_card" # Método de pago de ejemplo
     }
 

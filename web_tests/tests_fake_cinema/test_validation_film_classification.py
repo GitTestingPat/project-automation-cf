@@ -25,4 +25,5 @@ def test_verify_film_classification_labels(driver):
     # Verificar que las clasificaciones aparecen correctamente
     expected_classifications = ["A", "B", "B15", "C"]
     for classification in expected_classifications:
-        assert home_page.is_classification_visible(classification), f"La clasificación {classification} no está visible"
+        assert home_page.is_classification_visible(classification), \
+            f"La clasificación {classification} no está visible"

@@ -21,7 +21,6 @@ def test_list_airports():
 
     # Verificar que haya al menos un aeropuerto
     # assert len(airports) > 0, "La lista de aeropuertos está vacía"
-
     # Verificación básica de un elemento
     if airports:
         first_airport = airports[0]

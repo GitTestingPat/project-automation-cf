@@ -29,17 +29,17 @@ def auth_headers(admin_user):
 # Fixture para aeropuerto
 @pytest.fixture
 def sample_airport(auth_headers):
-    # Intenta usar uno existente primero
+    # Intentar usar un aeropuerto existente primero
     resp = requests.get(f"{BASE_URL}/airports/JFK")
     if resp.status_code == 200:
         return resp.json()
-    # Si no existe, créalo (aunque en producción probablemente ya existan)
+    # Si no existe, crearlo
     airport_data = {"iata_code": "JFK", "city": "New York", "country": "USA"}
     resp = requests.post(f"{BASE_URL}/airports", json=airport_data, headers=auth_headers)
     if resp.status_code == 201:
         return resp.json()
     elif resp.status_code == 422:
-        # Ya existe, búscalo
+        # Si ya existe, buscarlo
         resp = requests.get(f"{BASE_URL}/airports/JFK")
         assert resp.status_code == 200
         return resp.json()
@@ -49,7 +49,7 @@ def sample_airport(auth_headers):
 
 @pytest.fixture
 def sample_aircraft(auth_headers):
-    # Usa un tail_number único para evitar conflictos
+    # Usar un tail_number único para evitar conflictos
     import uuid
     tail = f"N{uuid.uuid4().hex[:6].upper()}"
     aircraft_data = {
@@ -186,7 +186,7 @@ def test_create_booking_invalid_passport(auth_headers, sample_flight):
 
 
 def test_pay_valid(auth_headers, sample_flight):
-    # Crea reserva
+    # Crear reserva
     booking_data = {
         "flight_id": sample_flight["id"],
         "passengers": [{"full_name": "Test", "passport": "PASS12345"}]
@@ -195,7 +195,7 @@ def test_pay_valid(auth_headers, sample_flight):
     assert resp.status_code == 201
     booking_id = resp.json()["id"]
 
-    # Paga
+    # Pagar
     payment_data = {
         "booking_id": booking_id,
         "amount": 250.0,

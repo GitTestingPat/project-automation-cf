@@ -22,7 +22,7 @@ def test_fill_payment_data(driver):
         print("[DEBUG] Navegando a detalle de Jurassic World...")
         home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
         print("[DEBUG] Seleccionando fecha")
-        home_page.select_date("29")  # Cambiar esta fecha
+        home_page.select_date("7")  # Ajustar según disponibilidad real
         print("[DEBUG] Seleccionando primera hora disponible...")
         home_page.select_first_available_time()
         print("[DEBUG] Seleccionando primer asiento disponible...")
@@ -87,7 +87,8 @@ def test_fill_payment_data(driver):
 
         time.sleep(3)
         print(f"[DEBUG] URL ACTUAL: {driver.current_url}")
-        assert "checkout" in driver.current_url.lower(), f"Esperaba estar en checkout, pero estoy en: {driver.current_url}"
+        assert "checkout" in driver.current_url.lower(), (f"Esperaba estar en checkout, "
+                                                          f"pero estoy en: {driver.current_url}")
 
         # --- RELLENAR FORMULARIO DE PAGO ---
         print("[DEBUG] Rellenando formulario de pago...")
@@ -130,7 +131,8 @@ def test_fill_payment_data(driver):
 
         # Verificar que estamos de vuelta en la página de inicio
         print(f"[DEBUG] URL ACTUAL: {driver.current_url}")
-        assert driver.current_url == "https://fake-cinema.vercel.app/" or driver.current_url == "https://fake-cinema.vercel.app", \
+        assert (driver.current_url == "https://fake-cinema.vercel.app/" or
+                driver.current_url == "https://fake-cinema.vercel.app"), \
             f"Esperaba estar en la página de inicio, pero estoy en: {driver.current_url}"
 
         # Verificar que el título hero está presente (elemento distintivo de la home)

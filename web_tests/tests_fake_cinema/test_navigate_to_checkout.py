@@ -19,7 +19,7 @@ def test_navigate_to_checkout(driver):
         print("[DEBUG] Navegando a detalle de Jurassic World...")
         home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
         print("[DEBUG] Seleccionando fecha")
-        home_page.select_date("26")  # Si no se cambia esta fecha la prueba siempre fallará
+        home_page.select_date("7")  # Ajustar según disponibilidad real
         print("[DEBUG] Seleccionando primera hora disponible...")
         home_page.select_first_available_time()
         print("[DEBUG] Seleccionando primer asiento disponible...")
@@ -72,16 +72,19 @@ def test_navigate_to_checkout(driver):
 
             # Verificar que NO esté el mensaje de carrito vacío
             try:
-                empty_msg = driver.find_element(By.XPATH, "//*[contains(text(), 'No hay productos en el carrito')]")
+                empty_msg = driver.find_element(By.XPATH, "//*[contains(text(), "
+                                                          "'No hay productos en el carrito')]")
                 if empty_msg.is_displayed():
-                    raise Exception("¡El mensaje 'No hay productos...' sigue visible! La app no actualizó el carrito.")
+                    raise Exception("¡El mensaje 'No hay productos...' sigue visible! "
+                                    "La app no actualizó el carrito.")
             except Exception:
                 print("[DEBUG] ✅ Mensaje de carrito vacío no está visible. Bien.")
 
             print("[INFO] Carrito cargado con productos. Preparando para proceder al checkout...")
 
         except Exception as e:
-            print("[DEBUG] ❌ No se encontró ningún indicador de producto. Imprimiendo texto completo de la página...")
+            print("[DEBUG] ❌ No se encontró ningún indicador de producto. "
+                  "Imprimiendo texto completo de la página...")
             body_text = driver.find_element(By.TAG_NAME, "body").text
             print("TEXTO COMPLETO DE LA PÁGINA:")
             print("=" * 50)
@@ -109,7 +112,8 @@ def test_navigate_to_checkout(driver):
         print(f"[DEBUG] URL ACTUAL DESPUÉS DE PROCEDER AL PAGO: {driver.current_url}")
 
         # Verificar que la URL contiene 'checkout' o similar
-        assert "checkout" in driver.current_url.lower(), f"Esperaba estar en una página de checkout, pero estoy en: {driver.current_url}"
+        assert "checkout" in driver.current_url.lower(), (f"Esperaba estar en una página de checkout, "
+                                                          f"pero estoy en: {driver.current_url}")
 
         # Alternativamente, verificar la presencia de elementos característicos de la página de checkout
         try:
@@ -129,7 +133,8 @@ def test_navigate_to_checkout(driver):
 
         except Exception as e:
             print(
-                "[DEBUG] ❌ No se encontró ningún indicador de página de checkout. Imprimiendo texto completo de la página...")
+                "[DEBUG] ❌ No se encontró ningún indicador de página de checkout. "
+                "Imprimiendo texto completo de la página...")
             body_text = driver.find_element(By.TAG_NAME, "body").text
             print("TEXTO COMPLETO DE LA PÁGINA:")
             print("=" * 50)

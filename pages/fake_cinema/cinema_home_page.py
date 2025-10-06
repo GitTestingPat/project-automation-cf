@@ -437,8 +437,9 @@ class CinemaHomePage:
                 # Esperar a que el contador de asientos en el carrito refleje la selección actual
                 WebDriverWait(self.driver, 5).until(
                     lambda d: d.find_element(By.XPATH,
-                                             "//*[starts-with(normalize-space(), 'Asientos (')]").text.strip().startswith(
-                        f"Asientos ({len(selected_seats)})")
+                                             "//*[starts-with(normalize-space(), "
+                                             "'Asientos (')]").text.strip().startswith(f"Asientos "
+                                                                                       f"({len(selected_seats)})")
                 )
                 print(f"[POM DEBUG] ✅ Contador de asientos actualizado a: {len(selected_seats)}")
 
@@ -625,9 +626,11 @@ class CinemaHomePage:
             return False
 
     def confirm_error_message(self):
-        """ Verifica que el mensaje de error 'La cantidad debe coincidir con los asientos seleccionados' esté visible. """
+        """ Verifica que el mensaje de error 'La cantidad debe coincidir con los asientos seleccionados'
+        esté visible. """
         error_message_locator = (By.XPATH,
-                                 "//p[@role='alert' and contains(text(), 'La cantidad debe coincidir con los asientos seleccionados')]")
+                                 "//p[@role='alert' and contains(text(), 'La cantidad debe coincidir con "
+                                 "los asientos seleccionados')]")
         WebDriverWait(self.driver, 10).until(
             EC.visibility_of_element_located(error_message_locator),
             message="El mensaje de error esperado no se mostró en el tiempo esperado."

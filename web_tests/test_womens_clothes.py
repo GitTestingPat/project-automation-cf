@@ -22,7 +22,7 @@ def test_navigate_to_womens_clothes(driver):
 
     # 3. Verificar que el título de la página o el encabezado de categoría sea "Women's Clothes")
 
-    # OPCIÓN 1: Verificar el título de la página
+    # Verificar el título de la página
     page_title = driver.title
     assert "Women's Clothes" in page_title or "ShopHub" in page_title, (
         f"El título de la página no cambió como se esperaba después de hacer clic en 'Women's Clothes'. "
@@ -31,7 +31,7 @@ def test_navigate_to_womens_clothes(driver):
     )
     print(f"✅ Título de la página verificado: '{page_title}'")
 
-    # OPCIÓN 2: Verificar encabezados h2 si alguno contiene "Women's Clothes".
+    # Verificar encabezados h2 si alguno contiene "Women's Clothes".
     try:
         h2_elements = driver.find_elements(By.TAG_NAME, "h2")
         h2_texts = [h2.text for h2 in h2_elements]
@@ -43,7 +43,7 @@ def test_navigate_to_womens_clothes(driver):
             # Si no se encuentra en los h2, verificar otras opciones
             print("⚠️  No se encontró 'Women's Clothes' en ningún h2. Buscando en otros elementos...")
 
-            # OPCIÓN 3: Verificar indirectamente si hay productos en la página
+            # Verificar indirectamente si hay productos en la página
             product_cards = driver.find_elements(By.CSS_SELECTOR, ".product-card")
             print(f"📦 Número de productos encontrados: {len(product_cards)}")
             assert len(product_cards) > 0, (

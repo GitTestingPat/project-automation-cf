@@ -46,13 +46,13 @@ def test_register_new_user_with_valid_credentials(driver):
     # Manejar posibles errores comunes durante el registro
     # (Por ejemplo, si la página muestra un mensaje de error en lugar de redirigir)
 
-    # Opción 1: Verificar que se redirija a la página de login
+    # Verificar que se redirija a la página de login
     expected_title_after_signup = "Login"
     if expected_title_after_signup.lower() in driver.title.lower():
         print(f"✅ Registro exitoso. Redirigido a la página de login. Título: {driver.title}")
         return  # Salir de la prueba, ya que el registro fue exitoso
 
-    # Opción 2: Verificar que aparezca un mensaje de éxito en la misma página
+    # Verificar que aparezca un mensaje de éxito en la misma página
     try:
         success_message_element = driver.find_element(By.CSS_SELECTOR, ".alert-success, .success-message")
         success_message_text = success_message_element.text
@@ -63,7 +63,7 @@ def test_register_new_user_with_valid_credentials(driver):
         # Si no se encuentra el mensaje de éxito, continuar con otras verificaciones
         pass
 
-    # Opción 3: Verificar que el botón de "Sign Up" ya no esté presente
+    # Verificar que el botón de "Sign Up" ya no esté presente
     try:
         signup_button = driver.find_element(*signup_page.SIGN_UP_BUTTON)
         # Si el botón sigue presente, el registro puede no haber sido exitoso

@@ -99,7 +99,7 @@ class CategoryPage:
         Busca un producto por su nombre visible en la página de categoría y hace clic en él.
         Devuelve una instancia de ProductPage.
         """
-        # Suponemos que cada tarjeta de producto tiene un <h3> o <p> con el nombre
+        # Cada tarjeta de producto tiene un <h3> o <p> con el nombre
         PRODUCT_NAME_LOCATOR = (By.CSS_SELECTOR, ".product-card h3, .product-card p")
 
         # Esperar a que al menos un producto esté presente

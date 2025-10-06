@@ -44,11 +44,11 @@ def step_when_submit_signup_form(context):
 def step_then_registration_should_be_successful(context):
     driver = context.driver
 
-    # Opción 1: Redirección a página de login
+    # Redirección a página de login
     if "login" in driver.title.lower():
         return
 
-    # Opción 2: Mensaje de éxito
+    # Mensaje de éxito
     try:
         success_elem = driver.find_element("css selector", ".alert-success, .success-message")
         if "successfully" in success_elem.text.lower() or "welcome" in success_elem.text.lower():
@@ -56,10 +56,10 @@ def step_then_registration_should_be_successful(context):
     except NoSuchElementException:
         pass
 
-    # Opción 3: Botón de Sign Up ya no está presente
+    # Botón de Sign Up ya no está presente
     try:
         driver.find_element(*context.signup_page.SIGN_UP_BUTTON)
-        # Si llega aquí, el botón SÍ está → posible fallo
+        # Si el flujo llega aquí, el botón SÍ está presente → posible fallo
     except NoSuchElementException:
         # Botón no encontrado → buen indicio
         return

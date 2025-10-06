@@ -22,7 +22,7 @@ def test_select_and_deselect_multiple_seats(driver):
     # Act - Seleccionar asientos
     home_page.go_to()
     home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
-    home_page.select_date("26")  # La fecha debe cambiar cada vez que se corre la prueba
+    home_page.select_date("7")  # Ajustar según disponibilidad real
     home_page.select_first_available_time()
 
     print(f"[DEBUG] Seleccionando {expected_seat_count} asientos...")
@@ -37,7 +37,8 @@ def test_select_and_deselect_multiple_seats(driver):
 
     # Assert - Verificar selección
     assert len(selected_seats) == expected_seat_count, \
-        f"Se esperaban {expected_seat_count} asientos seleccionados, pero se seleccionaron {len(selected_seats)}."
+        (f"Se esperaban {expected_seat_count} asientos seleccionados, pero se seleccionaron "
+         f"{len(selected_seats)}.")
 
     assert home_page.is_total_price_displayed(expected_total_price), \
         f"No se encontró el precio total esperado de ${expected_total_price} en la pantalla."
@@ -51,12 +52,13 @@ def test_select_and_deselect_multiple_seats(driver):
 
     # Verificar que se deseleccionaron todos
     assert len(deselected_seats) == expected_seat_count, \
-        f"Se esperaban {expected_seat_count} asientos deseleccionados, pero se deseleccionaron {len(deselected_seats)}."
+        (f"Se esperaban {expected_seat_count} asientos deseleccionados, pero se deseleccionaron "
+         f"{len(deselected_seats)}.")
 
     # --- VERIFICAR ESTADO POST-DESELECCIÓN ---
     print("[DEBUG] Verificando estado después de deseleccionar...")
 
-    # DEBUG: Imprimir todo el texto de la página para ver qué dice el carrito vacío
+    # DEBUG: Imprimir el texto de la página para ver qué dice el carrito vacío
     body_text = driver.find_element(By.TAG_NAME, "body").text
     print("\n[DEBUG] TEXTO DE LA PÁGINA DESPUÉS DE DESELECCIONAR:")
     print("=" * 60)
@@ -80,7 +82,7 @@ def test_select_and_deselect_multiple_seats(driver):
     assert not buy_button.is_enabled(), "El botón 'Comprar boletos' sigue habilitado después de deseleccionar."
     print("[DEBUG] ✅ Botón 'Comprar boletos' deshabilitado correctamente.")
 
-    # 3. (Opcional) Verificar que el precio $240 ya no esté visible — pero no fallar si persiste en caché
+    # 3. Verificar que el precio $240 ya no esté visible — pero no fallar si persiste en caché
     if home_page.is_total_price_displayed(expected_total_price):
         print("[DEBUG] ⚠️ El precio $240 aún aparece en pantalla, pero se ignorará si el carrito está vacío "
               "y el botón deshabilitado.")

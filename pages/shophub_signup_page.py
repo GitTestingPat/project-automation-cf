@@ -61,7 +61,7 @@ class SignupPage:
             print("⚠️  Spinner de carga sigue visible después de 10 segundos. "
                   "Continuando con el clic de todos modos.")
 
-        # 3. Ahora hacer clic en el botón de Sign Up
+        # 3. Hacer clic en el botón de Sign Up
         self.driver.find_element(*self.SIGN_UP_BUTTON).click()
 
     def get_error_message(self) -> str:

@@ -53,7 +53,8 @@ def test_view_cart_content_as_logged_in_user(driver):
 
     print("🔍 [7] Esperando que cargue la página principal (logo o menú)...")
     WebDriverWait(driver, 15).until(
-        EC.presence_of_element_located((By.XPATH, "//header//a[@href='/'] | //h1[contains(text(), 'ShopHub')]"))
+        EC.presence_of_element_located((By.XPATH, "//header//a[@href='/'] "
+                                                  "| //h1[contains(text(), 'ShopHub')]"))
     )
     print("✅ Página principal detectada.")
 
@@ -65,7 +66,8 @@ def test_view_cart_content_as_logged_in_user(driver):
 
     print("🔍 [9] Eliminando overlays que puedan interceptar clics...")
     driver.execute_script("""
-        document.querySelectorAll('.fixed.inset-0.z-50, .modal, .overlay, [class*="bg-background/70"]').forEach(el => el.remove());
+        document.querySelectorAll('.fixed.inset-0.z-50, .modal, .overlay, 
+        [class*="bg-background/70"]').forEach(el => el.remove());
     """)
 
     # ✅ Navegar a la categoría 'Electronics'
@@ -88,7 +90,8 @@ def test_view_cart_content_as_logged_in_user(driver):
 
     # ✅ ELIMINAR TODOS LOS OVERLAYS QUE PUEDAN BLOQUEAR O RETARDAR LA CARGA
     driver.execute_script("""
-            document.querySelectorAll('div[role="status"], .loading-overlay, .spinner, .modal, .overlay, .fixed.inset-0').forEach(el => {
+            document.querySelectorAll('div[role="status"], .loading-overlay, 
+            .spinner, .modal, .overlay, .fixed.inset-0').forEach(el => {
                 if (el) el.remove();
             });
         """)
@@ -107,7 +110,8 @@ def test_view_cart_content_as_logged_in_user(driver):
     # ✅ Eliminar overlays justo antes de buscar el botón
     print("🔍 [12] Eliminando overlays residuales...")
     driver.execute_script("""
-        document.querySelectorAll('div[role="status"], .loading-overlay, .overlay, .spinner, .fixed.inset-0.z-50, [class*="bg-background/"]').forEach(el => {
+        document.querySelectorAll('div[role="status"], .loading-overlay, .overlay, .spinner, 
+        .fixed.inset-0.z-50, [class*="bg-background/"]').forEach(el => {
             if (el) el.remove();
         });
     """)
@@ -133,7 +137,8 @@ def test_view_cart_content_as_logged_in_user(driver):
 
     # ✅ Verificar que el carrito tiene al menos un ítem
     cart_items = WebDriverWait(driver, 10).until(
-        EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".cart-item, [class*='cart'], h3 + p.text-lg.font-bold"))
+        EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".cart-item, [class*='cart'], "
+                                                              "h3 + p.text-lg.font-bold"))
     )
     assert len(cart_items) > 0, "Carrito vacío después de agregar un producto."
 
@@ -144,7 +149,9 @@ def test_view_cart_content_as_logged_in_user(driver):
     expected_title = "Smartphone"
     expected_price = "$699.99"
 
-    assert product_in_cart == expected_title, f"Producto en carrito: '{product_in_cart}', esperado: '{expected_title}'"
-    assert price_in_cart == expected_price, f"Precio en carrito: '{price_in_cart}', esperado: '{expected_price}'"
+    assert product_in_cart == expected_title, (f"Producto en carrito: '{product_in_cart}', "
+                                               f"esperado: '{expected_title}'")
+    assert price_in_cart == expected_price, (f"Precio en carrito: '{price_in_cart}', "
+                                             f"esperado: '{expected_price}'")
 
     print(f"✅ Carrito verificado: '{product_in_cart}' - {price_in_cart}")

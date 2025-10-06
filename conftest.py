@@ -164,7 +164,7 @@ def user_token():
     elif signup_response.status_code == 400:
         error_detail = signup_response.json().get("detail", "")
         if "already registered" in str(error_detail).lower():
-            # Aunque sea improbable con el email único, manejar errores
+            # Manejar errores
             pytest.fail(
                 f"Error inesperado en fixture 'user_token': El email '{test_email}' ya estaba registrado. "
                 f"Esto es inusual con un email generado. "

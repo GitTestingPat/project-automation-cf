@@ -43,7 +43,8 @@ def test_register_with_existing_email(driver):
         error_message_text = error_message_element.text
     except:
         pytest.fail(
-            f"No se encontró un mensaje de error después de intentar registrar con email existente '{existing_email}'. "
+            f"No se encontró un mensaje de error después de intentar registrar con email "
+            f"existente '{existing_email}'. "
             f"Esto indica que la página no mostró feedback al usuario sobre el fallo. "
             f"Posible fallo en la validación del lado del cliente o del servidor. "
             f"Verifica que el selector '.error-message' o '.alert-danger' sea correcto para la página de ShopHub."

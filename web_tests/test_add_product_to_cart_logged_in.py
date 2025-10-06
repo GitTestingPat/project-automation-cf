@@ -134,7 +134,7 @@ def test_add_product_to_cart_as_logged_in_user(driver):
         )
 
     # 14. Verificar que el producto se haya agregado al carrito
-    # Opción 1: Verificar contador del carrito
+    # Verificar contador del carrito
     try:
         cart_count_element = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='cart-count']"))
@@ -143,14 +143,16 @@ def test_add_product_to_cart_as_logged_in_user(driver):
         assert cart_count > 0, (
             f"El contador del carrito no aumentó después de agregar un producto. "
             f"Esperaba que el contador fuera mayor que 0, obtuvo {cart_count}. "
-            f"Esto indica que el producto no se agregó correctamente al carrito o que el contador no se actualizó."
+            f"Esto indica que el producto no se agregó correctamente al carrito o que "
+            f"el contador no se actualizó."
         )
         print(f"✅ Producto agregado al carrito. Contador del carrito: {cart_count}")
     except Exception as e:
         # Si no se encuentra el contador, intentar verificar en la página del carrito
-        print(f"⚠️ No se pudo verificar el contador del carrito: {e}. Intentando verificar en la página del carrito...")
+        print(f"⚠️ No se pudo verificar el contador del carrito: {e}. Intentando verificar "
+              f"en la página del carrito...")
 
-        # Opción 2: Ir a la página del carrito
+        # Ir a la página del carrito
         try:
             cart_link = WebDriverWait(driver, 10).until(
                 EC.element_to_be_clickable((By.LINK_TEXT, "Cart"))

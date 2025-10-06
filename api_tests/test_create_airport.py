@@ -67,7 +67,7 @@ def test_create_airport(admin_token):
 
     # 5. Validar la estructura de la respuesta.
     # NOTA: La API NO devuelve el campo 'id' en la respuesta de creación de aeropuerto.
-    # Esto es un desfasaje entre el esquema documentado (AirportOut) y el comportamiento real.
+    # Esto es un desfase entre el esquema documentado (AirportOut) y el comportamiento real.
     # Por lo tanto, hay que validar los campos que SÍ devuelve.
     created_airport = response.json()
     assert isinstance(created_airport, dict), f"Se esperaba un diccionario, se obtuvo {type(created_airport)}"

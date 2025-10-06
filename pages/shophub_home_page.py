@@ -22,7 +22,8 @@ class HomePage:
     CATEGORY_HEADER = (By.TAG_NAME, "h2")
     SIGN_UP_LINK = (By.LINK_TEXT, "Sign Up")
     CATEGORIES_DROPDOWN_BUTTON = (By.XPATH,
-                                  "//button[contains(@aria-label, 'Categories') or contains(text(), 'Categories')]")
+                                  "//button[contains(@aria-label, 'Categories') or contains(text(), "
+                                  "'Categories')]")
     def go_to(self):
         self.driver.get("https://shophub-commerce.vercel.app/")
 
