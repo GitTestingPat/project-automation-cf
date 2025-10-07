@@ -300,7 +300,7 @@ class CinemaHomePage:
     def select_first_available_time(self):
         """
         Selecciona la primera hora disponible buscando cualquier botón que contenga texto con
-        formato de hora (ej. '1:30 PM').
+        formato de hora (ej. '1:30 P.M.').
         No depende de clases o IDs, solo del patrón de texto.
         :return: El texto de la hora seleccionada.
         """
