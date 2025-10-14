@@ -25,7 +25,7 @@ def test_attempt_purchase_with_previously_used_email_adress(driver):
         home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
 
         # Seleccionar fecha
-        home_page.select_date("14") # Cambiar fecha según corresponda
+        home_page.select_date("15") # Cambiar fecha según corresponda
 
         # Seleccionar primera hora disponible
         home_page.select_first_available_time()
