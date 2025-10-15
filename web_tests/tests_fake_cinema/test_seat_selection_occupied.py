@@ -14,7 +14,7 @@ def test_cannot_select_occupied_seat(driver):
     # Act
     home_page.go_to()
     home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
-    home_page.select_date("15") # Ajustar según disponibilidad real
+    home_page.select_date("16") # Ajustar según disponibilidad real
     home_page.select_first_available_time()
 
     # Solo verificar que exista un asiento ocupado
