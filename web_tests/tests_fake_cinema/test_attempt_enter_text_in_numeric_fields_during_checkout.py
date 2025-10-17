@@ -24,7 +24,7 @@ def test_attempt_to_enter_text_in_numeric_fields(driver):
     home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
 
     # Seleccionar fecha de función
-    home_page.select_date("17") # Cambiar fecha según corresponda
+    home_page.select_date("18") # Cambiar fecha según corresponda
 
     # Elegir primer horario disponible
     home_page.select_first_available_time()
