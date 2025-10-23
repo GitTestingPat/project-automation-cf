@@ -10,7 +10,7 @@ def test_select_date_and_time(driver):
     """
     # Arrange
     home_page = CinemaHomePage(driver)
-    target_date = "23" # Ajustar según disponibilidad real
+    target_date = "24" # Ajustar según disponibilidad real
 
     # Act
     home_page.go_to()
