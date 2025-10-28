@@ -3,9 +3,10 @@ from pages.fake_cinema.cinema_home_page import CinemaHomePage
 
 def test_select_seat_in_hall(driver):
     """
-    TC-WEB-18: Selección de Asiento en la Sala
+    TC-WEB-18: Selección de Asiento en la Sala.
     - Descripción: Validar que el usuario pueda seleccionar un asiento disponible.
     - Resultado esperado: El asiento se marca como seleccionado (se verifica por presencia de '80' en pantalla).
+    NOTA: ESTA PRUEBA PRESENTA FALSOS POSITIVOS DEBIDO A QUE LA PAGINA TIENE UN COMPORTAMIENTO INCONSISTENTE
     """
     # Arrange
     home_page = CinemaHomePage(driver)
@@ -13,7 +14,7 @@ def test_select_seat_in_hall(driver):
     # Act
     home_page.go_to()
     home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
-    home_page.select_date("28") # Ajustar según disponibilidad real
+    home_page.select_first_available_date()
     home_page.select_first_available_time()
     selected_seat = home_page.select_first_available_seat()
 

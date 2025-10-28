@@ -2,6 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
+from datetime import datetime
 import time
 import re
 
@@ -296,6 +297,41 @@ class CinemaHomePage:
             EC.element_to_be_clickable(date_locator)
         )
         date_element.click()
+
+    def select_first_available_date(self):
+        """Selecciona la primera fecha disponible en el calendario"""
+        # Obtener el día actual
+        current_day = int(datetime.now().strftime("%d"))
+
+        # Intentar seleccionar fechas desde hoy hasta el día 31
+        for day in range(current_day, 32):
+            try:
+                date_xpath = self.DATE_BUTTON_TEMPLATE.format(str(day))
+                date_locator = (By.XPATH, date_xpath)
+                date_element = WebDriverWait(self.driver, 2).until(
+                    EC.element_to_be_clickable(date_locator)
+                )
+                date_element.click()
+                print(f"[INFO] ✅ Fecha '{day}' seleccionada automáticamente")
+                return
+            except:
+                continue
+
+        # Si no encontró en el resto del mes actual, intentar días del próximo mes (1 al día actual)
+        for day in range(1, current_day):
+            try:
+                date_xpath = self.DATE_BUTTON_TEMPLATE.format(str(day))
+                date_locator = (By.XPATH, date_xpath)
+                date_element = WebDriverWait(self.driver, 2).until(
+                    EC.element_to_be_clickable(date_locator)
+                )
+                date_element.click()
+                print(f"[INFO] ✅ Fecha '{day}' seleccionada automáticamente")
+                return
+            except:
+                continue
+
+        raise Exception("No se encontró ninguna fecha disponible en el calendario")
 
     def select_first_available_time(self):
         """

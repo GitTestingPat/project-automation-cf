@@ -20,7 +20,7 @@ def test_reject_invalid_card_number(driver):
         print("[DEBUG] Navegando a detalle de Jurassic World...")
         home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
         print("[DEBUG] Seleccionando fecha...")
-        home_page.select_date("28")  # Ajustar según disponibilidad real
+        home_page.select_first_available_date()
         print("[DEBUG] Seleccionando primera hora disponible...")
         home_page.select_first_available_time()
         print("[DEBUG] Seleccionando primer asiento disponible...")
