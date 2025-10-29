@@ -7,7 +7,11 @@ from conftest import BASE_URL
 TC-API-10: Listar todos los aeropuertos.
 Objetivo: Verificar que se puedan listar todos los aeropuertos disponibles.
 """
-
+@pytest.mark.TC_API_10
+@pytest.mark.high
+@pytest.mark.airports
+@pytest.mark.positive
+@pytest.mark.api
 def test_list_airports():
     response = requests.get(f"{BASE_URL}/airports")
 
