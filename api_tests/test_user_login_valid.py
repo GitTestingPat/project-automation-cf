@@ -6,7 +6,11 @@ from conftest import BASE_URL
 Caso de prueba: TC-API-03: Iniciar sesión con credenciales válidas.
 Objetivo: Verificar que un usuario registrado pueda iniciar sesión correctamente y recibir un token JWT.
 """
-
+@pytest.mark.TC_API_03
+@pytest.mark.high
+@pytest.mark.auth
+@pytest.mark.positive
+@pytest.mark.api
 def test_login_with_valid_credentials():
     """
     TC-API-03: Iniciar sesión con credenciales válidas.
