@@ -10,7 +10,11 @@ from jsonschema import validate
 Caso de prueba: TC-API-13: Actualizar aeropuerto (PUT /airports/{iata_code})
 Objetivo: Verificar que un usuario autenticado como admin pueda actualizar la información de un aeropuerto.
 """
-
+@pytest.mark.TC_API_13
+@pytest.mark.low
+@pytest.mark.airports
+@pytest.mark.positive
+@pytest.mark.api
 def test_update_airport_as_admin(admin_token, airport_iata_code):
     """
     TC-API-13: Actualizar aeropuerto.
