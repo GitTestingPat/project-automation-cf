@@ -6,7 +6,11 @@ from conftest import BASE_URL
 Caso de prueba: TC-API-02: Registrar con email inválido (Negativo)
 Objetivo: Verificar que la API devuelva un error 422 cuando se intenta registrar un usuario con un email con formato inválido.
 """
-
+@pytest.mark.TC_API_02
+@pytest.mark.high
+@pytest.mark.auth
+@pytest.mark.negative
+@pytest.mark.api
 def test_signup_with_invalid_email():
     """
     TC-API-02: Registrar con email inválido (Negativo).
