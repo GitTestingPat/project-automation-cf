@@ -7,7 +7,11 @@ from conftest import BASE_URL
 Caso de prueba: TC-API-07: Obtener mi perfil (GET /users/me/)
 Objetivo: Verificar que un usuario autenticado pueda obtener su propia información de perfil.
 """
-
+@pytest.mark.TC_API_07
+@pytest.mark.medium
+@pytest.mark.users
+@pytest.mark.positive
+@pytest.mark.api
 def get_valid_user_token():
     """
     Obtiene un token JWT para un usuario registrado.
