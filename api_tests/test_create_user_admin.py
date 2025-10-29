@@ -8,7 +8,11 @@ from jsonschema import validate
 TC-API-06: Crear usuario como admin.
 Objetivo: crear un nuevo usuario con permisos de administrador.              
 """
-
+@pytest.mark.TC_API_06
+@pytest.mark.medium
+@pytest.mark.users
+@pytest.mark.positive
+@pytest.mark.api
 def test_create_user_as_admin(admin_token, new_user_data):
     """
     TC-API-06: Crear usuario como admin.
