@@ -7,7 +7,11 @@ from conftest import BASE_URL
 Caso de prueba: TC-API-05: Listar todos los usuarios (autenticado)
 Objetivo: Verificar que un usuario autenticado pueda obtener la lista de todos los usuarios.
 """
-
+@pytest.mark.TC_API_05
+@pytest.mark.high
+@pytest.mark.users
+@pytest.mark.positive
+@pytest.mark.api
 def get_admin_token():
     """
     Obtiene un token JWT para un usuario administrador.
