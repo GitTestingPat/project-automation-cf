@@ -8,7 +8,11 @@ from conftest import BASE_URL
 TC-API-09: Eliminar usuario.
 Objetivo: eliminar un usuario previamente creado.
 """
-
+@pytest.mark.TC_API_09
+@pytest.mark.low
+@pytest.mark.users
+@pytest.mark.positive
+@pytest.mark.api
 def test_delete_user_as_admin(admin_token, user_id_to_delete):
     """
     TC-API-09: Eliminar usuario.
