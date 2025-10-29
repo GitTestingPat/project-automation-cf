@@ -10,7 +10,11 @@ from jsonschema import validate
 TC-API-11: Crear aeropuerto.
 Objetivo : Crear un nuevo aeropuerto con código IATA válido.
 """
-
+@pytest.mark.TC_API_11
+@pytest.mark.medium
+@pytest.mark.airports
+@pytest.mark.positive
+@pytest.mark.api
 def test_create_airport(admin_token):
     """
     TC-API-11: Crear aeropuerto.
