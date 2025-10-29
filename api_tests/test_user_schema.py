@@ -6,11 +6,35 @@ from conftest import BASE_URL
 import time
 
 """
-Prueba TC-API-01 Registrar usuario válido
+Prueba TC-API-01: Registrar usuario válido
 Objetivo: Comprobar que se pueda registrar en el sistema un usuario con datos válidos.
+Módulo: Auth
+Prioridad: Alta
+Tipo: Positivo
 """
-
+@pytest.mark.TC_API_01
+@pytest.mark.high
+@pytest.mark.auth
+@pytest.mark.positive
+@pytest.mark.api
 def test_signup_returns_valid_schema():
+    """
+    TC-API-01: Registrar usuario válido
+
+    Precondiciones:
+    - La API debe estar disponible
+    - El email debe ser único
+
+    Pasos:
+    1. Generar datos de usuario con email único
+    2. Enviar POST a /auth/signup
+    3. Validar código de respuesta 201
+    4. Validar que el esquema de respuesta sea correcto
+
+    Resultado esperado:
+    - Código: 201 Created
+    - Respuesta cumple con USER_SCHEMA
+    """
     # Generar un email único con timestamp
     timestamp = int(time.time())
     email = f"test_user_{timestamp}@example.com"
