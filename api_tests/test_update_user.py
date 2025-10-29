@@ -8,7 +8,11 @@ from conftest import BASE_URL
 Caso de prueba: TC-API-08: Actualizar usuario (PUT /users/{user_id})
 Objetivo: Verificar que un usuario autenticado como admin pueda actualizar la información de otro usuario.
 """
-
+@pytest.mark.TC_API_08
+@pytest.mark.medium
+@pytest.mark.users
+@pytest.mark.positive
+@pytest.mark.api
 def get_admin_token():
     """
     Intenta obtener un token JWT para un usuario administrador.
