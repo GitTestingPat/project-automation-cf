@@ -9,7 +9,11 @@ from conftest import BASE_URL
 Caso de prueba: TC-API-12: Obtener aeropuerto (GET /airports/{iata_code})
 Objetivo: Verificar que se pueda obtener la información de un aeropuerto específico mediante su código IATA.
 """
-
+@pytest.mark.TC_API_12
+@pytest.mark.medium
+@pytest.mark.airports
+@pytest.mark.positive
+@pytest.mark.api
 def test_get_airport_by_iata_code(airport_iata_code):
     """
     TC-API-15: Obtener aeropuerto.
