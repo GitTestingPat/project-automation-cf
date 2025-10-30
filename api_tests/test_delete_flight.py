@@ -9,7 +9,11 @@ from jsonschema import validate
 TC-API-19: Eliminar vuelo.
 Objetivo: Eliminar un vuelo previamente creado usando datos válidos.
 """
-
+@pytest.mark.TC_API_19
+@pytest.mark.low
+@pytest.mark.flights
+@pytest.mark.positive
+@pytest.mark.api
 def test_delete_flight_as_admin(admin_token, flight_id):
     """
     TC-API-19: Eliminar vuelo.
