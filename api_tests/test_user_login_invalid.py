@@ -6,7 +6,11 @@ from conftest import BASE_URL
 Caso de prueba: TC-API-04: Login con contraseña incorrecta
 Objetivo: Verificar que la API devuelva un error 401 cuando se intenta iniciar sesión con una contraseña incorrecta.
 """
-
+@pytest.mark.TC_API_04
+@pytest.mark.high
+@pytest.mark.auth
+@pytest.mark.negative
+@pytest.mark.api
 def test_login_with_invalid_password():
     """
     TC-API-04: Login con contraseña incorrecta.
