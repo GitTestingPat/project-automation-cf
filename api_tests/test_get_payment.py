@@ -6,7 +6,11 @@ from conftest import BASE_URL
 Caso de prueba: TC-API-25: Obtener pago por ID (GET /payments/{payment_id})
 Objetivo: Verificar que un usuario autenticado pueda obtener la información de un pago específico que le pertenece.
 """
-
+@pytest.mark.TC_API_25
+@pytest.mark.medium
+@pytest.mark.payments
+@pytest.mark.positive
+@pytest.mark.api
 def test_get_payment_by_id(user_token, payment_id):
     """
     TC-API-25: Obtener pago por ID.
