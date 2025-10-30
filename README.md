@@ -1,6 +1,6 @@
 # 🧪 Project Automation CF
 
-Proyecto de automatización de pruebas para el Bootcamp de Testing Automatizado de Código Facilito.
+Proyecto de Automatización de Pruebas para el Bootcamp de Testing Automatizado de Código Facilito.
 
 ## 🎯 Objetivo
 
@@ -27,6 +27,64 @@ Puedes ver el plan completo aquí:
 - Pytest BDD
 - Cucumber
 - Allure Reports
+
+## 📊 Reportes y Resultados
+
+### Reportes Automáticos en CI/CD
+
+Cada ejecución del pipeline genera reportes HTML que se guardan como **artefactos** en GitHub Actions:
+
+#### 🔗 Cómo acceder a los reportes:
+
+1. Ve a la pestaña **[Actions](../../actions)** del repositorio
+2. Selecciona el workflow ejecutado (API Tests, Web Tests o BDD Tests)
+3. Baja hasta la sección **"Artifacts"**
+4. Descarga el reporte que necesites:
+   - `api-test-report` - Resultados de tests de API
+   - `web-test-report-chrome` - Tests UI en Chrome
+   - `web-test-report-firefox` - Tests UI en Firefox
+   - `web-test-report-edge` - Tests UI en Edge
+   - `web-test-screenshots-*` - Screenshots de fallos
+   - `bdd-test-report` - Tests BDD
+
+#### ⏱️ Retención de reportes:
+Los artefactos se conservan por **30 días** desde su generación.
+
+#### 🌐 Matriz de navegadores:
+Los tests UI se ejecutan simultáneamente en:
+- ✅ Chrome (headless)
+- ✅ Firefox (headless)
+- ✅ Edge (headless)
+
+Cada navegador genera su propio reporte independiente.
+
+### Reportes Locales
+
+#### Generar reporte HTML:
+```bash
+# API Tests
+pytest api_tests/ --html=report.html --self-contained-html
+
+# Web Tests
+pytest web_tests/ --html=report.html --self-contained-html
+
+# Con navegador específico
+BROWSER=firefox pytest web_tests/ --html=report.html --self-contained-html
+```
+
+#### Generar reporte Allure:
+```bash
+# Ejecutar tests y generar datos
+pytest api_tests/ --alluredir=allure-results
+
+# Visualizar reporte
+allure serve allure-results
+```
+
+### Screenshots automáticos
+Los tests UI toman screenshots automáticamente cuando fallan. Se guardan en:
+- **Local:** `screenshots/` en la raíz del proyecto
+- **CI/CD:** Como artefacto `web-test-screenshots-{browser}`
 
 ## 📁 Estructura del proyecto
 
