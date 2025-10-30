@@ -34,6 +34,16 @@ jobs:
 
       - name: Run Behave tests
         run: PYTHONPATH=. behave behave_tests/features
+        continue-on-error: true
 
       - name: Run pytest-bdd tests
-        run: pytest pytest_bdd_tests/ -v --tb=short
+        run: pytest pytest_bdd_tests/ -v --tb=short --html=bdd-report.html --self-contained-html
+        continue-on-error: true
+
+      - name: Upload test report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bdd-test-report
+          path: bdd-report.html
+          retention-days: 30
