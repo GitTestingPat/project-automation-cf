@@ -6,7 +6,11 @@ from conftest import BASE_URL
 Caso de prueba: TC-API-15: Buscar vuelos NYC -> LON
 Objetivo: Verificar que se puedan buscar vuelos entre dos ciudades usando parámetros válidos.
 """
-
+@pytest.mark.TC_API_15
+@pytest.mark.high
+@pytest.mark.flights
+@pytest.mark.positive
+@pytest.mark.api
 def test_list_airports():
     # Probar un endpoint que funciona
     response = requests.get(f"{BASE_URL}/airports/")
