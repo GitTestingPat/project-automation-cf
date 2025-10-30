@@ -8,8 +8,10 @@ Objetivo: Verificar que el cliente pueda manejar correctamente una respuesta don
           pero el cuerpo contiene un mensaje de error.
 Nota: Esta prueba interactúa con un endpoint especial de la API que simula este comportamiento.
 """
-
-
+@pytest.mark.TC_API_29
+@pytest.mark.low
+@pytest.mark.negative
+@pytest.mark.api
 def test_success_but_error_endpoint():
     """
     TC-API-29: Probar endpoint que simula éxito con error.
