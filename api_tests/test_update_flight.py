@@ -9,7 +9,11 @@ from jsonschema import validate
 TC-API-18: Actualizar vuelo.
 Objetivo: Confirmar que el un vuelo creado siga existiendo con los mismos datos enviados.
 """
-
+@pytest.mark.TC_API_18
+@pytest.mark.medium
+@pytest.mark.flights
+@pytest.mark.positive
+@pytest.mark.api
 def test_update_flight_as_admin(admin_token, flight_id):
     """
     TC-API-18: Actualizar vuelo.
