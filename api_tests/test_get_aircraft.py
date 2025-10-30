@@ -6,7 +6,11 @@ from conftest import BASE_URL
 Caso de prueba: TC-API-28: Obtener aeronave por ID (GET /aircrafts/{aircraft_id})
 Objetivo: Verificar que un usuario autenticado como admin pueda obtener la información de una aeronave específica.
 """
-
+@pytest.mark.TC_API_28
+@pytest.mark.medium
+@pytest.mark.aircrafts
+@pytest.mark.positive
+@pytest.mark.api
 def test_get_aircraft_by_id(admin_token, aircraft_id_for_get):
     """
     TC-API-28: Obtener aeronave por ID.
