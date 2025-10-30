@@ -9,7 +9,11 @@ from conftest import BASE_URL
 Caso de prueba: TC-API-27: Crear aeronave (POST /aircrafts)
 Objetivo: Verificar que un usuario autenticado como admin pueda crear una nueva aeronave.
 """
-
+@pytest.mark.TC_API_27
+@pytest.mark.medium
+@pytest.mark.aircrafts
+@pytest.mark.positive
+@pytest.mark.api
 def test_create_aircraft_as_admin(admin_token):
     """
     TC-API-27: Crear aeronave.
