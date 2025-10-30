@@ -12,7 +12,11 @@ Caso de prueba: TC-API-22: Obtener reserva (GET /bookings/{booking_id})
 Objetivo: Verificar que un usuario autenticado pueda obtener la información de una 
 reserva específica que le pertenece.
 """
-
+@pytest.mark.TC_API_22
+@pytest.mark.medium
+@pytest.mark.bookings
+@pytest.mark.positive
+@pytest.mark.api
 def test_get_booking_by_id(user_token, booking_id):
     """
     TC-API-22: Obtener reserva.
