@@ -10,7 +10,11 @@ from jsonschema import validate
 TC-API-14: Eliminar aeropuerto.
 Objetivo: Eliminar un aeropuerto ya creado usando datos válidos.
 """
-
+@pytest.mark.TC_API_14
+@pytest.mark.low
+@pytest.mark.airports
+@pytest.mark.positive
+@pytest.mark.api
 def test_delete_airport_as_admin(admin_token, airport_iata_code):
     """
     TC-API-14: Eliminar aeropuerto.
