@@ -6,7 +6,11 @@ from conftest import BASE_URL
 Caso de prueba: TC-API-23: Cancelar reserva (DELETE /bookings/{booking_id})
 Objetivo: Verificar que un usuario autenticado pueda cancelar una de sus reservas.
 """
-
+@pytest.mark.TC_API_23
+@pytest.mark.high
+@pytest.mark.bookings
+@pytest.mark.e2e
+@pytest.mark.api
 def test_cancel_booking_as_owner(user_token, booking_id):
     """
     TC-API-23: Cancelar reserva.
