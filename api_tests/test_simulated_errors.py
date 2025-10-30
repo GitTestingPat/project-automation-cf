@@ -6,7 +6,10 @@ from conftest import BASE_URL
 """
 Pruebas TC-API-31 Probar endpoint con error 500
 """
-
+@pytest.mark.TC_API_31
+@pytest.mark.medium
+@pytest.mark.negative
+@pytest.mark.api
 def test_signup_endpoint_returns_known_error():
     """
     Verificar que el endpoint /auth/signup devuelve un error conocido (500),
