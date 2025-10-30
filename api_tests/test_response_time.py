@@ -7,7 +7,10 @@ from conftest import BASE_URL
 Prueba TC-API-32 Medir tiempo de respuesta del endpoint /airports
 Objetivo: verificar el tiempo que le toma al endpoint responder a la petición
 """
-
+@pytest.mark.TC_API_32
+@pytest.mark.high
+@pytest.mark.negative
+@pytest.mark.api
 def test_get_airports_response_time_under_2_seconds():
     """
     Verificar que el endpoint /airports responda en menos de 2 segundos.
