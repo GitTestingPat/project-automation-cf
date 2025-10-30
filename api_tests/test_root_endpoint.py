@@ -7,7 +7,10 @@ Caso de prueba: TC-API-33: Probar raíz de la API (GET / root)
 Objetivo: Verificar que la raíz de la API responda correctamente.
 Nota: Esta prueba no requiere autenticación.
 """
-
+@pytest.mark.TC_API_33
+@pytest.mark.low
+@pytest.mark.positive
+@pytest.mark.api
 def test_root_endpoint_returns_welcome_message():
     """
     TC-API-33: Probar raíz de la API.
