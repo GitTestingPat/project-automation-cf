@@ -9,7 +9,11 @@ from jsonschema import validate
 TC-API-21: Crear reserva.
 Objetivo: Crear una nueva reserva para un usuario autorizado.
 """
-
+@pytest.mark.TC_API_21
+@pytest.mark.high
+@pytest.mark.bookings
+@pytest.mark.e2e
+@pytest.mark.api
 def test_create_booking_as_user(user_token, flight_id):
     """
     TC-API-20: Crear reserva.
