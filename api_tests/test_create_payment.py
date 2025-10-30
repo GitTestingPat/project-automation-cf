@@ -6,7 +6,11 @@ from conftest import BASE_URL
 Caso de prueba: TC-API-24: Crear pago (POST /payments)
 Objetivo: Verificar que un usuario autenticado pueda crear un nuevo pago para una reserva.
 """
-
+@pytest.mark.TC_API_24
+@pytest.mark.high
+@pytest.mark.payments
+@pytest.mark.e2e
+@pytest.mark.api
 def test_create_payment_as_user(user_token, booking_id):
     """
     TC-API-24: Crear pago.
