@@ -9,7 +9,11 @@ from conftest import BASE_URL
 Caso de prueba: TC-API-20: Listar reservas del usuario (GET /bookings)
 Objetivo: Verificar que un usuario autenticado pueda obtener la lista de sus propias reservas.
 """
-
+@pytest.mark.TC_API_20
+@pytest.mark.high
+@pytest.mark.bookings
+@pytest.mark.positive
+@pytest.mark.api
 def test_list_user_bookings_as_authenticated_user(user_token, admin_token, aircraft_id,
                                                   create_test_booking_for_listing):
     """
