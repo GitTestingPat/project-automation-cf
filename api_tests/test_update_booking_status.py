@@ -6,7 +6,11 @@ from conftest import BASE_URL
 Caso de prueba: TC-API-34: Actualizar estado de reserva (PATCH /bookings/{booking_id})
 Objetivo: Verificar que un usuario autenticado como admin pueda actualizar el estado de una reserva específica.
 """
-
+@pytest.mark.TC_API_34
+@pytest.mark.medium
+@pytest.mark.bookings
+@pytest.mark.positive
+@pytest.mark.api
 def test_update_booking_status_as_admin(admin_token, booking_id):
     """
     TC-API-34: Actualizar estado de reserva.
