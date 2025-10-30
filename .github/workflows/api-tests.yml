@@ -1,5 +1,4 @@
 name: API Tests
-
 on:
   push:
     branches: [ main, master ]
@@ -11,11 +10,9 @@ on:
     paths:
       - 'api_tests/**'
       - '.github/workflows/api-tests.yml'
-
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -31,4 +28,13 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run API tests
-        run: pytest api_tests/ -v --tb=short
+        run: pytest api_tests/ -v --tb=short --html=report.html --self-contained-html
+        continue-on-error: true
+
+      - name: Upload test report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: api-test-report
+          path: report.html
+          retention-days: 30
