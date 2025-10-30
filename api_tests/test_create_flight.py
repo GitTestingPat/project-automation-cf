@@ -10,7 +10,11 @@ from jsonschema import validate
 TC-API-16: Crear vuelo.
 Objetivo: crear un nuevo vuelo con fechas y códigos válidos.
 """
-
+@pytest.mark.TC_API_16
+@pytest.mark.high
+@pytest.mark.flights
+@pytest.mark.positive
+@pytest.mark.api
 def test_create_flight_as_admin(admin_token, aircraft_id):
     """
     TC-API-16: Crear vuelo.
