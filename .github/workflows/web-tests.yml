@@ -15,6 +15,10 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chrome, firefox, edge]
 
     steps:
       - name: Checkout code
@@ -26,7 +30,16 @@ jobs:
           python-version: '3.13'
 
       - name: Install Chrome
+        if: matrix.browser == 'chrome'
         uses: browser-actions/setup-chrome@v1
+
+      - name: Install Firefox
+        if: matrix.browser == 'firefox'
+        uses: browser-actions/setup-firefox@v1
+
+      - name: Install Edge
+        if: matrix.browser == 'edge'
+        uses: browser-actions/setup-edge@v1
 
       - name: Install dependencies
         run: |
@@ -34,21 +47,23 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Web tests
-        run: pytest web_tests/ -v --tb=short --html=web-report.html --self-contained-html
+        run: pytest web_tests/ -v --tb=short --html=web-report-${{ matrix.browser }}.html --self-contained-html
         continue-on-error: true
+        env:
+          BROWSER: ${{ matrix.browser }}
 
       - name: Upload test report
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: web-test-report
-          path: web-report.html
+          name: web-test-report-${{ matrix.browser }}
+          path: web-report-${{ matrix.browser }}.html
           retention-days: 30
 
       - name: Upload screenshots
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: web-test-screenshots
+          name: web-test-screenshots-${{ matrix.browser }}
           path: screenshots/
           retention-days: 30

@@ -213,26 +213,45 @@ def user_token():
 @pytest.fixture
 def driver():
     """
-    Fixture que configura y proporciona una instancia del driver de Selenium (Chrome). Pruebas de Web UI.
+    Fixture que configura y proporciona una instancia del driver de Selenium. Pruebas de Web UI.
+    Soporta Chrome, Firefox y Edge según variable de entorno BROWSER.
     """
-    options = webdriver.ChromeOptions()
+    browser = os.getenv('BROWSER', 'chrome').lower()
 
-    # ✅ Opciones para entornos locales y CI (GitHub Actions)
-    options.add_argument("--headless=new")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--window-size=1920,1080")
-    options.add_argument("--disable-extensions")
-    options.add_argument("--disable-plugins")
-    options.add_argument("--disable-infobars")
-    options.add_argument("--disable-notifications")
-    options.add_argument("--disable-features=VizDisplayCompositor")
-    options.add_argument("--disable-background-networking")
-    options.add_argument("--disable-background-timer-throttling")
-    options.add_argument("--disable-renderer-backgrounding")
-    # Opción adicional para evitar problemas de zona horaria en CI
-    options.add_argument("--timezone=UTC")
+    if browser == 'firefox':
+        from selenium.webdriver.firefox.options import Options as FirefoxOptions
+        options = FirefoxOptions()
+        options.add_argument("--headless")
+        options.add_argument("--width=1920")
+        options.add_argument("--height=1080")
+        driver = webdriver.Firefox(options=options)
+    elif browser == 'edge':
+        from selenium.webdriver.edge.options import Options as EdgeOptions
+        options = EdgeOptions()
+        options.add_argument("--headless")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--disable-gpu")
+        options.add_argument("--window-size=1920,1080")
+        driver = webdriver.Edge(options=options)
+    else:  # chrome por defecto
+        options = webdriver.ChromeOptions()
+        # ✅ Opciones para entornos locales y CI (GitHub Actions)
+        options.add_argument("--headless=new")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--disable-gpu")
+        options.add_argument("--window-size=1920,1080")
+        options.add_argument("--disable-extensions")
+        options.add_argument("--disable-plugins")
+        options.add_argument("--disable-infobars")
+        options.add_argument("--disable-notifications")
+        options.add_argument("--disable-features=VizDisplayCompositor")
+        options.add_argument("--disable-background-networking")
+        options.add_argument("--disable-background-timer-throttling")
+        options.add_argument("--disable-renderer-backgrounding")
+        # Opción adicional para evitar problemas de zona horaria en CI
+        options.add_argument("--timezone=UTC")
 
     # Iniciar el driver
     driver = webdriver.Chrome(options=options)
