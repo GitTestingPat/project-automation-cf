@@ -6,7 +6,11 @@ from conftest import BASE_URL
 Caso de prueba: TC-API-26: Listar aeronaves (GET /aircrafts)
 Objetivo: Verificar que un usuario autenticado como admin pueda obtener la lista de todas las aeronaves.
 """
-
+@pytest.mark.TC_API_26
+@pytest.mark.medium
+@pytest.mark.aircrafts
+@pytest.mark.positive
+@pytest.mark.api
 def test_list_aircrafts_as_admin(admin_token):
     """
     TC-API-26: Listar aeronaves.
