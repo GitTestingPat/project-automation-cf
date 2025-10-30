@@ -38,5 +38,3 @@ jobs:
           name: api-test-report
           path: report.html
           retention-days: 30
-      - name: Debug pytest.ini
-        run: cat pytest.ini
