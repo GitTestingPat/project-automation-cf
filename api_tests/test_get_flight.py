@@ -10,7 +10,11 @@ from conftest import BASE_URL
 Caso de prueba: TC-API-17: Obtener vuelo (GET /flights/{flight_id})
 Objetivo: Verificar que se pueda obtener la información de un vuelo específico mediante su ID.
 """
-
+@pytest.mark.TC_API_17
+@pytest.mark.medium
+@pytest.mark.flights
+@pytest.mark.positive
+@pytest.mark.api
 def test_get_flight_by_id(admin_token, flight_id):
     """
     TC-API-17: Obtener vuelo.
