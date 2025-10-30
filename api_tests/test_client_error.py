@@ -6,7 +6,10 @@ from conftest import BASE_URL
 Caso de prueba: TC-API-30: Probar error 400 (GET /glitch-examples/client-error)
 Objetivo: Verificar que la API devuelva correctamente un error 400 Bad Request cuando se accede al endpoint.
 """
-
+@pytest.mark.TC_API_30
+@pytest.mark.medium
+@pytest.mark.negative
+@pytest.mark.api
 def test_client_error_endpoint_returns_400():
     """
     TC-API-30: Probar error 400.
