@@ -34,4 +34,21 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Web tests
-        run: pytest web_tests/ -v --tb=short
+        run: pytest web_tests/ -v --tb=short --html=web-report.html --self-contained-html
+        continue-on-error: true
+
+      - name: Upload test report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: web-test-report
+          path: web-report.html
+          retention-days: 30
+
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: web-test-screenshots
+          path: screenshots/
+          retention-days: 30
