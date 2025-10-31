@@ -49,10 +49,23 @@ jobs:
           npm install -g allure-commandline
           allure generate ./allure-results --clean -o ./allure-report
 
-      - name: Upload Allure HTML Report
-        uses: actions/upload-artifact@v4
+      - name: Deploy Allure Report to GitHub Pages
         if: always()
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          name: api-allure-test-report
-          path: ./allure-report/
-          retention-days: 30
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./allure-report
+          destination_dir: allure-report-${{ github.run_number }}
+
+      - name: Comment PR with Allure Report URL
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '📊 **Allure Report:** https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/allure-report-${{ github.run_number }}'
+            })
