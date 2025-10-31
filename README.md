@@ -28,6 +28,20 @@ Puedes ver el plan completo aquí:
 - Cucumber
 - Allure Reports
 
+## 🔧 Solución de Problemas
+
+¿Tienes errores al ejecutar los tests? Consulta nuestra guía completa:
+
+👉 **[Guía de Troubleshooting](docs/TROUBLESHOOTING.md)**
+
+Incluye soluciones para:
+- Problemas de instalación
+- Errores de tests API y UI
+- Problemas con el pipeline CI/CD
+- Configuración de navegadores
+- Timeouts y errores de red
+- Y mucho más...
+
 ## 📊 Reportes y Resultados
 
 ### Reportes Automáticos en CI/CD
