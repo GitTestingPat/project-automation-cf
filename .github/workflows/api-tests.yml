@@ -44,20 +44,10 @@ jobs:
           path: report.html
           retention-days: 30
 
-      - name: Generate Allure Report
-        run: |
-          npm install -g allure-commandline
-          allure generate ./allure-results --clean -o ./allure-report
-
-      - name: Create Single HTML Report
-        run: |
-          npm install -g allure-combine
-          allure-combine ./allure-report --dest ./allure-single.html
-
-      - name: Upload Allure Single HTML
+      - name: Upload Allure Results
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: api-allure-single-report
-          path: ./allure-single.html
+          name: allure-results
+          path: ./allure-results
           retention-days: 30
