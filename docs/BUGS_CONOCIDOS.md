@@ -55,7 +55,7 @@ La aplicación permite hacer login con credenciales completamente inválidas. Cu
 1. Ir a https://shophub-commerce.vercel.app/
 2. Click en "Login"
 3. Ingresar credenciales INVÁLIDAS: usuario_invalido@example.com / contraseña_incorrecta
-4. Click en "Sign In"
+4. Click en "Log in"
 
 **Resultado esperado:**
 - Error de autenticación
