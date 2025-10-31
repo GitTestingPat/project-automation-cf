@@ -26,6 +26,23 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install allure-pytest pytest-html
+
+      - name: Run API tests
+        run: |
+          pytest api_tests/ -v --tb=short \
+            --html=report.html \
+            --self-contained-html \
+            --alluredir=./allure-results
+        continue-on-error: true
+
+      - name: Upload pytest HTML Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: api-html-test-report
+          path: report.html
+          retention-days: 30
 
       - name: Generate Allure Report
         run: |
@@ -34,7 +51,6 @@ jobs:
 
       - name: Create Single HTML Report
         run: |
-          # Instalar allure-combine
           npm install -g allure-combine
           allure-combine ./allure-report --dest ./allure-single.html
 
