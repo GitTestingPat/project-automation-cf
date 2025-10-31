@@ -31,10 +31,23 @@ jobs:
         run: pytest api_tests/ -v --tb=short --html=report.html --self-contained-html
         continue-on-error: true
 
-      - name: Upload test report
+      - name: Generate html test report
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: api-test-report
+          name: api-html-test-report
           path: report.html
+          retention-days: 30
+
+      - name: Generate Allure Report
+        run: |
+          npm install -g allure-commandline
+          allure generate ./allure-results --clean -o ./allure-report
+
+      - name: Generate Allure Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: api-allure-test-report
+          path: ./allure-report/
           retention-days: 30
