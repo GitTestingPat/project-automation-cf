@@ -56,3 +56,31 @@ class LoginPage:
         self.enter_email(email)
         self.enter_password(password)
         self.click_sign_in()
+
+    def is_error_message_visible(self):
+        """Verificar si hay un mensaje de error visible."""
+        try:
+            ERROR_MESSAGE = (By.CSS_SELECTOR, ".error, .alert, [role='alert']")
+            WebDriverWait(self.driver, 3).until(
+                EC.presence_of_element_located(ERROR_MESSAGE)
+            )
+            return True
+        except:
+            return False
+
+    def get_error_message_text(self):
+        """Obtener el texto del mensaje de error."""
+        try:
+            ERROR_MESSAGE = (By.CSS_SELECTOR, ".error, .alert, [role='alert']")
+            element = self.driver.find_element(*ERROR_MESSAGE)
+            return element.text
+        except:
+            return ""
+
+    def is_login_button_still_present(self):
+        """Verificar si el botón de login sigue presente (indica que NO se logueó)."""
+        try:
+            self.driver.find_element(*self.SIGN_IN_BUTTON)
+            return True
+        except:
+            return False

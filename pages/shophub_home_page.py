@@ -184,3 +184,42 @@ class HomePage:
         ActionChains(self.driver).move_to_element(element).click().perform()
         from pages.shophub_category_page import CategoryPage
         return CategoryPage(self.driver)
+
+    def is_logout_button_visible(self):
+        """Verificar si el botón 'Logout' está visible (indica usuario logueado)."""
+        try:
+            LOGOUT_BUTTON = (By.LINK_TEXT, "Logout")
+            WebDriverWait(self.driver, 5).until(
+                EC.presence_of_element_located(LOGOUT_BUTTON)
+            )
+            return True
+        except:
+            return False
+
+    def is_login_button_visible(self):
+        """Verificar si el botón 'Login' está visible (indica usuario NO logueado)."""
+        try:
+            self.driver.find_element(*self.LOGIN_BUTTON)
+            return True
+        except:
+            return False
+
+    def get_user_profile_name(self):
+        """Obtener el nombre del usuario del header (si está visible)."""
+        try:
+            USER_NAME = (By.CSS_SELECTOR, ".user-name, [data-testid='user-name']")
+            element = WebDriverWait(self.driver, 3).until(
+                EC.presence_of_element_located(USER_NAME)
+            )
+            return element.text
+        except:
+            return None
+
+    def is_user_menu_visible(self):
+        """Verificar si hay un menú de usuario visible."""
+        try:
+            USER_MENU = (By.CSS_SELECTOR, ".user-menu, [aria-label='User menu']")
+            self.driver.find_element(*USER_MENU)
+            return True
+        except:
+            return False
