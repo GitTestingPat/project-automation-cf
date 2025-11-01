@@ -4,6 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from pages.shophub_product_page import ProductPage
+import time
 
 
 class CategoryPage:
@@ -11,10 +12,11 @@ class CategoryPage:
         self.driver = driver
 
     # Localizadores para la página de Categoría
-    PRODUCT_CARD = (By.CSS_SELECTOR, "body")  # Selector para una tarjeta de producto
-    FIRST_PRODUCT_LINK = (By.CSS_SELECTOR, ".product-card a")  # Selector para el enlace del primer producto
+    PRODUCT_CARD = (By.CSS_SELECTOR, ".product-card")
+    FIRST_PRODUCT_LINK = (By.CSS_SELECTOR, ".product-card a")
     ADD_TO_CART_BUTTON_BY_ID = (By.ID, "add-to-cart-{product_id}")
     CATEGORY_TITLE = (By.TAG_NAME, "h2")
+    OVERLAY = (By.CSS_SELECTOR, "div.fixed.inset-0.z-50")
 
     def get_category_title(self):
         """
@@ -41,11 +43,48 @@ class CategoryPage:
         except:
             raise Exception("No se cargaron productos en la categoría.")
 
+        # Esperar a que el overlay desaparezca
+        try:
+            WebDriverWait(self.driver, 10).until(
+                EC.invisibility_of_element_located(self.OVERLAY)
+            )
+            print("✅ Overlay desapareció antes de hacer clic en producto.")
+            time.sleep(2)
+        except:
+            print("⚠️  No se encontró overlay. Continuando...")
+            time.sleep(1)
+
         # Encontrar el primer enlace de producto
         first_product_link_element = self.driver.find_element(*self.FIRST_PRODUCT_LINK)
 
-        # Hacer clic en el enlace y devolver una instancia de ProductPage
-        first_product_link_element.click()
+        # Scroll al elemento
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", first_product_link_element)
+        time.sleep(0.5)
+
+        # Verificar una vez más que no hay overlay
+        overlays = self.driver.find_elements(*self.OVERLAY)
+        if overlays:
+            for overlay in overlays:
+                if overlay.is_displayed():
+                    print("⚠️  Overlay detectado, esperando...")
+                    WebDriverWait(self.driver, 10).until(
+                        EC.invisibility_of_element_located(self.OVERLAY)
+                    )
+                    time.sleep(0.5)
+
+        # Intentar clic normal primero, JavaScript como fallback
+        try:
+            first_product_link_element.click()
+            print("✅ Primer producto clickeado (clic normal).")
+        except Exception as click_error:
+            if "element click intercepted" in str(click_error).lower():
+                print("⚠️  Usando JavaScript click en producto...")
+                self.driver.execute_script("arguments[0].click();", first_product_link_element)
+                print("✅ Primer producto clickeado (JavaScript).")
+            else:
+                raise click_error
+
+        # Devolver instancia de ProductPage
         return ProductPage(self.driver)
 
     def get_product_cards(self):
@@ -70,7 +109,7 @@ class CategoryPage:
         # 1. Esperar a que el overlay desaparezca
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.invisibility_of_element_located((By.CSS_SELECTOR, "div.fixed.inset-0.z-50"))
+                EC.invisibility_of_element_located(self.OVERLAY)
             )
             print("✅ Overlay desapareció (o no estaba presente) antes de hacer clic en 'Add to Cart'.")
         except TimeoutException:
@@ -107,16 +146,59 @@ class CategoryPage:
             EC.presence_of_element_located((By.CSS_SELECTOR, ".product-card"))
         )
 
+        # Esperar a que el overlay desaparezca
+        try:
+            WebDriverWait(self.driver, 10).until(
+                EC.invisibility_of_element_located(self.OVERLAY)
+            )
+            print(f"✅ Overlay desapareció antes de buscar '{product_name}'.")
+            time.sleep(2)
+        except:
+            print("⚠️  No se encontró overlay. Continuando...")
+            time.sleep(1)
+
         # Obtener todas las tarjetas de producto
         product_cards = self.driver.find_elements(By.CSS_SELECTOR, ".product-card")
+        print(f"   📦 Productos disponibles: {len(product_cards)}")
 
         for card in product_cards:
             try:
                 name_element = card.find_element(*PRODUCT_NAME_LOCATOR)
-                if product_name.lower() in name_element.text.strip().lower():
-                    # Hacer clic en el enlace o en la tarjeta completa
+                card_product_name = name_element.text.strip()
+
+                if product_name.lower() in card_product_name.lower():
+                    print(f"   ✅ Producto encontrado: '{card_product_name}'")
+
+                    # Hacer clic en el enlace
                     link = card.find_element(By.TAG_NAME, "a")
-                    link.click()
+
+                    # Scroll al elemento
+                    self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", link)
+                    time.sleep(0.5)
+
+                    # Verificar overlay una vez más
+                    overlays = self.driver.find_elements(*self.OVERLAY)
+                    if overlays:
+                        for overlay in overlays:
+                            if overlay.is_displayed():
+                                print("   ⚠️  Overlay detectado, esperando...")
+                                WebDriverWait(self.driver, 10).until(
+                                    EC.invisibility_of_element_located(self.OVERLAY)
+                                )
+                                time.sleep(0.5)
+
+                    # Intentar clic normal, JavaScript como fallback
+                    try:
+                        link.click()
+                        print(f"   ✅ Click en '{card_product_name}' (clic normal)")
+                    except Exception as click_error:
+                        if "element click intercepted" in str(click_error).lower():
+                            print("   ⚠️  Usando JavaScript click...")
+                            self.driver.execute_script("arguments[0].click();", link)
+                            print(f"   ✅ Click en '{card_product_name}' (JavaScript)")
+                        else:
+                            raise click_error
+
                     from pages.shophub_product_page import ProductPage
                     return ProductPage(self.driver)
             except:
