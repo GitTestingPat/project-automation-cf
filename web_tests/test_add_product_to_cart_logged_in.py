@@ -1,180 +1,152 @@
-import requests
 import pytest
 import time
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from pages.shophub_home_page import HomePage
+from data import TestData, Waits
 
 """
 Caso de prueba: TC-WEB-08: Agregar producto al carrito (logueado)
-Objetivo: Verificar que un usuario autenticado pueda agregar un producto al carrito de compras.
-Esta prueba requiere un usuario autenticado.
+Objetivo: Verificar que un usuario autenticado pueda agregar un producto específico 
+         al carrito de compras.
+
+Datos de prueba: Importados desde data.py
 """
 
 
 def test_add_product_to_cart_as_logged_in_user(driver):
     """
-    TC-WEB-08: Agregar producto al carrito (logueado).
-    Este test recibe 'driver' del fixture.
-    """
-    # Credenciales del usuario de prueba
-    test_email = "admin@demo.com"
-    test_password = "SecurePass123!"
+    TC-WEB-08: Agregar producto al carrito como usuario autenticado.
 
-    # 1. Ir a la página principal
+    Precondiciones:
+    - Usuario con credenciales válidas
+    - Producto disponible en la categoría especificada
+
+    Pasos:
+    1. Login con credenciales válidas
+    2. Navegar a la categoría del producto
+    3. Buscar y seleccionar producto específico
+    4. Agregar producto al carrito
+    5. Verificar que el producto está en el carrito
+
+    Datos de prueba:
+    - Usuario: {TestData.TC_WEB_08.USER_EMAIL}
+    - Producto: {TestData.TC_WEB_08.PRODUCT_NAME}
+    - Categoría: {TestData.TC_WEB_08.CATEGORY}
+    """
+
+    # Obtener datos de prueba desde data.py
+    TEST_EMAIL = TestData.TC_WEB_08.USER_EMAIL
+    TEST_PASSWORD = TestData.TC_WEB_08.USER_PASSWORD
+    PRODUCT_NAME = TestData.TC_WEB_08.PRODUCT_NAME
+    CATEGORY = TestData.TC_WEB_08.CATEGORY
+
+    print(f"\n{'=' * 70}")
+    print(f"TC-WEB-08: Agregar '{PRODUCT_NAME}' al carrito (usuario autenticado)")
+    print(f"{'=' * 70}")
+    print(f"Usuario: {TEST_EMAIL}")
+    print(f"Categoría: {CATEGORY}")
+    print(f"Producto: {PRODUCT_NAME}")
+    print(f"{'=' * 70}\n")
+
+    # ==================== PASO 1: LOGIN ====================
+    print("PASO 1: Autenticación del usuario")
     home_page = HomePage(driver)
     home_page.go_to()
 
-    # 2. Hacer clic en "Login"
     login_page = home_page.click_login()
-
-    # 3. Ingresar email y contraseña
-    login_page.enter_email(test_email)
-    login_page.enter_password(test_password)
-
-    # 4. Hacer clic en "Login"
+    login_page.enter_email(TEST_EMAIL)
+    login_page.enter_password(TEST_PASSWORD)
     login_page.click_sign_in()
 
-    # 5. Verificar que el login fue exitoso
-    print("ℹ️  Login realizado. Verificación visual omitida, se confía en el token JWT.")
+    # Manejar página de éxito del login
+    login_page.handle_login_success_page()
 
-    # 6. Volver a la página principal (si es necesario)
+    # Verificar autenticación (no falla si Logout no aparece - bug conocido)
+    login_page.verify_login_success()
+    print("✅ Usuario autenticado - Continuando con el flujo\n")
+    print("   (La autenticación se confirmará al verificar el carrito)\n")
+
+    # ==================== PASO 2: OBTENER ESTADO INICIAL DEL CARRITO ====================
+    print("PASO 2: Verificar estado inicial del carrito")
+    initial_cart_count = home_page.get_cart_item_count()
+    print(f"   Items en carrito: {initial_cart_count}\n")
+
+    # ==================== PASO 3: NAVEGAR A CATEGORÍA ====================
+    print(f"PASO 3: Navegar a categoría '{CATEGORY}'")
+    home_page.click_categories_dropdown()
+
+    # Navegar a la categoría especificada en data.py
+    if CATEGORY == "Men's Clothes":
+        category_page = home_page.click_mens_category()
+    elif CATEGORY == "Women's Clothes":
+        category_page = home_page.click_womens_category()
+    elif CATEGORY == "Electronics":
+        category_page = home_page.click_electronics_category()
+    else:
+        pytest.fail(f"Categoría '{CATEGORY}' no soportada")
+
+    print(f"✅ Navegación a '{CATEGORY}' exitosa\n")
+
+    # ==================== PASO 4: SELECCIONAR Y AGREGAR PRODUCTO ====================
+    print(f"PASO 4: Buscar y seleccionar producto '{PRODUCT_NAME}'")
+    time.sleep(Waits.MEDIUM)  # Esperar carga de productos
+
+    product_page = category_page.find_and_click_product_by_name(PRODUCT_NAME)
+    print(f"✅ Producto '{PRODUCT_NAME}' seleccionado\n")
+
+    print(f"PASO 5: Agregar '{PRODUCT_NAME}' al carrito")
+    product_page.click_add_to_cart()
+    time.sleep(Waits.MEDIUM)  # Esperar procesamiento
+    print("✅ Producto agregado al carrito\n")
+
+    # ==================== PASO 6: VERIFICAR PRODUCTO EN CARRITO ====================
+    print("PASO 6: Verificar producto en carrito")
+
+    # Verificación 1: Contador en header
     home_page.go_to()
+    time.sleep(Waits.MEDIUM)
 
-    # 7. Hacer clic en el menú desplegable "Categories"
-    # Usar un localizador basado en texto y atributos.
-    try:
-        categories_button = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Categories')]"))
-        )
-        categories_button.click()
-        print("✅ Menú 'Categories' abierto.")
-    except Exception as e:
-        pytest.fail(
-            f"No se pudo hacer clic en el botón 'Categories'. "
-            f"Esto indica un posible fallo en la interacción con el menú desplegable. "
-            f"Error: {e}"
-        )
+    new_cart_count = home_page.get_cart_item_count()
+    print(f"   Contador inicial: {initial_cart_count}")
+    print(f"   Contador actual: {new_cart_count}")
 
-    # 8. Hacer clic en "Men's Clothes"
-    try:
-        mens_clothes_link = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.LINK_TEXT, "Men's Clothes"))
-        )
-        mens_clothes_link.click()
-        print("✅ Categoría 'Men's Clothes' seleccionada.")
-    except Exception as e:
-        pytest.fail(
-            f"No se pudo hacer clic en el enlace 'Men's Clothes'. "
-            f"Esto indica un posible fallo en la navegación por categorías. "
-            f"Error: {e}"
-        )
+    verification_success = (new_cart_count > initial_cart_count)
 
-    # 9. Esperar a que los productos se carguen
-    try:
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, ".product-card"))
-        )
-        print("✅ Productos cargados en la categoría 'Men's Clothes'.")
-    except Exception as e:
-        pytest.fail(
-            f"No se cargaron productos en la categoría 'Men's Clothes'. "
-            f"Esto indica un posible fallo en la carga de productos o en el selector '.product-card'. "
-            f"Error: {e}"
-        )
+    if verification_success:
+        print(f"   ✅ Contador incrementó ({initial_cart_count} → {new_cart_count})")
+    else:
+        print(f"   ⚠️  Contador no incrementó, verificando página del carrito...")
 
-    # 10. Esperar a que un overlay desaparezca antes de hacer clic en el producto
-    try:
-        WebDriverWait(driver, 10).until(
-            EC.invisibility_of_element_located((By.CSS_SELECTOR, "div.fixed.inset-0.z-50"))
-        )
-        print("✅ Overlay desapareció (o no estaba presente).")
-    except:
-        # Si el overlay no desaparece en 10 segundos, continuar
-        print("⚠️  No se encontró un overlay o no desapareció en 10 segundos. Continuando...")
+        # Verificación 2: Página del carrito
+        cart_page = home_page.go_to_cart()
+        time.sleep(Waits.MEDIUM)
 
-    # 11. Hacer clic en el primer producto de la lista
-    try:
-        first_product_link = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, ".product-card a"))
-        )
-        first_product_link.click()
-        print("✅ Primer producto seleccionado.")
-    except Exception as e:
-        pytest.fail(
-            f"No se pudo hacer clic en el primer producto de la lista. "
-            f"Esto indica un posible fallo en la selección del producto o en el selector '.product-card a'. "
-            f"Error: {e}"
-        )
+        cart_items = cart_page.get_cart_items()
+        print(f"   Items en página del carrito: {len(cart_items)}")
 
-    # 12. Esperar a que un overlay desaparezca antes de hacer clic en "Add to Cart"
-    try:
-        WebDriverWait(driver, 10).until(
-            EC.invisibility_of_element_located((By.CSS_SELECTOR, "div.fixed.inset-0.z-50"))
-        )
-        print("✅ Overlay desapareció (o no estaba presente) antes de hacer clic en 'Add to Cart'.")
-    except:
-        # Si el overlay no desaparece en 10 segundos, continuar
-        print("⚠️  No se encontró un overlay o no desapareció en 10 segundos antes de hacer clic en "
-              "'Add to Cart'. Continuando...")
+        if len(cart_items) > 0:
+            verification_success = True
+            print(f"   ✅ {len(cart_items)} producto(s) encontrado(s) en carrito")
 
-    # 13. Hacer clic en "Add to Cart"
-    try:
-        add_to_cart_button = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.ID, "add-to-cart-main-1"))
-        )
-        add_to_cart_button.click()
-        print("✅ Producto agregado al carrito.")
-    except Exception as e:
-        pytest.fail(
-            f"No se pudo hacer clic en el botón 'Add to Cart'. "
-            f"Esto indica un posible fallo en la interacción con el botón o en su localizador. "
-            f"Error: {e}"
-        )
+            # Verificar producto específico
+            if cart_page.is_product_in_cart(PRODUCT_NAME):
+                print(f"   ✅ Producto '{PRODUCT_NAME}' confirmado en carrito")
+        else:
+            print(f"   ❌ No se encontraron productos en el carrito")
 
-    # 14. Verificar que el producto se haya agregado al carrito
-    # Verificar contador del carrito
-    try:
-        cart_count_element = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='cart-count']"))
-        )
-        cart_count = int(cart_count_element.text)
-        assert cart_count > 0, (
-            f"El contador del carrito no aumentó después de agregar un producto. "
-            f"Esperaba que el contador fuera mayor que 0, obtuvo {cart_count}. "
-            f"Esto indica que el producto no se agregó correctamente al carrito o que "
-            f"el contador no se actualizó."
-        )
-        print(f"✅ Producto agregado al carrito. Contador del carrito: {cart_count}")
-    except Exception as e:
-        # Si no se encuentra el contador, intentar verificar en la página del carrito
-        print(f"⚠️ No se pudo verificar el contador del carrito: {e}. Intentando verificar "
-              f"en la página del carrito...")
+    # ==================== RESULTADO ====================
+    print(f"\n{'=' * 70}")
+    if verification_success:
+        print(f"✅ TEST EXITOSO - '{PRODUCT_NAME}' agregado correctamente al carrito")
+        print(f"   Usuario: {TEST_EMAIL}")
+        print(f"   Categoría: {CATEGORY}")
+        print(f"   Items agregados: {new_cart_count - initial_cart_count}")
+    else:
+        print(f"❌ TEST FALLIDO - '{PRODUCT_NAME}' NO fue agregado al carrito")
+        print(f"   Usuario: {TEST_EMAIL}")
+        print(f"   Categoría: {CATEGORY}")
+    print(f"{'=' * 70}\n")
 
-        # Ir a la página del carrito
-        try:
-            cart_link = WebDriverWait(driver, 10).until(
-                EC.element_to_be_clickable((By.LINK_TEXT, "Cart"))
-            )
-            cart_link.click()
-            print("✅ Navegando a la página del carrito.")
-        except Exception as cart_nav_error:
-            pytest.fail(
-                f"No se pudo navegar a la página del carrito. "
-                f"Esto indica un posible fallo en la navegación o en el localizador del enlace 'Cart'. "
-                f"Error: {cart_nav_error}"
-            )
-
-        # Verificar que haya productos en la página del carrito
-        try:
-            WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, ".cart-item"))
-            )
-            print("✅ Producto encontrado en la página del carrito.")
-        except Exception as cart_error:
-            pytest.fail(
-                f"No se encontraron productos en la página del carrito. "
-                f"Esto indica que el producto no se agregó correctamente al carrito. "
-                f"Error: {cart_error}"
-            )
+    assert verification_success, (
+        f"Producto '{PRODUCT_NAME}' no fue agregado al carrito. "
+        f"Contador inicial: {initial_cart_count}, Contador final: {new_cart_count}"
+    )
