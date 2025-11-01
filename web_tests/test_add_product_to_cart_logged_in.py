@@ -155,7 +155,7 @@ def test_add_product_to_cart_as_logged_in_user(driver):
         # Ir a la página del carrito
         try:
             cart_link = WebDriverWait(driver, 10).until(
-                EC.element_to_be_clickable((By.LINK_TEXT, "Cart"))
+                EC.element_to_be_clickable((By.CSS_SELECTOR, "header a[href='/cart']"))
             )
             cart_link.click()
             print("✅ Navegando a la página del carrito.")
