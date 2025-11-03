@@ -1,7 +1,6 @@
-import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from pages.fake_cinema.cinema_home_page import CinemaHomePage
+from pages import CinemaHomePage
 
 """
     TC-WEB-43: Intento de cambiar de película sin confirmar la selección.

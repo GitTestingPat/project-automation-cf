@@ -1,6 +1,5 @@
-import pytest
-from pytest_bdd import scenarios, given, when, then
-from pages.shophub_home_page import HomePage
+from pytest_bdd import given, when, then
+from pages import HomePage
 
 # --- Definición de los pasos ---
 

@@ -1,6 +1,6 @@
 import pytest
 import time
-from pages.shophub_home_page import HomePage
+from pages.shophub.shophub_home_page import HomePage
 from data import TestData, Waits
 
 """

@@ -3,7 +3,6 @@ from behave import when, then
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from pages.shophub_home_page import HomePage
 
 
 @when('ingreso el email "{email}" y la contraseña "{password}"')

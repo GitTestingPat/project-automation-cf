@@ -1,7 +1,5 @@
-import requests
-import pytest
 from selenium.webdriver.common.by import By
-from pages.shophub_home_page import HomePage
+from pages.shophub.shophub_home_page import HomePage
 
 """
 Caso de prueba: TC-WEB-03: Ir a "Women's Clothes"

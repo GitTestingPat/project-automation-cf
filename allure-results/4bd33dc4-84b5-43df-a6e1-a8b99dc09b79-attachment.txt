@@ -1,0 +1,1 @@
+✅ Endpoint 'success-but-error' devolvió 200 OK con indicador de error: 'detail' = 'Error 400'

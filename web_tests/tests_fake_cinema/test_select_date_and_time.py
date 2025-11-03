@@ -1,5 +1,4 @@
-import pytest
-from pages.fake_cinema.cinema_home_page import CinemaHomePage
+from pages import CinemaHomePage
 
 
 def test_select_date_and_time(driver):

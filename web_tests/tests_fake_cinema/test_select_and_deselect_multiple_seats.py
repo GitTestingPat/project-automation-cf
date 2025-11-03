@@ -1,6 +1,4 @@
-import pytest
-import time
-from pages.fake_cinema.cinema_home_page import CinemaHomePage
+from pages import CinemaHomePage
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By

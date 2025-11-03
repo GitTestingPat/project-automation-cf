@@ -1,13 +1,7 @@
-import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
-from pages.shophub_home_page import HomePage
-from pages.shophub_login_page import LoginPage
-from pages.shophub_category_page import CategoryPage
-from pages.shophub_product_page import ProductPage
-from pages.shophub_cart_page import CartPage
+from pages.shophub.shophub_home_page import HomePage
 
 
 def test_view_cart_content_as_logged_in_user(driver):

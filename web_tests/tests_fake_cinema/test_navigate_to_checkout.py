@@ -1,8 +1,6 @@
-import pytest
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from pages.fake_cinema.cinema_home_page import CinemaHomePage
+from pages import CinemaHomePage
 
 
 def test_navigate_to_checkout(driver):

@@ -2,8 +2,7 @@ import time
 import random
 import string
 from behave import given, when, then
-from pages.shophub_home_page import HomePage
-from pages.shophub_signup_page import SignupPage
+from pages import HomePage
 from selenium.common.exceptions import NoSuchElementException
 
 

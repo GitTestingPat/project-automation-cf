@@ -1,9 +1,6 @@
-import requests
 import pytest
-import time
 from selenium.webdriver.common.by import By
-from pages.shophub_home_page import HomePage
-from pages.shophub_signup_page import SignupPage
+from pages.shophub.shophub_home_page import HomePage
 
 """
 Caso de prueba: TC-WEB-07: Registrar con email ya existente (Negativo)

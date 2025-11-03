@@ -1,7 +1,6 @@
-import pytest
 from selenium.webdriver.common.by import By
-from pages.shophub_home_page import HomePage
-from pages.shophub_category_page import CategoryPage
+from pages.shophub.shophub_home_page import HomePage
+
 
 def test_search_input_accepts_text(driver):
     """

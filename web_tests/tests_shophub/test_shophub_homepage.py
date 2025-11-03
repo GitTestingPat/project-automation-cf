@@ -1,5 +1,4 @@
-from pages.shophub_home_page import HomePage
-import pytest
+from pages.shophub.shophub_home_page import HomePage
 
 '''
 Pruebas TC-WEB-01, TC-WEB-02 Verificar carga de página principal, Ir a "Men's Clothes"

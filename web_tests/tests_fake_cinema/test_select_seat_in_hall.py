@@ -1,8 +1,5 @@
-import pytest
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from pages.fake_cinema.cinema_home_page import CinemaHomePage
+from pages import CinemaHomePage
 
 
 def test_select_seat_in_hall(driver):

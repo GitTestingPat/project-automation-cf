@@ -1,5 +1,5 @@
 import pytest
-from pages.shophub_home_page import HomePage
+from pages.shophub.shophub_home_page import HomePage
 
 '''
 Pruebas TC-WEB-04, TC-WEB-05 Iniciar sesión con credenciales válidas/inválidas

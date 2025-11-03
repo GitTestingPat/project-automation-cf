@@ -1,5 +1,4 @@
-import pytest
-from pages.fake_cinema.cinema_home_page import CinemaHomePage
+from pages import CinemaHomePage
 
 def test_add_food_to_cart(driver):
     """

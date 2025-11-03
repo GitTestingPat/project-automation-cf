@@ -1,4 +1,4 @@
-from pages.fake_cinema.cinema_home_page import CinemaHomePage
+from pages import CinemaHomePage
 
 
 def test_filtered_by_cinema(driver):

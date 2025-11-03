@@ -1,0 +1,2 @@
+✅ Usuario de prueba creado en fixture 'user_token': fixture_user_49579_dz4@test.com
+✅ Reserva cancelada exitosamente. ID: bkg-66287e1b
