@@ -1,4 +1,4 @@
-from pages import CinemaHomePage
+from pages.fake_cinema.cinema_home_page import CinemaHomePage
 
 def test_select_movie_from_billboard(driver):
     """

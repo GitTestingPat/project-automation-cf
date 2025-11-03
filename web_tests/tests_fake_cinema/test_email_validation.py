@@ -1,6 +1,6 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from pages import CinemaHomePage
+from pages.fake_cinema.cinema_home_page import CinemaHomePage
 import time
 
 def test_reject_invalid_email_format(driver):

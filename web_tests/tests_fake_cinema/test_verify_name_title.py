@@ -1,5 +1,5 @@
 from selenium import webdriver
-from pages import CinemaHomePage
+from pages.fake_cinema.cinema_home_page import CinemaHomePage
 
 '''
 Prueba TC-WEB-13 Verificar título principal

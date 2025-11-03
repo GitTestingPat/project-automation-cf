@@ -1,5 +1,5 @@
 from selenium.webdriver.common.by import By
-from pages import CinemaHomePage
+from pages.fake_cinema.cinema_home_page import CinemaHomePage
 
 def test_wheelchair_accessibility_button(driver):
     """
