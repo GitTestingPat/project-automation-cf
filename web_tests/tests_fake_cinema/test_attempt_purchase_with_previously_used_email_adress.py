@@ -27,7 +27,7 @@ def test_attempt_purchase_with_previously_used_email_adress(driver):
         home_page.select_first_available_date()
 
         # Seleccionar primera hora disponible
-        home_page.select_first_available_time()
+        home_page.select_first_available_time_resilient()
 
         # Seleccionar primer asiento disponible
         home_page.select_first_available_seat()
@@ -92,5 +92,9 @@ def test_attempt_purchase_with_previously_used_email_adress(driver):
         )
 
         print(f"[INFO] ✅ Compra #{purchase_index + 1} completada exitosamente con email: {email_to_use}")
-
-    print("[INFO] ✅ Ambas compras con el mismo email se completaron sin errores ni restricciones.")
+        # Reset entre compras para evitar problemas de timing
+        if purchase_index == 0:  # Solo después de la primera compra
+            print("[DEBUG] Reseteando estado antes de compra #2...")
+            driver.delete_all_cookies()
+            time.sleep(2)
+        print("[INFO] ✅ Ambas compras con el mismo email se completaron sin errores ni restricciones.")

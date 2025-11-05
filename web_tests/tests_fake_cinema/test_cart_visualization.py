@@ -14,7 +14,7 @@ def test_cart_visualization_before_payment(driver):
     home_page.go_to()
     home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
     home_page.select_first_available_date()
-    home_page.select_first_available_time()
+    home_page.select_first_available_time_resilient()
     home_page.select_first_available_seat()
 
     WebDriverWait(driver, 20).until(

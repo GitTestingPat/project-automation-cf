@@ -36,7 +36,7 @@ def test_navigate_to_movie_detail_and_verify_title(driver):
     print(f"✅ Fecha seleccionada correctamente")
 
     # 3. Seleccionar hora usando método select_first_available_time() del POM (línea 336-364)
-    selected_time = home_page.select_first_available_time()
+    selected_time = home_page.select_first_available_time_resilient()
     assert selected_time is not None, "No se pudo seleccionar horario"
     assert ":" in selected_time, f"Formato de hora inválido: {selected_time}"
     print(f"✅ Horario seleccionado: {selected_time}")

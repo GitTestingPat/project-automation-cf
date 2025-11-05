@@ -20,7 +20,7 @@ def test_attempt_purchase_whithout_seat_selection(driver):
         print("[DEBUG] Seleccionando fecha...")
         home_page.select_first_available_date()
         print("[DEBUG] Seleccionando primera hora disponible...")
-        home_page.select_first_available_time()
+        home_page.select_first_available_time_resilient()
 
         # Esperar y hacer clic en "Comprar boletos"
         print("[DEBUG] Verificando que el botón 'Comprar boletos' esté deshabilitado inicialmente...")

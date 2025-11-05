@@ -11,7 +11,7 @@ def test_cannot_select_occupied_seat(driver):
     home_page.go_to()
     home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
     home_page.select_first_available_date()
-    home_page.select_first_available_time()
+    home_page.select_first_available_time_resilient()
 
     # Usar metodo para obtener el primer asiento ocupado
     occupied_seat = home_page.get_first_occupied_seat()

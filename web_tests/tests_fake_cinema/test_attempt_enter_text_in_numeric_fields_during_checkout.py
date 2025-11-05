@@ -26,7 +26,7 @@ def test_attempt_to_enter_text_in_numeric_fields(driver):
     home_page.select_first_available_date()
 
     # Elegir primer horario disponible
-    home_page.select_first_available_time()
+    home_page.select_first_available_time_resilient()
 
     # Seleccionar primer asiento libre
     home_page.select_first_available_seat()

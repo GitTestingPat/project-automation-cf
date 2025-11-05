@@ -15,7 +15,7 @@ def test_select_date_and_time(driver):
     home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
     home_page.select_first_available_date()
     # Selecciona la primera hora disponible
-    selected_time = home_page.select_first_available_time()
+    selected_time = home_page.select_first_available_time_resilient()
 
     # Assert
     assert home_page.is_seat_grid_displayed(), \

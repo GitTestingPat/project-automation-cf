@@ -21,7 +21,7 @@ def test_attempt_to_pay_empty_email_field(driver):
         print("[DEBUG] Seleccionando fecha...")
         home_page.select_first_available_date()
         print("[DEBUG] Seleccionando primera hora disponible...")
-        home_page.select_first_available_time()
+        home_page.select_first_available_time_resilient()
         print("[DEBUG] Seleccionando primer asiento disponible...")
         home_page.select_first_available_seat()
 

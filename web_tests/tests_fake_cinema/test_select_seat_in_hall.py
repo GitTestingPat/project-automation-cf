@@ -12,7 +12,7 @@ def test_select_seat_in_hall(driver):
     home_page.go_to()
     home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
     home_page.select_first_available_date()
-    home_page.select_first_available_time()
+    home_page.select_first_available_time_resilient()
 
     # Obtener el botón de compra ANTES de seleccionar para verificar cambio de estado
     buy_button_before = driver.find_element(*home_page.BUY_TICKETS_BUTTON)

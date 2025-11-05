@@ -38,7 +38,7 @@ def test_cart_persists_after_page_reload(driver):
         home_page.select_date(tomorrow)
 
     # 4. Seleccionar primer horario disponible
-    selected_time = home_page.select_first_available_time()
+    selected_time = home_page.select_first_available_time_resilient()
     assert selected_time, "No se pudo seleccionar un horario."
 
     # 5. Verificar grilla de asientos

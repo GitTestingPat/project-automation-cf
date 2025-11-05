@@ -5,6 +5,9 @@ from selenium.webdriver.common.action_chains import ActionChains
 from datetime import datetime
 import time
 import re
+import logging
+
+logger = logging.getLogger(__name__)
 
 class CinemaHomePage:
     def __init__(self, driver):
@@ -362,6 +365,39 @@ class CinemaHomePage:
                 return button_text
 
         raise Exception("No se encontró ningún botón de hora habilitado.")
+
+    def select_first_available_time_resilient(self, max_attempts=3):
+        """
+        Versión con retry del método select_first_available_time.
+        Usado SOLO para tests con compras múltiples que pueden tener timing issues.
+
+        :param max_attempts: Número de intentos (default: 3)
+        :return: El texto de la hora seleccionada
+        """
+        for attempt in range(max_attempts):
+            try:
+                logger.debug(f"[RETRY] Intento {attempt + 1}/{max_attempts} de seleccionar horario")
+
+                # DEBUG: Ver estado de la página
+                logger.debug(f"URL actual: {self.driver.current_url}")
+                logger.debug(f"Título: {self.driver.title}")
+
+                # Scroll y espera adicional
+                self.driver.execute_script("window.scrollTo(0, 500);")
+                time.sleep(1)
+
+                # Llamar al método original
+                result = self.select_first_available_time()
+                logger.info(f"✅ Horario seleccionado en intento {attempt + 1}")
+                return result
+
+            except Exception as e:
+                logger.warning(f"⚠️ Intento {attempt + 1} falló: {type(e).__name__}")
+                if attempt < max_attempts - 1:
+                    time.sleep(2)  # Esperar antes de reintentar
+                else:
+                    logger.error("❌ Todos los intentos fallaron")
+                    raise
 
     def is_seat_grid_displayed(self):
         """

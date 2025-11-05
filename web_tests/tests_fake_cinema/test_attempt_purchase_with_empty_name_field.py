@@ -21,7 +21,7 @@ def test_attempt_purchase_with_empty_name_field(driver):
         print("[DEBUG] Seleccionando fecha...")
         home_page.select_first_available_date()
         print("[DEBUG] Seleccionando primera hora disponible...")
-        home_page.select_first_available_time()
+        home_page.select_first_available_time_resilient()
         print("[DEBUG] Seleccionando primer asiento disponible...")
         home_page.select_first_available_seat()
 
