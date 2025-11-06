@@ -350,7 +350,7 @@ class CinemaHomePage:
                                 "contains(text(), 'PM'))]")
 
         # Esperar a que al menos un botón de hora esté presente
-        time_buttons = WebDriverWait(self.driver, 10).until(
+        time_buttons = WebDriverWait(self.driver, 20).until(
             EC.presence_of_all_elements_located(TIME_BUTTONS_DYNAMIC)
         )
 
@@ -382,11 +382,19 @@ class CinemaHomePage:
                 logger.debug(f"URL actual: {self.driver.current_url}")
                 logger.debug(f"Título: {self.driver.title}")
 
-                # Scroll y espera adicional
+                # Scroll y espera adicional para CI/CD
                 self.driver.execute_script("window.scrollTo(0, 500);")
-                time.sleep(1)
+                time.sleep(2)  # Aumentado de 1 a 2 segundos
 
-                # Llamar al método original
+                # Esperar que desaparezcan loaders si existen
+                try:
+                    WebDriverWait(self.driver, 3).until_not(
+                        EC.presence_of_element_located((By.CSS_SELECTOR, ".loading, .spinner, [class*='load']"))
+                    )
+                except:
+                    pass  # Si no hay loader, continuar
+
+                # Llamar al metodo original
                 result = self.select_first_available_time()
                 logger.info(f"✅ Horario seleccionado en intento {attempt + 1}")
                 return result
