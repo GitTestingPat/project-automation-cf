@@ -6,11 +6,13 @@ on:
     paths:
       - 'web_tests/**'
       - '.github/workflows/web-tests.yml'
+      - pages/**
   pull_request:
     branches: [ main, master ]
     paths:
       - 'web_tests/**'
       - '.github/workflows/web-tests.yml'
+      - pages/**
 
 jobs:
   test:
