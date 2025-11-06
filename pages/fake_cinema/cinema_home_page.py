@@ -369,40 +369,74 @@ class CinemaHomePage:
     def select_first_available_time_resilient(self, max_attempts=3):
         """
         Versión con retry del método select_first_available_time.
-        Usado SOLO para tests con compras múltiples que pueden tener timing issues.
+        Usado para tests con timing issues en CI/CD.
 
         :param max_attempts: Número de intentos (default: 3)
         :return: El texto de la hora seleccionada
         """
+        import os
+
+        # Timeout más largo en CI/CD
+        timeout = 30 if os.getenv('CI') else 20
+
         for attempt in range(max_attempts):
             try:
                 logger.debug(f"[RETRY] Intento {attempt + 1}/{max_attempts} de seleccionar horario")
 
-                # DEBUG: Ver estado de la página
-                logger.debug(f"URL actual: {self.driver.current_url}")
-                logger.debug(f"Título: {self.driver.title}")
+                # Esperar que la página termine de cargar completamente
+                WebDriverWait(self.driver, 10).until(
+                    lambda d: d.execute_script('return document.readyState') == 'complete'
+                )
 
                 # Scroll y espera adicional para CI/CD
                 self.driver.execute_script("window.scrollTo(0, 500);")
-                time.sleep(2)  # Aumentado de 1 a 2 segundos
+                time.sleep(2)
 
                 # Esperar que desaparezcan loaders si existen
                 try:
-                    WebDriverWait(self.driver, 3).until_not(
-                        EC.presence_of_element_located((By.CSS_SELECTOR, ".loading, .spinner, [class*='load']"))
+                    WebDriverWait(self.driver, 5).until_not(
+                        EC.presence_of_element_located(
+                            (By.CSS_SELECTOR, ".loading, .spinner, [class*='load'], [class*='spinner']"))
                     )
                 except:
                     pass  # Si no hay loader, continuar
 
-                # Llamar al metodo original
-                result = self.select_first_available_time()
-                logger.info(f"✅ Horario seleccionado en intento {attempt + 1}")
-                return result
+                # Esperar botones con timeout extendido
+                time_buttons = WebDriverWait(self.driver, timeout).until(
+                    EC.presence_of_all_elements_located((
+                        By.XPATH,
+                        "//button[contains(text(), ':') and (contains(text(), 'AM') or contains(text(), 'PM'))]"
+                    ))
+                )
+
+                # Verificar que hay botones disponibles
+                if not time_buttons:
+                    raise Exception("No se encontraron horarios disponibles.")
+
+                # Seleccionar primer botón habilitado
+                for button in time_buttons:
+                    if button.is_displayed() and button.is_enabled():
+                        # Scroll al elemento
+                        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", button)
+                        time.sleep(0.5)
+
+                        button_text = button.text.strip()
+
+                        # Click con JavaScript como fallback
+                        try:
+                            button.click()
+                        except:
+                            self.driver.execute_script("arguments[0].click();", button)
+
+                        logger.info(f"✅ Horario '{button_text}' seleccionado en intento {attempt + 1}")
+                        return button_text
+
+                raise Exception("No se encontró ningún botón de hora habilitado.")
 
             except Exception as e:
                 logger.warning(f"⚠️ Intento {attempt + 1} falló: {type(e).__name__}")
                 if attempt < max_attempts - 1:
-                    time.sleep(2)  # Esperar antes de reintentar
+                    time.sleep(3)  # Espera más larga entre reintentos
                 else:
                     logger.error("❌ Todos los intentos fallaron")
                     raise
