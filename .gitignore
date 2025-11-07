@@ -3,5 +3,9 @@
 
 # Archivos de caché de Python
 __pycache__/
+
+# Allure
 *.pycallure-results/
+
+# Screenshots
 screenshots/
