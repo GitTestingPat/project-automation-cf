@@ -1,1 +1,0 @@
-✅ Registro rechazado correctamente para email inválido 'invalid_email'. Código: 422
