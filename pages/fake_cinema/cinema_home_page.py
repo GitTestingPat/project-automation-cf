@@ -368,7 +368,7 @@ class CinemaHomePage:
 
     def select_first_available_time_resilient(self, max_attempts=3):
         """
-        Versión mejorada que maneja el caso cuando no hay horarios disponibles.
+        Metodo que maneja la prueba cuando no hay horarios disponibles.
         Si no encuentra horarios, intenta con otras fechas automáticamente.
 
         :param max_attempts: Número de intentos (default: 3)
@@ -377,7 +377,7 @@ class CinemaHomePage:
         import os
         import time
 
-        timeout = 30 if os.getenv('CI') else 20
+        timeout = 60 if os.getenv('CI') else 20
 
         for attempt in range(max_attempts):
             try:
@@ -387,6 +387,17 @@ class CinemaHomePage:
                 WebDriverWait(self.driver, 10).until(
                     lambda d: d.execute_script('return document.readyState') == 'complete'
                 )
+
+                try:
+                    WebDriverWait(self.driver, 15).until(
+                        lambda d: (
+                                      d.execute_script("return document.querySelectorAll('*').length;"),
+                                      time.sleep(0.3),
+                                      d.execute_script("return document.querySelectorAll('*').length;")
+                                  )[-1] == d.execute_script("return document.querySelectorAll('*').length;")
+                    )
+                except:
+                    pass
 
                 # Scroll y espera
                 self.driver.execute_script("window.scrollTo(0, 500);")
