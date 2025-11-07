@@ -368,8 +368,8 @@ class CinemaHomePage:
 
     def select_first_available_time_resilient(self, max_attempts=3):
         """
-        Versión con debugging extremo para diagnosticar problemas en CI/CD.
-        Captura estado completo de la página en cada intento.
+        Versión mejorada que maneja el caso cuando no hay horarios disponibles.
+        Si no encuentra horarios, intenta con otras fechas automáticamente.
 
         :param max_attempts: Número de intentos (default: 3)
         :return: El texto de la hora seleccionada
@@ -377,280 +377,126 @@ class CinemaHomePage:
         import os
         import time
 
-        # Timeout más largo en CI/CD
         timeout = 30 if os.getenv('CI') else 20
-
-        logger.debug("=" * 60)
-        logger.debug("🔍 INICIO DEBUG - select_first_available_time_resilient")
-        logger.debug(f"Ambiente: {'CI/CD' if os.getenv('CI') else 'LOCAL'}")
-        logger.debug(f"Timeout configurado: {timeout}s")
-        logger.debug("=" * 60)
 
         for attempt in range(max_attempts):
             try:
-                logger.debug(f"\n{'=' * 60}")
-                logger.debug(f"[RETRY] 🔄 Intento {attempt + 1}/{max_attempts}")
-                logger.debug(f"{'=' * 60}")
+                logger.debug(f"[RETRY] Intento {attempt + 1}/{max_attempts} de seleccionar horario")
 
-                # ========== PASO 1: Verificar URL actual ==========
-                current_url = self.driver.current_url
-                logger.debug(f"📍 URL actual: {current_url}")
-
-                # ========== PASO 2: Esperar que la página termine de cargar ==========
-                logger.debug("⏳ Esperando document.readyState = 'complete'...")
+                # Esperar que la página termine de cargar
                 WebDriverWait(self.driver, 10).until(
                     lambda d: d.execute_script('return document.readyState') == 'complete'
                 )
-                logger.debug("✅ document.readyState = 'complete'")
 
-                # ========== PASO 3: Verificar estado de fecha seleccionada ==========
+                # Scroll y espera
+                self.driver.execute_script("window.scrollTo(0, 500);")
+                time.sleep(2)
+
+                # Intentar eliminar loaders
                 try:
-                    selected_date = self.driver.execute_script("""
-                        const selected = document.querySelector('button[class*="selected"], button[aria-pressed="true"]');
-                        return selected ? selected.innerText : 'No date selected';
-                    """)
-                    logger.debug(f"📅 Fecha seleccionada: {selected_date}")
-                except Exception as e:
-                    logger.warning(f"⚠️ No se pudo verificar fecha seleccionada: {e}")
-
-                # ========== PASO 4: Buscar contenedor de horarios ==========
-                logger.debug("🔍 Buscando contenedor de horarios en el DOM...")
-                try:
-                    time_container_info = self.driver.execute_script("""
-                        const selectors = [
-                            '[class*="time"]', 
-                            '[class*="schedule"]', 
-                            '[class*="hour"]',
-                            'section',
-                            '[data-times]',
-                            '[data-schedule]'
-                        ];
-
-                        for (let selector of selectors) {
-                            const container = document.querySelector(selector);
-                            if (container) {
-                                return {
-                                    selector: selector,
-                                    found: true,
-                                    innerHTML_length: container.innerHTML.length,
-                                    innerHTML_preview: container.innerHTML.substring(0, 300),
-                                    visible: container.offsetParent !== null
-                                };
-                            }
-                        }
-                        return { found: false };
-                    """)
-
-                    if time_container_info.get('found'):
-                        logger.debug(f"✅ Contenedor encontrado con selector: {time_container_info['selector']}")
-                        logger.debug(f"   - Visible: {time_container_info['visible']}")
-                        logger.debug(f"   - Longitud HTML: {time_container_info['innerHTML_length']} chars")
-                        logger.debug(f"   - Preview: {time_container_info['innerHTML_preview'][:150]}...")
-                    else:
-                        logger.warning("⚠️ NO se encontró contenedor de horarios en el DOM")
-                except Exception as e:
-                    logger.error(f"❌ Error al buscar contenedor: {e}")
-
-                # ========== PASO 5: Verificar loaders activos ==========
-                logger.debug("🔍 Verificando loaders activos...")
-                try:
-                    loaders = self.driver.execute_script("""
-                        const loadingSelectors = [
-                            '.loading', '.spinner', '.loader',
-                            '[class*="load"]', '[class*="spinner"]',
-                            '[data-loading]', '[data-loading="true"]'
-                        ];
-
-                        let activeLoaders = [];
-                        for (let selector of loadingSelectors) {
-                            const elements = document.querySelectorAll(selector);
-                            if (elements.length > 0) {
-                                activeLoaders.push({
-                                    selector: selector,
-                                    count: elements.length
-                                });
-                            }
-                        }
-                        return activeLoaders;
-                    """)
-
-                    if loaders and len(loaders) > 0:
-                        logger.warning(f"⚠️ Se encontraron {len(loaders)} tipos de loaders activos:")
-                        for loader in loaders:
-                            logger.warning(f"   - {loader['selector']}: {loader['count']} elementos")
-                    else:
-                        logger.debug("✅ No hay loaders activos")
-                except Exception as e:
-                    logger.error(f"❌ Error al verificar loaders: {e}")
-
-                # ========== PASO 6: Intentar eliminar loaders ==========
-                try:
-                    logger.debug("🧹 Intentando eliminar loaders...")
                     WebDriverWait(self.driver, 5).until_not(
                         EC.presence_of_element_located(
                             (By.CSS_SELECTOR, ".loading, .spinner, [class*='load'], [class*='spinner']"))
                     )
-                    logger.debug("✅ Loaders eliminados o no presentes")
                 except:
-                    logger.debug("⏭️ Timeout esperando eliminación de loaders (continuando...)")
+                    pass
 
-                # ========== PASO 7: Scroll al área de horarios ==========
-                logger.debug("📜 Ejecutando scroll...")
-                self.driver.execute_script("window.scrollTo(0, 500);")
-                time.sleep(2)
-                logger.debug("✅ Scroll ejecutado")
-
-                # ========== PASO 8: Contar botones de horario ANTES del wait ==========
-                logger.debug("🔍 Contando botones de horario ANTES del WebDriverWait...")
-                try:
-                    button_count = self.driver.execute_script("""
-                        const buttons = document.querySelectorAll('button');
-                        const timeButtons = Array.from(buttons).filter(btn => {
-                            const text = btn.innerText || btn.textContent;
-                            return text.includes(':') && (text.includes('AM') || text.includes('PM'));
-                        });
-
-                        return {
-                            total_buttons: buttons.length,
-                            time_buttons: timeButtons.length,
-                            sample_buttons: timeButtons.slice(0, 3).map(b => ({
-                                text: b.innerText,
-                                visible: b.offsetParent !== null,
-                                enabled: !b.disabled,
-                                classes: b.className
-                            }))
-                        };
-                    """)
-
-                    logger.debug(f"📊 Botones en página:")
-                    logger.debug(f"   - Total de botones: {button_count['total_buttons']}")
-                    logger.debug(f"   - Botones de horario: {button_count['time_buttons']}")
-
-                    if button_count['time_buttons'] > 0:
-                        logger.debug(f"   - Muestra de botones encontrados:")
-                        for i, btn in enumerate(button_count['sample_buttons'], 1):
-                            logger.debug(
-                                f"     {i}. '{btn['text']}' - Visible: {btn['visible']}, Enabled: {btn['enabled']}")
-                    else:
-                        logger.warning("⚠️ NO se encontraron botones de horario en el DOM aún")
-
-                except Exception as e:
-                    logger.error(f"❌ Error al contar botones: {e}")
-
-                # ========== PASO 9: WebDriverWait con logging ==========
-                logger.debug(f"⏳ Iniciando WebDriverWait ({timeout}s) para botones de horario...")
-                start_wait = time.time()
-
-                time_buttons = WebDriverWait(self.driver, timeout).until(
-                    EC.presence_of_all_elements_located((
-                        By.XPATH,
-                        "//button[contains(text(), ':') and (contains(text(), 'AM') or contains(text(), 'PM'))]"
-                    ))
+                # NUEVO: Verificar si hay botones de horario ANTES del wait largo
+                time_buttons = self.driver.find_elements(
+                    By.XPATH,
+                    "//button[contains(text(), ':') and (contains(text(), 'AM') or contains(text(), 'PM'))]"
                 )
 
-                elapsed_wait = time.time() - start_wait
-                logger.debug(f"✅ WebDriverWait completado en {elapsed_wait:.2f}s")
+                # Si NO hay botones, intentar con otra fecha
+                if len(time_buttons) == 0:
+                    logger.warning(f"⚠️ No hay horarios para la fecha actual, probando otra fecha...")
 
-                # ========== PASO 10: Validar botones encontrados ==========
-                if not time_buttons:
-                    logger.error("❌ time_buttons está vacío después del wait")
-                    raise Exception("No se encontraron horarios disponibles (lista vacía)")
+                    # Obtener todas las fechas disponibles
+                    date_buttons = self.driver.find_elements(
+                        By.XPATH,
+                        "//button[contains(@class, 'date') or @data-date or contains(text(), '/')]"
+                    )
 
-                logger.debug(f"✅ Se encontraron {len(time_buttons)} botones de horario")
+                    if len(date_buttons) == 0:
+                        # Si no hay botones de fecha, buscar por cualquier botón clickeable
+                        date_buttons = self.driver.find_elements(
+                            By.XPATH,
+                            "//section//button[not(contains(text(), ':'))]"
+                        )
 
-                # ========== PASO 11: Intentar click en primer botón ==========
-                for idx, button in enumerate(time_buttons):
-                    try:
-                        is_displayed = button.is_displayed()
-                        is_enabled = button.is_enabled()
+                    logger.debug(f"   Fechas disponibles: {len(date_buttons)}")
 
-                        logger.debug(f"🔍 Botón {idx + 1}: displayed={is_displayed}, enabled={is_enabled}")
+                    # Probar con las siguientes 3 fechas
+                    for idx, date_btn in enumerate(date_buttons[1:4], 1):
+                        try:
+                            logger.debug(f"   Probando fecha #{idx}...")
 
-                        if is_displayed and is_enabled:
-                            # Scroll al elemento
-                            self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", button)
+                            # Scroll al botón de fecha
+                            self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", date_btn)
                             time.sleep(0.5)
 
-                            button_text = button.text.strip()
-                            logger.debug(f"🎯 Intentando click en: '{button_text}'")
-
-                            # Click con JavaScript como fallback
+                            # Click en la fecha
                             try:
-                                button.click()
-                                logger.debug("✅ Click con .click() exitoso")
+                                date_btn.click()
                             except:
-                                self.driver.execute_script("arguments[0].click();", button)
-                                logger.debug("✅ Click con JavaScript exitoso")
+                                self.driver.execute_script("arguments[0].click();", date_btn)
 
-                            logger.info(f"✅ Horario '{button_text}' seleccionado en intento {attempt + 1}")
-                            logger.debug("=" * 60)
-                            logger.debug("🎉 FIN DEBUG - Selección exitosa")
-                            logger.debug("=" * 60)
-                            return button_text
+                            time.sleep(3)  # Esperar que carguen los horarios
 
-                    except Exception as e:
-                        logger.warning(f"⚠️ Error al procesar botón {idx + 1}: {type(e).__name__} - {str(e)}")
-                        continue
+                            # Verificar si ahora hay horarios
+                            time_buttons = self.driver.find_elements(
+                                By.XPATH,
+                                "//button[contains(text(), ':') and (contains(text(), 'AM') or contains(text(), 'PM'))]"
+                            )
+
+                            if len(time_buttons) > 0:
+                                logger.info(f"✅ Fecha #{idx} tiene {len(time_buttons)} horarios disponibles")
+                                break
+                            else:
+                                logger.debug(f"   Fecha #{idx} sin horarios, siguiente...")
+
+                        except Exception as e:
+                            logger.debug(f"   Error con fecha #{idx}: {e}")
+                            continue
+
+                # Si TODAVÍA no hay botones después de probar fechas, usar el wait original
+                if len(time_buttons) == 0:
+                    logger.debug("Esperando horarios con WebDriverWait...")
+                    time_buttons = WebDriverWait(self.driver, timeout).until(
+                        EC.presence_of_all_elements_located((
+                            By.XPATH,
+                            "//button[contains(text(), ':') and (contains(text(), 'AM') or contains(text(), 'PM'))]"
+                        ))
+                    )
+
+                # Validar que hay botones
+                if not time_buttons:
+                    raise Exception("No se encontraron horarios disponibles.")
+
+                # Seleccionar primer botón habilitado
+                for button in time_buttons:
+                    if button.is_displayed() and button.is_enabled():
+                        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", button)
+                        time.sleep(0.5)
+
+                        button_text = button.text.strip()
+
+                        try:
+                            button.click()
+                        except:
+                            self.driver.execute_script("arguments[0].click();", button)
+
+                        logger.info(f"✅ Horario '{button_text}' seleccionado en intento {attempt + 1}")
+                        return button_text
 
                 raise Exception("No se encontró ningún botón de hora habilitado.")
 
             except Exception as e:
-                error_type = type(e).__name__
-                error_msg = str(e)
-
-                logger.warning(f"\n{'=' * 60}")
-                logger.warning(f"⚠️ INTENTO {attempt + 1} FALLÓ")
-                logger.warning(f"{'=' * 60}")
-                logger.warning(f"Error: {error_type}")
-                logger.warning(f"Mensaje: {error_msg[:200]}")
-
-                # ========== CAPTURA ADICIONAL EN FALLO ==========
+                logger.warning(f"⚠️ Intento {attempt + 1} falló: {type(e).__name__}")
                 if attempt < max_attempts - 1:
-                    try:
-                        # Capturar screenshot path (solo en CI)
-                        if os.getenv('CI'):
-                            logger.debug("📸 Screenshot disponible en artifacts del workflow")
-
-                        # Verificar mensajes de error en la página
-                        logger.debug("🔍 Buscando mensajes de error en la página...")
-                        error_elements = self.driver.execute_script("""
-                            const errorTexts = [];
-                            const errorSelectors = ['[class*="error"]', '[class*="alert"]', '[role="alert"]'];
-
-                            for (let selector of errorSelectors) {
-                                const elements = document.querySelectorAll(selector);
-                                elements.forEach(el => {
-                                    if (el.innerText.trim()) {
-                                        errorTexts.push(el.innerText.trim().substring(0, 100));
-                                    }
-                                });
-                            }
-                            return errorTexts;
-                        """)
-
-                        if error_elements:
-                            logger.warning(f"⚠️ Mensajes de error en página:")
-                            for msg in error_elements[:3]:
-                                logger.warning(f"   - {msg}")
-
-                        # Capturar HTML del body para análisis
-                        body_html = self.driver.execute_script("""
-                            return document.body.innerHTML.substring(0, 500);
-                        """)
-                        logger.debug(f"📄 HTML Body preview: {body_html[:200]}...")
-
-                    except Exception as debug_error:
-                        logger.error(f"❌ Error en captura de debug: {debug_error}")
-
-                    logger.debug(f"⏳ Esperando 3s antes del reintento...")
                     time.sleep(3)
                 else:
-                    logger.error("\n" + "=" * 60)
-                    logger.error("❌ TODOS LOS INTENTOS FALLARON")
-                    logger.error("=" * 60)
-                    logger.error(f"Error final: {error_type}")
-                    logger.error(f"Mensaje: {error_msg}")
-                    logger.error("=" * 60)
+                    logger.error("❌ Todos los intentos fallaron")
                     raise
 
     def is_seat_grid_displayed(self):
