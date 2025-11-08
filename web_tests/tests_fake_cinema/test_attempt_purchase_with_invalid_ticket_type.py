@@ -1,6 +1,7 @@
 import pytest
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 from pages.fake_cinema.cinema_home_page import CinemaHomePage
 
 
@@ -31,11 +32,17 @@ def test_attempt_purchase_with_invalid_ticket_type(driver):
         )
         home_page.click_buy_tickets_button()
 
-        # Esperar modal y click en confirmar selección de boletos
+        # Esperar modal de selección de boletos
         print("[DEBUG] Esperando modal de selección de boletos...")
         home_page.wait_for_ticket_modal()
-        print("[DEBUG] Confirmando selección de boletos...")
-        home_page.confirm_tickets_selection()
+
+        # Intentar hacer clic en Confirmar (puede estar deshabilitado en Chrome)
+        print("[DEBUG] Intentando confirmar selección de boletos...")
+        try:
+            home_page.confirm_tickets_selection()
+            print("[DEBUG] Click en Confirmar ejecutado.")
+        except TimeoutException:
+            print("[DEBUG] Botón Confirmar no clickeable (esperado en Chrome cuando campos no coinciden).")
 
         # Verificar mensaje de error
         print("[DEBUG] Confirmando el mensaje: 'La cantidad debe coincidir con los asientos seleccionados'")
@@ -44,6 +51,8 @@ def test_attempt_purchase_with_invalid_ticket_type(driver):
         # Verificar que el botón "Confirmar" esté inactivo
         print("[DEBUG] Verificando que el botón 'Confirmar' esté inactivo...")
         home_page.is_confirm_button_disabled()
+
+        print("[DEBUG] ✅ Validación correcta: mensaje de error visible y botón deshabilitado.")
 
     except Exception as e:
         pytest.fail(f"La prueba falló: {str(e)}")

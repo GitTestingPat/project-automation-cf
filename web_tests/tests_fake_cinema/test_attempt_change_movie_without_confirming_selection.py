@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pages.fake_cinema.cinema_home_page import CinemaHomePage
 import time
@@ -7,6 +8,8 @@ import time
     TC-WEB-43: Intento de cambiar de película sin confirmar la selección.
     El sistema redirige a la nueva película. El carrito se mantiene en estado vacio.
 """
+
+
 def test_attempt_change_movie_without_confirming_selection(driver):
     # Inicializar la página principal usando el Page Object Model
     home_page = CinemaHomePage(driver)
@@ -23,13 +26,18 @@ def test_attempt_change_movie_without_confirming_selection(driver):
     fourth_movie.click()
     print("[DEBUG] ✅ Cuarta película seleccionada.")
 
-    # Volver al listado de películas haciendo clic en el enlace "Películas"
-    print("[DEBUG] Volviendo al listado de películas (clic en 'Películas')...")
-    movies_link = home_page.wait.until(
-        EC.element_to_be_clickable((By.XPATH, "//a[contains(text(),'Películas')] | //header//nav//a[1]"))
+    # Volver al listado de películas haciendo clic en el logo/home
+    print("[DEBUG] Volviendo al listado de películas (clic en logo home)...")
+    home_button = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "//a[@href='/'][@class='text-2xl font-bold text-white']"))
     )
-    movies_link.click()
-    time.sleep(2)  # Esperar que la página se recargue
+    driver.execute_script("arguments[0].click();", home_button)
+
+    # Esperar que el listado de películas se cargue
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, "div.grid > div:nth-of-type(5)"))
+    )
+    time.sleep(1)  # Espera adicional para estabilidad
     print("[DEBUG] ✅ Redirigido al listado de películas.")
 
     # RE-LOCALIZAR la quinta película después de la navegación
