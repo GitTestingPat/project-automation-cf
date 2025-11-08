@@ -25,7 +25,10 @@ def test_attempt_change_movie_without_confirming_selection(driver):
 
     # Volver al listado de películas haciendo clic en el enlace "Películas"
     print("[DEBUG] Volviendo al listado de películas (clic en 'Películas')...")
-    home_page.driver.find_element(*home_page.CHOOSE_CINEMA_BUTTON_TEXT).click()
+    movies_link = home_page.wait.until(
+        EC.element_to_be_clickable((By.XPATH, "//a[contains(text(),'Películas')] | //header//nav//a[1]"))
+    )
+    movies_link.click()
     time.sleep(2)  # Esperar que la página se recargue
     print("[DEBUG] ✅ Redirigido al listado de películas.")
 
