@@ -252,9 +252,8 @@ def driver():
         options.add_argument("--disable-renderer-backgrounding")
         # Opción adicional para evitar problemas de zona horaria en CI
         options.add_argument("--timezone=UTC")
-
-    # Iniciar el driver
-    driver = webdriver.Chrome(options=options)
+        # Iniciar el driver
+        driver = webdriver.Chrome(options=options)
     # Establecer un tiempo de espera implícito estándar
     driver.implicitly_wait(10)
     yield driver
