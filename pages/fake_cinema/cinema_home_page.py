@@ -366,7 +366,7 @@ class CinemaHomePage:
 
         raise Exception("No se encontró ningún botón de hora habilitado.")
 
-    def select_first_available_time_resilient(self, max_attempts=3):
+    def select_first_available_time_resilient(self, max_attempts=5):
         """
         Metodo que maneja la prueba cuando no hay horarios disponibles.
         Si no encuentra horarios, intenta con otras fechas automáticamente.

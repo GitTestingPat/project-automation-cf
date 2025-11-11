@@ -42,9 +42,10 @@ def test_attempt_change_movie_without_confirming_selection(driver):
 
     # RE-LOCALIZAR la quinta película después de la navegación
     print("[DEBUG] Haciendo clic en la quinta película de la grilla...")
-    fifth_movie = home_page.wait.until(
+    fifth_movie = WebDriverWait(driver, 20).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "div.grid > div:nth-of-type(5) > div > a"))
     )
+    time.sleep(0.5)  # Pequeña pausa antes del clic
     fifth_movie.click()
     print("[DEBUG] ✅ Quinta película seleccionada.")
 
