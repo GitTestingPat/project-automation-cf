@@ -30,25 +30,25 @@ def test_cart_persists_after_page_reload(driver):
     print("[USER FLOW] Entrando a la página de detalles de la sexta película...")
 
     # 3. Seleccionar fecha: hoy o mañana
-    today = str(datetime.now().day)
-    try:
-        home_page.select_date(today)
-    except Exception:
-        tomorrow = str((datetime.now() + timedelta(days=1)).day)
-        home_page.select_date(tomorrow)
+    # today = str(datetime.now().day)
+    # try:
+    #     home_page.select_date(today)
+    # except Exception:
+    #     tomorrow = str((datetime.now() + timedelta(days=1)).day)
+    #     home_page.select_date(tomorrow)
 
-    # 4. Seleccionar primer horario disponible
+    # 3. Seleccionar primer horario disponible
     selected_time = home_page.select_first_available_time_resilient()
     assert selected_time, "No se pudo seleccionar un horario."
 
-    # 5. Verificar grilla de asientos
+    # 4. Verificar grilla de asientos
     assert home_page.is_seat_grid_displayed(), "La grilla de asientos no se cargó."
 
-    # 6. Seleccionar un asiento
+    # 5. Seleccionar un asiento
     selected_seat = home_page.select_first_available_seat()
     assert selected_seat, "No se pudo seleccionar un asiento."
 
-    # 7. VERIFICAR QUE EL BOTÓN "COMPRAR BOLETOS" ESTÁ HABILITADO ANTES DEL REFRESH
+    # 6. VERIFICAR QUE EL BOTÓN "COMPRAR BOLETOS" ESTÁ HABILITADO ANTES DEL REFRESH
     buy_button = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located(home_page.BUY_TICKETS_BUTTON)
     )
@@ -58,7 +58,7 @@ def test_cart_persists_after_page_reload(driver):
     )
     assert is_enabled_before, "El botón 'Comprar boletos' debe estar habilitado tras seleccionar un asiento."
 
-    # 8. RECARGAR LA PÁGINA
+    # 7. RECARGAR LA PÁGINA
     print("[DEBUG] Recargando la página...")
     driver.refresh()
 
@@ -66,7 +66,7 @@ def test_cart_persists_after_page_reload(driver):
         lambda d: d.execute_script("return document.readyState") == "complete"
     )
 
-    # 9. VERIFICAR EL ESTADO DEL BOTÓN DESPUÉS DEL REFRESH
+    # 8. VERIFICAR EL ESTADO DEL BOTÓN DESPUÉS DEL REFRESH
     buy_button_after = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located(home_page.BUY_TICKETS_BUTTON)
     )

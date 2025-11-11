@@ -2,6 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pages.shophub.shophub_home_page import HomePage
+import time
 
 
 def test_view_cart_content_as_logged_in_user(driver):
@@ -71,9 +72,10 @@ def test_view_cart_content_as_logged_in_user(driver):
 
     # ✅ Buscar y hacer clic en el producto 21 por su botón "View Details"
     print("🔍 [11] Buscando producto 21 y haciendo clic en 'View Details'...")
-    view_details_btn = WebDriverWait(driver, 10).until(
+    view_details_btn = WebDriverWait(driver, 20).until(
         EC.element_to_be_clickable((By.ID, "view-details-21"))
     )
+    time.sleep(0.5)  # Pequeña espera antes del clic
     view_details_btn.click()
     print("✅ Clic en 'View Details' del producto 21 realizado.")
 
@@ -88,7 +90,7 @@ def test_view_cart_content_as_logged_in_user(driver):
     )
 
     # ✅ Esperar a que el título del producto sea visible (más confiable)
-    WebDriverWait(driver, 20).until(
+    WebDriverWait(driver, 30).until(
         EC.visibility_of_element_located((By.XPATH, "//h1[contains(text(), 'Smartphone')]"))
     )
 

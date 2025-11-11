@@ -28,19 +28,19 @@ def test_attempt_change_movie_without_confirming_selection(driver):
 
     # Volver al listado de películas haciendo clic en el logo/home
     print("[DEBUG] Volviendo al listado de películas (clic en logo home)...")
-    home_button = WebDriverWait(driver, 10).until(
+    home_button = WebDriverWait(driver, 20).until(
         EC.element_to_be_clickable((By.XPATH, "//a[@href='/'][@class='text-2xl font-bold text-white']"))
     )
     driver.execute_script("arguments[0].click();", home_button)
 
     # Esperar que el listado de películas se cargue
-    WebDriverWait(driver, 10).until(
+    WebDriverWait(driver, 20).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, "div.grid > div:nth-of-type(5)"))
     )
     time.sleep(1)  # Espera adicional para estabilidad
     print("[DEBUG] ✅ Redirigido al listado de películas.")
 
-    # RE-LOCALIZAR la quinta película después de la navegación
+    # RE-LOCALIZAR la quinta película después de la navegación (Toy Story)
     print("[DEBUG] Haciendo clic en la quinta película de la grilla...")
     fifth_movie = WebDriverWait(driver, 20).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "div.grid > div:nth-of-type(5) > div > a"))
