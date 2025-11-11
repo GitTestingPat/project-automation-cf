@@ -13,7 +13,6 @@ def test_select_date_and_time(driver):
     # Act
     home_page.go_to()
     home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
-    home_page.select_first_available_date()
     # Selecciona la primera hora disponible
     selected_time = home_page.select_first_available_time_resilient()
 

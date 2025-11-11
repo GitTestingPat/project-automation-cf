@@ -20,7 +20,6 @@ def test_select_and_deselect_multiple_seats(driver):
     # Act - Seleccionar asientos
     home_page.go_to()
     home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
-    home_page.select_first_available_date()
     home_page.select_first_available_time_resilient()
 
     print(f"[DEBUG] Seleccionando {expected_seat_count} asientos...")

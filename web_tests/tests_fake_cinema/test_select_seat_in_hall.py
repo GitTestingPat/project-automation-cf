@@ -11,7 +11,6 @@ def test_select_seat_in_hall(driver):
     # Act
     home_page.go_to()
     home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
-    home_page.select_first_available_date()
     home_page.select_first_available_time_resilient()
 
     # Obtener el botón de compra ANTES de seleccionar para verificar cambio de estado

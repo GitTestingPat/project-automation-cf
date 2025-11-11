@@ -22,9 +22,6 @@ def test_attempt_to_enter_text_in_numeric_fields(driver):
     # Ir al detalle de una película
     home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
 
-    # Seleccionar fecha de función
-    home_page.select_first_available_date()
-
     # Elegir primer horario disponible
     home_page.select_first_available_time_resilient()
 

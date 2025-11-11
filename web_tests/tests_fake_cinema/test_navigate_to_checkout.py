@@ -12,7 +12,6 @@ def test_navigate_to_checkout(driver):
     # Proceso hasta carrito (código existente)
     home_page.go_to()
     home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
-    home_page.select_first_available_date()
     home_page.select_first_available_time_resilient()
     home_page.select_first_available_seat()
 
