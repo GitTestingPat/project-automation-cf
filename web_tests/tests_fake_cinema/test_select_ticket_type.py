@@ -52,3 +52,4 @@ def test_confirm_ticket_type(driver):
     except Exception as e:
         print(f"[CRITICAL] Error durante la prueba TC-WEB-19: {str(e)}")
         raise  # Re-lanza la excepción para que pytest la marque como fallida
+# Test timing check
