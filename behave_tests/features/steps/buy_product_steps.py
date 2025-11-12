@@ -1,5 +1,6 @@
 import time
 from behave import when, then
+from pages.shophub.shophub_home_page import HomePage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
