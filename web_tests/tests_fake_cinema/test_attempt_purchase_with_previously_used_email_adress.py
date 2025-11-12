@@ -21,7 +21,7 @@ def test_attempt_purchase_with_previously_used_email_adress(driver):
         home_page.go_to()
 
         # Navegar a detalle de Jurassic World
-        home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
+        home_page.navigate_to_movie_detail(home_page.FANTASTIC_FOUR_DETAIL_BUTTON)
 
         # Seleccionar primera hora disponible
         home_page.select_first_available_time_resilient()

@@ -20,7 +20,7 @@ def test_attempt_to_enter_text_in_numeric_fields(driver):
     home_page.go_to()
 
     # Ir al detalle de una película
-    home_page.navigate_to_movie_detail(home_page.JURASSIC_WORLD_DETAIL_BUTTON)
+    home_page.navigate_to_movie_detail(home_page.FANTASTIC_FOUR_DETAIL_BUTTON)
 
     # Elegir primer horario disponible
     home_page.select_first_available_time_resilient()
