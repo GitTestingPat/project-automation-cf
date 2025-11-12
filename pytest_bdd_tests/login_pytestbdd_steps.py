@@ -1,5 +1,5 @@
 from pytest_bdd import given, when, then
-from pages import HomePage
+from pages.shophub.shophub_home_page import HomePage
 
 # --- Definición de los pasos ---
 
