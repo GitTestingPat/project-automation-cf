@@ -298,4 +298,7 @@ Las pruebas automatizadas `TC-WEB-09` (Agregar producto al carrito) y `TC-WEB-10
 *   **Solución Propuesta:** Se requiere una investigación más profunda para determinar cómo la aplicación gestiona el estado del carrito (por ejemplo, mediante `localStorage`, `sessionStorage`, cookies o estado de sesión del servidor) y modificar las pruebas o la configuración del driver de Selenium para que puedan acceder y sincronizar correctamente con ese estado.
 *   **Estado:** **En Investigación**. Las pruebas deben ser marcadas como `@pytest.mark.xfail` o movidas a una suite de pruebas pendientes hasta que se resuelva esta inconsistencia.
 
+## Licencia
+
+MIT License
 ---
