@@ -169,13 +169,19 @@ Este proyecto fue creado siguiendo buenas prácticas de gestión de código:
 
 - [Documentación de la API](https://cf-automation-airline-api.onrender.com/docs#)
 - [Plan de Pruebas Detallado](https://docs.google.com/spreadsheets/d/1edGFYzfhE9EyjqVpDxS6mDWzh30CBfRi0SVHn3WQDF4/edit?usp=sharing)
+- 📄 **[Análisis de Testing](docs/TESTING_NARRATIVE.md)** - Las tres historias: producto, proceso 
+y calidad de las pruebas
 
 ## ⚠️ Limitación Conocida del Entorno de CI
 
-Una de las pruebas de API, `test_create_booking_returns_valid_schema` (en `api_tests/test_booking_schema.py`), puede fallar intermitentemente en el entorno de Integración Continua (GitHub Actions) con un error `404 Not Found` al intentar buscar vuelos.
+Una de las pruebas de API, `test_create_booking_returns_valid_schema` (en `api_tests/test_booking_schema.py`), puede 
+fallar intermitentemente en el entorno de Integración Continua (GitHub Actions) con un error `404 Not Found` al 
+intentar buscar vuelos.
 
 **Causa:**
-La prueba depende del endpoint externo `GET /flights/search/` de la API de demostración (`https://cf-automation-airline-api.onrender.com`). Este endpoint puede responder de manera inconsistente (por ejemplo, devolviendo `404`) en ciertos entornos o en momentos específicos, posiblemente debido a:
+La prueba depende del endpoint externo `GET /flights/search/` de la API de demostración 
+(`https://cf-automation-airline-api.onrender.com`). Este endpoint puede responder de manera inconsistente 
+(por ejemplo, devolviendo `404`) en ciertos entornos o en momentos específicos, posiblemente debido a:
 - Configuraciones de red del entorno de CI.
 - Comportamientos simulados por la propia API de prueba.
 - Latencia o timeout en la respuesta.
@@ -224,7 +230,10 @@ La prueba automatizada está correctamente implementada para detectar este fallo
 
 ### **1. Resumen del Problema**
 
-Las pruebas automatizadas diseñadas para verificar la funcionalidad del carrito de compras en ShopHub están fallando. Aunque el botón "Add to Cart" funciona correctamente (el producto se agrega al carrito), **la página `/cart` no refleja este cambio durante la ejecución de las pruebas**. La página del carrito se comporta como si estuviera vacía, lo que hace que las aserciones fallen.
+Las pruebas automatizadas diseñadas para verificar la funcionalidad del carrito de compras en ShopHub están fallando. 
+Aunque el botón "Add to Cart" funciona correctamente (el producto se agrega al carrito), **la página `/cart` 
+no refleja este cambio durante la ejecución de las pruebas**. La página del carrito se comporta como 
+si estuviera vacía, lo que hace que las aserciones fallen.
 
 ---
 
@@ -235,24 +244,34 @@ Las pruebas automatizadas diseñadas para verificar la funcionalidad del carrito
 *   **Esperado:**
     1.  El usuario hace clic en "Add to Cart" (ID `add-to-cart-21`).
     2.  El sistema registra el producto en el carrito del usuario.
-    3.  Al navegar a `https://shophub-commerce.vercel.app/cart`, la página debe mostrar una lista de productos agregados (al menos uno).
+    3.  Al navegar a `https://shophub-commerce.vercel.app/cart`, la página debe mostrar una lista de productos 
+    agregados (al menos uno).
     4.  El método `cart_page.get_cart_items()` debe devolver una lista con al menos un elemento.
 
 *   **Real (Durante la Prueba):**
     1.  El clic en "Add to Cart" se realiza con éxito (no hay excepción).
-    2.  El sistema *parece* registrar el producto (el botón del carrito en la barra de navegación muestra un badge con "1").
+    2.  El sistema *parece* registrar el producto (el botón del carrito en la barra de navegación muestra un 
+    badge con "1").
     3.  Al navegar a `/cart`, la página **NO muestra ningún producto**.
     4.  El método `cart_page.get_cart_items()` devuelve una **lista vacía (`[]`)**.
-    5.  La aserción `assert len(cart_items) > 0` falla con el mensaje: `"La página del carrito está vacía. No se encontraron productos."`
+    5.  La aserción `assert len(cart_items) > 0` falla con el mensaje: `"La página del carrito está vacía. 
+    No se encontraron productos."`
 
 #### **2.2. Causa Raíz**
 
-La causa raíz es una **inconsistencia en el estado de la aplicación entre la interfaz de usuario (UI) y la lógica de negocio**.
+La causa raíz es una **inconsistencia en el estado de la aplicación entre la interfaz de usuario (UI) 
+y la lógica de negocio**.
 
-*   **UI (Interfaz de Usuario):** La aplicación actualiza correctamente la UI. El badge del carrito en la barra de navegación cambia a "1", lo que indica visualmente al usuario que el producto se ha agregado.
-*   **Lógica de Negocio / Estado del Carrito:** La página `/cart`, que es la fuente de verdad para verificar el contenido del carrito, **no recibe ni muestra los datos del producto agregado durante la sesión de la prueba automatizada**.
+*   **UI (Interfaz de Usuario):** La aplicación actualiza correctamente la UI. El badge del carrito en la barra 
+de navegación cambia a "1", lo que indica visualmente al usuario que el producto se ha agregado.
+*   **Lógica de Negocio / Estado del Carrito:** La página `/cart`, que es la fuente de verdad para verificar 
+el contenido del carrito, **no recibe ni muestra los datos del producto agregado durante la sesión 
+de la prueba automatizada**.
 
-Esto sugiere que el estado del carrito (la lista de productos) **no se está persistiendo o comunicando correctamente** entre la acción de "agregar" y la vista "carrito" en el contexto de una sesión controlada por Selenium. Es posible que la aplicación dependa de un estado de sesión, cookies, o almacenamiento local (`localStorage`/`sessionStorage`) que no se está manejando o sincronizando correctamente en el entorno de prueba.
+Esto sugiere que el estado del carrito (la lista de productos) **no se está persistiendo o comunicando correctamente** 
+entre la acción de "agregar" y la vista "carrito" en el contexto de una sesión controlada por Selenium. 
+Es posible que la aplicación dependa de un estado de sesión, cookies, o almacenamiento 
+local (`localStorage`/`sessionStorage`) que no se está manejando o sincronizando correctamente en el entorno de prueba.
 
 ---
 
@@ -267,36 +286,55 @@ Esto sugiere que el estado del carrito (la lista de productos) **no se está per
     Este error confirma que `get_cart_items()` devolvió una lista vacía.
 
 *   **HTML de la Página `/cart` (Proporcionado):**
-    El HTML estático proporcionado para `https://shophub-commerce.vercel.app/cart` muestra únicamente el estado "Your Cart is Empty". Esto indica que, desde la perspectiva del servidor o del estado inicial de la página, no hay productos en el carrito, a pesar de la acción previa de agregar uno.
+    El HTML estático proporcionado para `https://shophub-commerce.vercel.app/cart` muestra únicamente el estado 
+"Your Cart is Empty". Esto indica que, desde la perspectiva del servidor o del estado inicial de la página, 
+no hay productos en el carrito, a pesar de la acción previa de agregar uno.
 
 *   **Comportamiento Manual:**
-    Se ha confirmado que al interactuar manualmente con la aplicación, el flujo funciona: el producto se agrega y se puede ver en la página del carrito. Esto descarta un bug general en la funcionalidad y apunta a un problema específico con el entorno de prueba o la sincronización de estado.
+    Se ha confirmado que al interactuar manualmente con la aplicación, el flujo funciona: el producto se agrega 
+y se puede ver en la página del carrito. Esto descarta un bug general en la funcionalidad y apunta a un problema 
+específico con el entorno de prueba o la sincronización de estado.
 
 ---
 
 ### **4. Conclusión**
 
-Las pruebas fallan no porque la funcionalidad de "agregar al carrito" esté rota, sino porque **existe una asincronía o un problema de persistencia de estado entre la acción de agregar un producto y la renderización de la página del carrito en el contexto de la prueba automatizada**.
+Las pruebas fallan no porque la funcionalidad de "agregar al carrito" esté rota, sino porque **existe una asincronía 
+o un problema de persistencia de estado entre la acción de agregar un producto y la renderización de la página del 
+carrito en el contexto de la prueba automatizada**.
 
-La aplicación muestra un feedback visual correcto (badge del carrito), pero no logra transferir ese estado a la página `/cart` cuando es accedida por el script de prueba. Esto es un **fallo de integración** en el entorno de prueba, no necesariamente un bug en la lógica de negocio de la aplicación.
+La aplicación muestra un feedback visual correcto (badge del carrito), pero no logra transferir ese estado 
+a la página `/cart` cuando es accedida por el script de prueba. Esto es un **fallo de integración** 
+en el entorno de prueba, no necesariamente un bug en la lógica de negocio de la aplicación.
 
 ---
 
 ### **5. Recomendaciones para el README**
 
-Agregue la siguiente sección al archivo `README.md` del proyecto, bajo un encabezado como **"Estado Actual de las Pruebas Automatizadas"** o **"Problemas Conocidos"**:
+Agregue la siguiente sección al archivo `README.md` del proyecto, bajo un encabezado como **"Estado Actual 
+de las Pruebas Automatizadas"** o **"Problemas Conocidos"**:
 
 ---
 
 #### **Problemas Conocidos con Pruebas de Carrito**
 
-Las pruebas automatizadas `TC-WEB-09` (Agregar producto al carrito) y `TC-WEB-10` (Ver contenido del carrito) están fallando actualmente.
+Las pruebas automatizadas `TC-WEB-09` (Agregar producto al carrito) y `TC-WEB-10` (Ver contenido del carrito) 
+están fallando actualmente.
 
-*   **Síntoma:** La prueba puede hacer clic con éxito en el botón "Add to Cart", pero falla al intentar verificar el producto en la página `/cart`, la cual aparece vacía.
-*   **Causa:** Se ha identificado una inconsistencia en la aplicación donde el estado del carrito (la lista de productos) no se persiste o comunica correctamente a la página `/cart` durante la ejecución de las pruebas automatizadas con Selenium. El feedback visual (badge del carrito) funciona, pero la página de destino no refleja el cambio.
-*   **Impacto:** Estas pruebas no pueden pasar en su estado actual, a pesar de que la funcionalidad parece funcionar correctamente en pruebas manuales.
-*   **Solución Propuesta:** Se requiere una investigación más profunda para determinar cómo la aplicación gestiona el estado del carrito (por ejemplo, mediante `localStorage`, `sessionStorage`, cookies o estado de sesión del servidor) y modificar las pruebas o la configuración del driver de Selenium para que puedan acceder y sincronizar correctamente con ese estado.
-*   **Estado:** **En Investigación**. Las pruebas deben ser marcadas como `@pytest.mark.xfail` o movidas a una suite de pruebas pendientes hasta que se resuelva esta inconsistencia.
+*   **Síntoma:** La prueba puede hacer clic con éxito en el botón "Add to Cart", pero falla al intentar verificar 
+el producto en la página `/cart`, la cual aparece vacía.
+*   **Causa:** Se ha identificado una inconsistencia en la aplicación donde el estado del carrito 
+(la lista de productos) no se persiste o comunica correctamente a la página `/cart` durante la ejecución 
+de las pruebas automatizadas con Selenium. El feedback visual (badge del carrito) funciona, pero la página 
+de destino no refleja el cambio.
+*   **Impacto:** Estas pruebas no pueden pasar en su estado actual, a pesar de que la funcionalidad parece 
+funcionar correctamente en pruebas manuales.
+*   **Solución Propuesta:** Se requiere una investigación más profunda para determinar cómo la aplicación 
+gestiona el estado del carrito (por ejemplo, mediante `localStorage`, `sessionStorage`, cookies o estado 
+de sesión del servidor) y modificar las pruebas o la configuración del driver de Selenium para que puedan 
+acceder y sincronizar correctamente con ese estado.
+*   **Estado:** **En Investigación**. Las pruebas deben ser marcadas como `@pytest.mark.xfail` o movidas 
+a una suite de pruebas pendientes hasta que se resuelva esta inconsistencia.
 
 ## Licencia
 
