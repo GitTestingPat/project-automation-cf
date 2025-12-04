@@ -9,3 +9,9 @@ __pycache__/
 
 # Screenshots
 screenshots/
+
+# Coverage reports
+.coverage
+coverage.xml
+coverage.json
+htmlcov/
