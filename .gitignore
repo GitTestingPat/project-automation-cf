@@ -1,8 +1,18 @@
 # Directorio de configuración de PyCharm / IntelliJ
 .idea/
+.vscode/
+*.swp
+*.swo
 
 # Archivos de caché de Python
 __pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
 
 # Allure
 *.pycallure-results/
@@ -15,3 +25,12 @@ screenshots/
 coverage.xml
 coverage.json
 htmlcov/
+
+# macOS
+.DS_Store
+
+# Backups y temporales
+*_backup/
+*.bak
+*.tmp
+EOF
