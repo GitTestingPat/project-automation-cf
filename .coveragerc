@@ -1,0 +1,26 @@
+# Configuración de coverage.py para project-automation-cf
+# Uso: pytest api_tests/ web_tests/ pytest_bdd_tests/ --cov=. --cov-report=html --cov-report=term-missing
+
+[run]
+source = .
+omit =
+    api_tests/*
+    web_tests/*
+    pytest_bdd_tests/*
+    behave_tests/*
+    .venv/*
+    venv/*
+    htmlcov/*
+    __pycache__/*
+    *.pyc
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    raise NotImplementedError
+    if __name__ == .__main__.:
+    if TYPE_CHECKING:
+
+[html]
+directory = htmlcov
