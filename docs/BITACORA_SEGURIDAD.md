@@ -16,6 +16,12 @@
 | 2.5 | SignupPage | ✅ Hecho | `test_shophub_signup_existing_email.py` |
 | 2.6 | HomePage | ✅ Hecho | `test_shophub_homepage.py` (3 tests nuevos) |
 | 5.0 | .gitignore | ✅ Hecho | `.gitignore` |
+| 5.1 | .gitignore v2 | ✅ Hecho | `.gitignore` (`.coveragec`, plan v2) |
+| 5.2 | Cinema POM | ✅ Hecho | `test_select_ticket_type.py`, `test_cart_visualization.py` |
+| 5.3 | conftest auth_token | ✅ Hecho | `test_get_my_profile.py` (test nuevo) |
+| 5.4 | CategoryPage v2 | ✅ Hecho | `test_womens_clothes.py`, `test_view_cart_contents.py` |
+| 5.6 | CartPage v2 | ✅ Hecho | `test_view_cart_contents.py` |
+| 5.8 | booking_schema | ✅ Hecho | `test_get_booking.py` |
 
 ---
 
@@ -256,3 +262,31 @@ cinema_home_page.py: 42% (4 tests solos)
 ```
 
 > La cobertura completa con los 30 tests será mayor.
+
+---
+
+## Refactorización v2 — Cobertura 69% → 74% (Commit: `13f9478`)
+
+**Fecha:** 2026-02-26
+
+### Archivos modificados (7)
+
+| Archivo | Cambio |
+|---------|--------|
+| `test_select_ticket_type.py` | +6 métodos POM: `debug_current_page_title`, `is_cart_summary_visible`, `get_adults_cart_text`, `get_seniors_cart_text`, `get_total_price_text` |
+| `test_cart_visualization.py` | +5 métodos POM: `is_summary_page_loaded`, `is_pay_button_visible`, `get_summary_adults_text`, `get_summary_seniors_text`, `get_summary_total_price_text` |
+| `test_womens_clothes.py` | Fix StaleElementException, usa `get_first_product_link` + `get_product_title` |
+| `test_view_cart_contents.py` | `is_product_in_cart` antes de xfail, `find_and_click_product_by_name('Smartphone')` |
+| `test_add_product_to_cart_not_logged_in.py` | Usa `get_product_cards()` para verificación de carga |
+| `test_get_my_profile.py` | Nuevo test `test_get_my_profile_as_regular_user(auth_token)` |
+| `test_get_booking.py` | Importar y validar `BOOKING_SCHEMA` |
+
+### Cobertura por archivo
+
+| Archivo | Antes | Después |
+|---------|-------|---------|
+| conftest.py | 61% | 70% |
+| cinema_home_page.py | 66% | 74% |
+| booking_schema.py | 0% | 100% |
+| shophub_cart_page.py | 61% | 75% |
+| **TOTAL** | **69%** | **74%** |
