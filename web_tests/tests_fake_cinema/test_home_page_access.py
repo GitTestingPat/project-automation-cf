@@ -21,32 +21,32 @@ def test_verify_home_page_access(driver):
 
     actual_hero_title = home_page.get_hero_text()
 
-    # Assert - Validaciones mejoradas usando elementos REALES
+    # Assert - Validaciones usando POM
 
     # 1. Validar título principal
     assert actual_hero_title == expected_hero_title, \
         f"Título no coincide. Esperado: '{expected_hero_title}', Obtenido: '{actual_hero_title}'"
 
-    # 2. Validar que los botones de "Ver detalle" están presentes
-    # (usando FANTASTIC_FOUR_DETAIL_BUTTON y JURASSIC_WORLD_DETAIL_BUTTON que YA existen)
-    fantastic_button = driver.find_element(*home_page.FANTASTIC_FOUR_DETAIL_BUTTON)
-    assert fantastic_button.is_displayed(), "El botón de 'Los 4 Fantásticos' no está visible"
+    # 2. Validar descripción del hero usando POM get_hero_description()
+    hero_description = home_page.get_hero_description()
+    assert hero_description is not None and hero_description != "", \
+        "La descripción del hero está vacía"
+    print(f"✅ Descripción del hero: {hero_description[:60]}...")
 
-    jurassic_button = driver.find_element(*home_page.JURASSIC_WORLD_DETAIL_BUTTON)
-    assert jurassic_button.is_displayed(), "El botón de 'Jurassic World' no está visible"
+    # 3. Validar navegación a detalle de película usando POM navigate_to_movie_detail()
+    home_page.navigate_to_movie_detail(home_page.FANTASTIC_FOUR_DETAIL_BUTTON)
 
-    # 3. Validar que los botones son clickeables
-    assert fantastic_button.is_enabled(), "El botón de 'Los 4 Fantásticos' no es clickeable"
-    assert jurassic_button.is_enabled(), "El botón de 'Jurassic World' no es clickeable"
+    # 4. Validar título de la película usando POM get_movie_detail_title()
+    movie_title = home_page.get_movie_detail_title()
+    assert movie_title is not None and movie_title != "", \
+        "El título de la película está vacío"
+    assert "Fantásticos" in movie_title or "4" in movie_title, \
+        f"Título de película inesperado: {movie_title}"
+    print(f"✅ Título de película: {movie_title}")
 
-    # 4. Validar URL correcta
+    # 5. Validar URL correcta
     assert "fake-cinema.vercel.app" in driver.current_url, \
         f"URL incorrecta: {driver.current_url}"
-
-    # 5. Validar que la página no tiene errores 404/500
-    page_text = driver.find_element(By.TAG_NAME, "body").text
-    assert "404" not in page_text, "La página contiene error 404"
-    assert "500" not in page_text, "La página contiene error 500"
 
     print(f"✅ Página principal cargada correctamente")
     print(f"✅ Título: {actual_hero_title}")

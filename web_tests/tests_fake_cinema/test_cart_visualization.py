@@ -1,7 +1,6 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pages.fake_cinema.cinema_home_page import CinemaHomePage
-import time
 
 
 def test_cart_visualization_before_payment(driver):
@@ -24,26 +23,37 @@ def test_cart_visualization_before_payment(driver):
     home_page.select_adult_ticket(quantity=1)
     home_page.confirm_tickets_selection()
 
-    # Esperar redirección
-    time.sleep(3)
+    # Esperar redirección al carrito
+    WebDriverWait(driver, 15).until(EC.url_contains("/cart"))
 
-    # Assert - Validaciones básicas que SÍ funcionan
+    # Assert - Validaciones usando POM
 
     # 1. Validar URL del carrito
     assert "/cart" in driver.current_url, f"URL incorrecta: {driver.current_url}"
     print(f"✅ URL correcta: {driver.current_url}")
 
-    # 2. Validar que el botón "Proceder al pago" está presente y habilitado
-    # (usando el localizador que YA existe en el POM)
-    proceed_button = WebDriverWait(driver, 15).until(
-        EC.presence_of_element_located(home_page.PROCEED_TO_CHECKOUT_BUTTON)
+    # 2. Usar POM click_proceed_to_checkout() para navegar al checkout
+    home_page.click_proceed_to_checkout()
+
+    # 3. Verificar URL de checkout
+    WebDriverWait(driver, 10).until(EC.url_contains("checkout"))
+    assert "checkout" in driver.current_url.lower(), \
+        f"URL incorrecta: {driver.current_url}"
+    print(f"✅ Navegación a checkout exitosa")
+
+    # 4. Verificar que el formulario de checkout está presente
+    # usando el localizador FIRST_NAME_FIELD del POM como indicador
+    first_name_field = WebDriverWait(driver, 10).until(
+        EC.visibility_of_element_located(home_page.FIRST_NAME_FIELD)
     )
-    assert proceed_button.is_displayed(), "El botón 'Proceder al pago' no está visible"
-    assert proceed_button.is_enabled(), "El botón 'Proceder al pago' no está habilitado"
-    print(f"✅ Botón 'Proceder al pago' visible y habilitado")
+    assert first_name_field.is_displayed(), "El formulario de checkout no se cargó"
+    print(f"✅ Formulario de checkout cargado correctamente")
 
-    # 3. Validar que hay contenido en la página (no está vacío)
-    page_text = driver.find_element(*home_page.PROCEED_TO_CHECKOUT_BUTTON).text
-    assert "Proceder al pago" in page_text, f"Texto del botón incorrecto: {page_text}"
+    # 5. Verificar que el botón "Confirmar pago" está presente
+    confirm_button = WebDriverWait(driver, 10).until(
+        EC.visibility_of_element_located(home_page.CONFIRM_PAYMENT_BUTTON)
+    )
+    assert confirm_button.is_displayed(), "El botón 'Confirmar pago' no está visible"
+    print(f"✅ Botón 'Confirmar pago' visible")
 
-    print(f"✅ Carrito cargado correctamente")
+    print(f"✅ Carrito → checkout validado correctamente con POM")

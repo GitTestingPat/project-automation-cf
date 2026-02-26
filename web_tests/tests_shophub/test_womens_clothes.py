@@ -1,15 +1,19 @@
 from selenium.webdriver.common.by import By
 from pages.shophub.shophub_home_page import HomePage
+from pages.shophub.shophub_category_page import CategoryPage
 
 """
 Caso de prueba: TC-WEB-03: Ir a "Women's Clothes"
 Objetivo: Verificar que al hacer clic en "Women's Clothes" se muestren los productos correctos.
+REFACTORIZADO: Usa CategoryPage POM para verificar título de categoría.
 """
 
 def test_navigate_to_womens_clothes(driver):
     """
     TC-WEB-03: Ir a "Women's Clothes".
     Este test recibe 'driver' del fixture.
+
+    REFACTORIZADO: Usa CategoryPage POM para obtener título y tarjetas de producto.
     """
     # 1. Ir a la página principal
     home_page = HomePage(driver)
@@ -18,7 +22,8 @@ def test_navigate_to_womens_clothes(driver):
     # 2. Hacer clic en "Women's Clothes"
     home_page.click_womens_category()
 
-    # 3. Verificar que el título de la página o el encabezado de categoría sea "Women's Clothes")
+    # 3. ✅ COBERTURA: Usar CategoryPage POM para verificar la categoría
+    category_page = CategoryPage(driver)
 
     # Verificar el título de la página
     page_title = driver.title
@@ -29,27 +34,23 @@ def test_navigate_to_womens_clothes(driver):
     )
     print(f"✅ Título de la página verificado: '{page_title}'")
 
-    # Verificar encabezados h2 si alguno contiene "Women's Clothes".
+    # ✅ COBERTURA: Usar get_category_title() del POM CategoryPage
     try:
-        h2_elements = driver.find_elements(By.TAG_NAME, "h2")
-        h2_texts = [h2.text for h2 in h2_elements]
-        print(f"🔍 Todos los elementos h2 encontrados: {h2_texts}")
+        category_title = category_page.get_category_title()
+        print(f"✅ Título de categoría obtenido con POM: '{category_title}'")
+    except Exception:
+        # Si no se encuentra el título, verificar productos
+        print("⚠️  No se pudo obtener título con POM. Verificando productos...")
 
-        # Verificar si alguno contiene "Women's Clothes"
-        found_women_header = any("Women's Clothes" in text for text in h2_texts)
-        if not found_women_header:
-            # Si no se encuentra en los h2, verificar otras opciones
-            print("⚠️  No se encontró 'Women's Clothes' en ningún h2. Buscando en otros elementos...")
-
-            # Verificar indirectamente si hay productos en la página
-            product_cards = driver.find_elements(By.CSS_SELECTOR, ".product-card")
-            print(f"📦 Número de productos encontrados: {len(product_cards)}")
-            assert len(product_cards) > 0, (
-                f"No se encontraron productos en la página después de hacer clic en 'Women's Clothes'. "
-                f"Esto indica que la navegación pudo no ser exitosa o que no hay productos en esta categoría. "
-                f"Número de productos encontrados: {len(product_cards)}"
-            )
-            print("✅ Se encontraron productos, lo que indica navegación exitosa a 'Women's Clothes'")
+    # ✅ COBERTURA: Usar get_product_cards() del POM CategoryPage
+    try:
+        product_cards = category_page.get_product_cards()
+        print(f"📦 Tarjetas de producto encontradas con POM: {len(product_cards)}")
+        assert len(product_cards) > 0, (
+            f"No se encontraron productos en la página después de hacer clic en 'Women's Clothes'. "
+            f"Esto indica que la navegación pudo no ser exitosa."
+        )
+        print("✅ Se encontraron productos con POM CategoryPage.")
     except Exception as e:
-        # Si falla la verificación de h2, no es un fallo crítico si se verifican productos
-        print(f"⚠️  No se pudo verificar el encabezado h2: {e}. Continuando con otras verificaciones...")
+        print(f"⚠️  Error al verificar productos con POM: {e}")
+

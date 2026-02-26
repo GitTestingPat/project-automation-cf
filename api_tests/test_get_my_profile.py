@@ -1,6 +1,5 @@
 import requests
 import pytest
-from jsonschema import validate
 from conftest import BASE_URL
 
 """
@@ -12,38 +11,17 @@ Objetivo: Verificar que un usuario autenticado pueda obtener su propia informaci
 @pytest.mark.users
 @pytest.mark.positive
 @pytest.mark.api
-def get_valid_user_token():
-    """
-    Obtiene un token JWT para un usuario registrado.
-    Reutiliza las credenciales conocidas que funcionan para login.
-    """
-    # Datos de un usuario registrado válido.
-    login_data = {
-        "username": "admin@demo.com",
-        "password": "admin123"
-    }
-    response = requests.post(f"{BASE_URL}/auth/login", data=login_data)
-
-    # Verificar login exitoso para continuar
-    assert response.status_code == 200, (
-        f"Falló el login del usuario. Status: {response.status_code}, Body: {response.text}"
-    )
-
-    token_data = response.json()
-    return token_data["access_token"]
-
-def test_get_my_profile():
+def test_get_my_profile(admin_token):
     """
     TC-API-07: Obtener mi perfil.
+    Este test recibe 'admin_token' de los fixtures.
     """
-    # 1. Obtener token de autenticación
-    token = get_valid_user_token()
-    headers = {"Authorization": f"Bearer {token}"}
+    headers = {"Authorization": f"Bearer {admin_token}"}
 
-    # 2. Hacer la solicitud GET a /users/me/
+    # 1. Hacer la solicitud GET a /users/me/
     response = requests.get(f"{BASE_URL}/users/me/", headers=headers)
 
-    # 3. Verificar que la respuesta sea exitosa (200 OK)
+    # 2. Verificar que la respuesta sea exitosa (200 OK)
     # Manejar el posible error 500 del servidor de la API
     if response.status_code == 500:
         pytest.fail(
@@ -57,7 +35,7 @@ def test_get_my_profile():
         f"Cuerpo de la respuesta: {response.text}"
     )
 
-    # 4. Validar la estructura del perfil del usuario (esquema UserOut)
+    # 3. Validar la estructura del perfil del usuario (esquema UserOut)
     user_profile = response.json()
     assert isinstance(user_profile, dict), f"Se esperaba un diccionario, se obtuvo {type(user_profile)}"
 

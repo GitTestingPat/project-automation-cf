@@ -1,6 +1,5 @@
 import requests
 import pytest
-from jsonschema import validate
 from conftest import BASE_URL
 
 """
@@ -12,33 +11,14 @@ Objetivo: Verificar que un usuario autenticado pueda obtener la lista de todos l
 @pytest.mark.users
 @pytest.mark.positive
 @pytest.mark.api
-def get_admin_token():
-    """
-    Obtiene un token JWT para un usuario administrador.
-    """
-    login_data = {
-        "username": "admin@demo.com",
-        "password": "admin123"
-    }
-    response = requests.post(f"{BASE_URL}/auth/login", data=login_data)
-
-    # Comprueba login exitoso para continuar
-    assert response.status_code == 200, (f"Falló el login de admin. Status: {response.status_code}, "
-                                         f"Body: {response.text}")
-
-    token_data = response.json()
-    return token_data["access_token"]
-
-
-def test_list_users_as_admin():
+def test_list_users_as_admin(admin_token):
     """
     TC-API-05: Listar todos los usuarios (autenticado).
+    Este test recibe 'admin_token' de los fixtures.
     """
-    # 1. Obtener token de autenticación como admin
-    token = get_admin_token()
-    headers = {"Authorization": f"Bearer {token}"}
+    headers = {"Authorization": f"Bearer {admin_token}"}
 
-    # 2. Hacer la solicitud GET a /users/
+    # 1. Hacer la solicitud GET a /users/
     response = requests.get(f"{BASE_URL}/users/", headers=headers)
 
     # Comprobar si el servidor devuelve error 500, es un fallo interno de la API de prueba.
@@ -49,14 +29,14 @@ def test_list_users_as_admin():
             f"Cuerpo de la respuesta: {response.text}"
         )
 
-    # 3. Verificar que la respuesta sea exitosa (200 OK)
+    # 2. Verificar que la respuesta sea exitosa (200 OK)
     assert response.status_code == 200, f"Esperaba 200, obtuvo {response.status_code}. Cuerpo: {response.text}"
 
-    # 4. Verificar que la respuesta sea una lista de usuarios
+    # 3. Verificar que la respuesta sea una lista de usuarios
     users = response.json()
     assert isinstance(users, list), f"Se esperaba una lista de usuarios, se obtuvo {type(users)}"
 
-    # 5. Verificar que cada usuario en la lista tenga la estructura básica esperada
+    # 4. Verificar que cada usuario en la lista tenga la estructura básica esperada
     if users:
         first_user = users[0]
         assert "id" in first_user, "Falta 'id' en el objeto de usuario"

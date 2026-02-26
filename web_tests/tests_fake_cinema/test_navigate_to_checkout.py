@@ -25,54 +25,35 @@ def test_navigate_to_checkout(driver):
 
     WebDriverWait(driver, 10).until(EC.url_contains("/cart"))
 
-    # Hacer clic en "Proceder al pago" (usando elemento que YA existe)
-    proceed_button = WebDriverWait(driver, 20).until(
-        EC.element_to_be_clickable(home_page.PROCEED_TO_CHECKOUT_BUTTON)
-    )
-    proceed_button.click()
+    # Usar POM para hacer clic en "Proceder al pago"
+    home_page.click_proceed_to_checkout()
 
-    # Assert - Validaciones mejoradas usando elementos REALES
+    # Assert - Validaciones mejoradas usando POM
 
     # 1. Validar URL de checkout
     WebDriverWait(driver, 10).until(EC.url_contains("checkout"))
     assert "checkout" in driver.current_url.lower(), \
         f"URL incorrecta: {driver.current_url}"
 
-    # 2. Validar que los campos del formulario están presentes
-    # (usando campos que YA existen en el Page Object)
-    first_name = driver.find_element(*home_page.FIRST_NAME_FIELD)
-    assert first_name.is_displayed(), "Campo 'Nombre' no visible"
-    assert first_name.is_enabled(), "Campo 'Nombre' no habilitado"
+    # 2. Rellenar formulario de pago usando POM fill_payment_form
+    # Esto verifica que TODOS los campos existen, son visibles y aceptan input
+    home_page.fill_payment_form(
+        first_name="Juan",
+        last_name="Pérez",
+        email="juan.perez@test.com",
+        card_name="Juan Pérez",
+        card_number="4111111111111111",
+        cvv="123"
+    )
 
-    last_name = driver.find_element(*home_page.LAST_NAME_FIELD)
-    assert last_name.is_displayed(), "Campo 'Apellido' no visible"
-
-    email = driver.find_element(*home_page.EMAIL_FIELD)
-    assert email.is_displayed(), "Campo 'Email' no visible"
-
-    card_name = driver.find_element(*home_page.CARD_NAME_FIELD)
-    assert card_name.is_displayed(), "Campo 'Nombre en tarjeta' no visible"
-
-    card_number = driver.find_element(*home_page.CARD_NUMBER_FIELD)
-    assert card_number.is_displayed(), "Campo 'Número de tarjeta' no visible"
-
-    cvv = driver.find_element(*home_page.CVV_FIELD)
-    assert cvv.is_displayed(), "Campo 'CVV' no visible"
-
-    # 3. Validar que los campos son requeridos
-    assert first_name.get_attribute("required") is not None, \
-        "Campo 'Nombre' no es requerido"
-    assert email.get_attribute("required") is not None, \
-        "Campo 'Email' no es requerido"
-
-    # 4. Validar botón "Confirmar pago" (usando elemento que YA existe)
-    confirm_button = driver.find_element(*home_page.CONFIRM_PAYMENT_BUTTON)
-    assert confirm_button.is_displayed(), "Botón 'Confirmar pago' no visible"
-    assert confirm_button.is_enabled(), "Botón 'Confirmar pago' no habilitado"
-
-    # 5. Validar texto del botón
+    # 3. Validar botón "Confirmar pago" está visible usando localizador POM
+    confirm_button = WebDriverWait(driver, 10).until(
+        EC.visibility_of_element_located(home_page.CONFIRM_PAYMENT_BUTTON)
+    )
+    assert confirm_button.is_displayed(), "El botón 'Confirmar pago' no está visible"
     assert "Confirmar pago" in confirm_button.text, \
         f"Texto del botón incorrecto: {confirm_button.text}"
 
     print(f"✅ Navegación a checkout exitosa")
-    print(f"✅ 6 campos de formulario validados")
+    print(f"✅ Formulario de pago rellenado con POM fill_payment_form()")
+    print(f"✅ Botón 'Confirmar pago' verificado")

@@ -50,6 +50,7 @@ def test_add_product_to_cart_as_guest(driver):
     time.sleep(1)  # Esperar carga de productos
 
     try:
+        # Verificar productos visibles en la página
         products_visible = len(driver.find_elements("css selector", ".product-card")) > 0
         assert products_visible, "No hay productos visibles en la categoría Electronics"
         print("✅ Productos visibles en la categoría")

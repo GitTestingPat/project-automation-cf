@@ -1,6 +1,6 @@
 # Las Tres Historias Entrelazadas: ShopHub, Fake-Cinema y API-Airports
 
-> **Documento de análisis de testing basado en el framework de Michael Bolton**
+> **Documento de análisis de testing**
 > 
 > PROBAR es contar tres historias entrelazadas: una sobre el estado del producto, una sobre cómo se probó, y una sobre qué tan buenas fueron las pruebas.
 
