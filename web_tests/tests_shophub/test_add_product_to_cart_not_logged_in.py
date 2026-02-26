@@ -45,36 +45,30 @@ def test_add_product_to_cart_as_guest(driver):
     except Exception as e:
         pytest.fail(f"Error al navegar a Electronics: {e}")
 
-    # 5. Verificar que hay productos en la categoría
+    # 5. ✅ COBERTURA: Usar get_product_cards() del POM CategoryPage (verifica carga)
     import time
     time.sleep(1)  # Esperar carga de productos
 
-    try:
-        # Verificar productos visibles en la página
-        products_visible = len(driver.find_elements("css selector", ".product-card")) > 0
-        assert products_visible, "No hay productos visibles en la categoría Electronics"
-        print("✅ Productos visibles en la categoría")
-    except Exception as e:
-        pytest.fail(f"Error al verificar productos visibles: {e}")
+    product_elements = electronics_page.get_product_cards()
+    assert len(product_elements) > 0, "No se cargaron elementos en la categoría Electronics"
+    print(f"✅ Elementos verificados con get_product_cards(): {len(product_elements)}")
 
-    # 6. Guardar nombre y precio del producto antes de agregar
+    # 6. Capturar nombre del producto usando selector directo del driver
     try:
-        # Buscar el producto con ID 21
         product_element = driver.find_element("css selector", "[data-product-id='21']")
         product_name = product_element.find_element("css selector", "h3, .product-name").text
         product_price = product_element.find_element("css selector", ".price, .product-price").text
         print(f"📦 Producto seleccionado: {product_name}")
         print(f"💰 Precio: {product_price}")
     except:
-        # Si no hay data-product-id, usar el primer producto
         print("⚠️  No se encontró producto con ID específico, usando primer producto disponible")
         product_name = "Producto genérico"
         product_price = "Precio no capturado"
 
-    # 7. Agregar producto al carrito
+    # 7. ✅ COBERTURA: Usar add_product_to_cart_by_id() del POM CategoryPage
     try:
         electronics_page.add_product_to_cart_by_id("21")
-        print("✅ Click en 'Add to Cart' ejecutado")
+        print("✅ Click en 'Add to Cart' ejecutado con POM")
     except Exception as e:
         pytest.fail(f"Error al hacer click en 'Add to Cart': {e}")
 

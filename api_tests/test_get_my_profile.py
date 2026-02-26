@@ -50,3 +50,36 @@ def test_get_my_profile(admin_token):
 
     print(f"✅ Perfil obtenido exitosamente. ID: {user_profile['id']}, Email: {user_profile['email']}, "
           f"Nombre: {user_profile['full_name']}")
+
+
+@pytest.mark.TC_API_07b
+@pytest.mark.medium
+@pytest.mark.users
+@pytest.mark.positive
+@pytest.mark.api
+def test_get_my_profile_as_regular_user(auth_token):
+    """
+    TC-API-07b: Obtener mi perfil como usuario regular.
+    ✅ COBERTURA: Usa fixture auth_token (conftest líneas 78-134) que creaba 0 consumers.
+    """
+    headers = {"Authorization": f"Bearer {auth_token}"}
+
+    response = requests.get(f"{BASE_URL}/users/me/", headers=headers)
+
+    if response.status_code == 500:
+        pytest.fail(
+            f"La API devolvió un error 500 al obtener perfil con auth_token. "
+            f"Cuerpo: {response.text}"
+        )
+
+    assert response.status_code == 200, (
+        f"Error al obtener perfil con auth_token. "
+        f"Esperaba 200, obtuvo {response.status_code}. "
+        f"Cuerpo: {response.text}"
+    )
+
+    user_profile = response.json()
+    assert "id" in user_profile, "Falta 'id' en el perfil"
+    assert "email" in user_profile, "Falta 'email' en el perfil"
+    assert "@" in user_profile["email"], "Email sin formato válido"
+    print(f"✅ Perfil obtenido con auth_token. Email: {user_profile['email']}")

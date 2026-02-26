@@ -6,6 +6,7 @@ import string
 from conftest import BASE_URL
 from datetime import datetime, timedelta, timezone
 from jsonschema import validate
+from schemas.booking_schema import BOOKING_SCHEMA
 
 """
 Caso de prueba: TC-API-22: Obtener reserva (GET /bookings/{booking_id})
@@ -65,6 +66,10 @@ def test_get_booking_by_id(user_token, booking_id):
     # 3. Validar la estructura y datos de la respuesta (esquema BookingOut)
     booking_data = response.json()
     assert isinstance(booking_data, dict), f"Se esperaba un diccionario, se obtuvo {type(booking_data)}"
+
+    # ✅ COBERTURA: Validar contra BOOKING_SCHEMA (cubre booking_schema.py al 100%)
+    validate(instance=booking_data, schema=BOOKING_SCHEMA)
+    print("✅ Booking validado contra BOOKING_SCHEMA")
 
     # Verificar que los campos devueltos sean correctos y estén presentes
     expected_fields = ["id", "flight_id", "user_id", "status", "passengers"]
