@@ -194,7 +194,7 @@ runs-on: ubuntu-latest-8-cores  # Más recursos
 #### 4. Usar Herramientas Especializadas
 - **BrowserStack**: VMs dedicadas para Selenium
 - **Sauce Labs**: Infraestructura optimizada para E2E
-- **Cypress/Playwright**: Alternativas más modernas y estables que Selenium
+- **Cypress/Playwright**: Alternativas a probar en lugar de Selenium
 
 #### 5. Estrategia de Reintentos a Nivel Pipeline
 ```yaml
