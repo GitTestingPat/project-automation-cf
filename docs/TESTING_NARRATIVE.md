@@ -1,4 +1,4 @@
-# Las Tres Historias Entrelazadas: ShopHub, Fake-Cinema y API-Airports
+# Tres Historias Entrelazadas: ShopHub, Fake-Cinema y API-Airports
 
 > **Documento de análisis de testing**
 > 
