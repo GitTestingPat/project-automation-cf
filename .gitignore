@@ -34,6 +34,6 @@ htmlcov/
 *.bak
 *.tmp
 
-# Plan de refactorización (no subir al repo)
+# Plan de refactorización
 docs/PLAN_REFACTORIZACION_COBERTURA.md
 EOF
