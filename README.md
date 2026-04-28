@@ -1,5 +1,7 @@
 # 🧪 Project Automation CF
 
+[![Dependabot enabled](https://img.shields.io/badge/Dependabot-enabled-brightgreen.svg)](https://dependabot.com/)
+
 Proyecto de Automatización de Pruebas para el Bootcamp de Testing Automatizado de Código Facilito.
 
 ## 🎯 Objetivo
