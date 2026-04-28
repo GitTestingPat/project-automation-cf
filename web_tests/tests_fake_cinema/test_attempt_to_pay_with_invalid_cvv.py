@@ -153,8 +153,8 @@ def test_attempt_to_pay_with_invalid_cvv_field(driver):
             cvv_classes = cvv_field.get_attribute("class") or ""
             has_error_class = any(cls in cvv_classes for cls in ["invalid", "error", "danger", "failed"])
             if has_error_class:
-                print(f"[DEBUG] ⚠️ El campo CVV tiene clase de error ('{cvv_classes}'), pero no muestra "
-                      f"mensaje claro.")
+                # Solo indicar que hubo un error, para no exponer detalles internos del DOM que puedan ser sensibles
+                print("[DEBUG] ⚠️ El campo CVV tiene indicador visual de error (clases CSS detectadas).")
             else:
                 print("[DEBUG] ⚠️ El campo CVV NO tiene indicador visual de error.")
 
