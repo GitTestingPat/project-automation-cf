@@ -8,7 +8,7 @@ colorama==0.4.6
 cucumber-expressions==18.0.1
 cucumber-tag-expressions==6.2.0
 debugpy==1.8.15
-execnet==2.1.1
+execnet==2.1.2
 Faker==40.15.0
 gherkin-official==29.0.0
 h11==0.16.0
