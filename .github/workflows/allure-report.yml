@@ -37,7 +37,7 @@ jobs:
       - name: Run Tests (Pytest with Allure)
         run: |
           # Ejecuta tests y guarda resultados en allure-results
-          pytest tests/ --alluredir=./allure-results --clean-alluredir -v
+          pytest . --alluredir=./allure-results --clean-alluredir -v
         continue-on-error: true
 
       - name: Debug Check Results
