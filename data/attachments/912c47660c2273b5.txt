@@ -1,0 +1,1 @@
+✅ Login exitoso. Token type: bearer, Token length: 131 characters.

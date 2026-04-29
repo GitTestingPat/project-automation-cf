@@ -1,0 +1,2 @@
+✅ Botón 'Login' visible (POM is_login_button_visible)
+ℹ️  Botón 'Logout' visible: False (esperado: False)
