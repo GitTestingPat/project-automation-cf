@@ -3,7 +3,7 @@ name: QA Tests & Allure Report Deployment
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 9 * * 1-5'
+    - cron: '0 9 * * 1-5' # Lunes a Viernes a las 9 AM UTC
   push:
     branches: [ main ]
 
@@ -14,6 +14,7 @@ jobs:
       contents: write
       pages: write
       id-token: write
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -21,8 +22,9 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10' # Cambiado a 3.10 por estabilidad con Selenium/Allure
+          python-version: '3.10'
 
+      # ✅ OPTIMIZACIÓN 1: CACHE DE DEPENDENCIAS (Ahorra ~5-10 min)
       - name: Cache pip dependencies
         uses: actions/cache@v4
         with:
@@ -34,7 +36,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt 
+          pip install -r requirements.txt
           pip install allure-pytest
 
       - name: Install Allure Commandline
@@ -42,22 +44,27 @@ jobs:
           curl -sSL https://github.com/allure-framework/allure2/releases/download/2.29.0/allure-2.29.0.tgz | tar -xz -C /opt/
           echo "/opt/allure-2.29.0/bin" >> $GITHUB_PATH
 
+      # CONFIGURACIÓN DE NAVEGADORES
+      # Cambiar 'chrome' por 'all' para ejecutar en Chrome, Firefox y Edge.
+      # Nota: 'all' tardará más. 'chrome' es rápido para reportes diarios.
+      - name: Set Browser Configuration
+        run: echo "BROWSER=chrome" >> $GITHUB_ENV
+        # Para ejecutar todos los navegadores, cambiar la línea de arriba por:
+        # run: echo "BROWSER=all" >> $GITHUB_ENV
+
       - name: Run Tests (Pytest with Allure)
         run: |
-          # Ejecuta tests y guarda resultados en allure-results
-          # pytest . --alluredir=./allure-results --clean-alluredir -v # Ejecutar con todos los navegadores
-          # Ejecutar solo con Chrome para mejorar velocidad en reporte diario
-          pytest . --alluredir=./allure-results --clean-alluredir -v --browser=chrome
+          # Ejecutamos pytest. El conftest.py debería leer la variable $BROWSER
+          pytest . --alluredir=./allure-results --clean-alluredir -v
         continue-on-error: true
 
       - name: Debug Check Results
         run: |
           echo "--- Contenido de allure-results ---"
-          ls -R ./allure-results || echo "CARPETA VACIA O NO EXISTE"
+          ls -R ./allure-results || echo "CARPETA VACIA"
 
       - name: Generate Allure Report
         run: |
-          # Genera el HTML
           allure generate ./allure-results -o ./allure-report --clean
           echo "--- Contenido de allure-report ---"
           ls -R ./allure-report
