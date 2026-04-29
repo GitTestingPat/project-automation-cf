@@ -54,8 +54,8 @@ jobs:
 
       - name: Run Tests (Pytest with Allure)
         run: |
-          # --timeout 300: DETIENE cualquier test que dure más de 5 minutos (300 segundos)
-          pytest . --alluredir=./allure-results --clean-alluredir -v --timeout=300 --durations=10
+          # --timeout 300: DETIENE cualquier test que dure más de 2 minutos (120 segundos)
+          pytest . --alluredir=./allure-results --clean-alluredir -v --timeout=120 --durations=10
         continue-on-error: true
 
       - name: Debug Check Results
