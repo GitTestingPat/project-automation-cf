@@ -155,8 +155,7 @@ def test_attempt_purchase_with_empty_name_field(driver):
                 print(f"  - validationMessage: '{name_field.get_attribute('validationMessage')}'")
                 print(f"  - class: '{name_field.get_attribute('class')}'")
                 print(f"  - value: '{name_field.get_attribute('value')}'")
-                print(f"  - validity.valid: {driver.execute_script('return arguments[0].validity.valid;', 
-                                                                   name_field)}")
+                print(f"  - validity.valid: {driver.execute_script('return arguments[0].validity.valid;', name_field)}")
                 print(f"  - outerHTML: {name_field.get_attribute('outerHTML')}")
             except Exception as e:
                 print(f"[DEBUG] Error al inspeccionar campo: {e}")

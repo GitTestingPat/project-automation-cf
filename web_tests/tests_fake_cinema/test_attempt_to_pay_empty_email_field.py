@@ -161,8 +161,7 @@ def test_attempt_to_pay_empty_email_field(driver):
                 print(f"  - validationMessage: '{email_field.get_attribute('validationMessage')}'")
                 print(f"  - class: '{email_field.get_attribute('class')}'")
                 print(f"  - value: '{email_field.get_attribute('value')}'")
-                print(f"  - validity.valid: {driver.execute_script('return arguments[0].validity.valid;', 
-                                                                   email_field)}")
+                print(f"  - validity.valid: {driver.execute_script('return arguments[0].validity.valid;', email_field)}")
                 print(f"  - outerHTML: {email_field.get_attribute('outerHTML')}")
             except Exception as e:
                 print(f"[DEBUG] Error al inspeccionar campo: {e}")
