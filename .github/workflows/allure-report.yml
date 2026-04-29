@@ -1,14 +1,9 @@
 name: QA Tests & Allure Report Deployment
 
 on:
-  # 1. Ejecutar manualmente desde la pestaña Actions
   workflow_dispatch:
-
-  # 2. Ejecutar automáticamente cada día a las 9:00 AM UTC (Lunes a Viernes)
   schedule:
     - cron: '0 9 * * 1-5'
-
-  # 3. Ejecutar al hacer push a main (opcional, para feedback inmediato)
   push:
     branches: [ main ]
 
@@ -26,29 +21,41 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.13'
+          python-version: '3.10' # Cambiado a 3.10 por estabilidad con Selenium/Allure
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install pytest-allure-adaptor # Asegura que el plugin de allure esté instalado
+
       - name: Install Allure Commandline
         run: |
           curl -sSL https://github.com/allure-framework/allure2/releases/download/2.29.0/allure-2.29.0.tgz | tar -xz -C /opt/
           echo "/opt/allure-2.29.0/bin" >> $GITHUB_PATH
+
       - name: Run Tests (Pytest with Allure)
         run: |
-          pytest tests/ --alluredir=./allure-results --clean-alluredir
-        continue-on-error: true # Permite que el deploy ocurra aunque fallen tests
+          # Ejecuta tests y guarda resultados en allure-results
+          pytest tests/ --alluredir=./allure-results --clean-alluredir -v
+        continue-on-error: true
+
+      - name: Debug Check Results
+        run: |
+          echo "--- Contenido de allure-results ---"
+          ls -R ./allure-results || echo "CARPETA VACIA O NO EXISTE"
 
       - name: Generate Allure Report
         run: |
+          # Genera el HTML
           allure generate ./allure-results -o ./allure-report --clean
+          echo "--- Contenido de allure-report ---"
+          ls -R ./allure-report
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./allure-report
-          destination_dir: . # Publica en la raíz de la rama gh-pages
-          keep_files: false # Borra archivos antiguos para mantener solo el reporte fresco
+          destination_dir: .
+          keep_files: false
