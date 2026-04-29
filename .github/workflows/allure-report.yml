@@ -54,8 +54,8 @@ jobs:
 
       - name: Run Tests (Pytest with Allure)
         run: |
-          # Ejecutamos pytest. El conftest.py debería leer la variable $BROWSER
-          pytest . --alluredir=./allure-results --clean-alluredir -v
+          # Ejecutar pytest. El conftest.py debe leer la variable $BROWSER
+          pytest . --alluredir=./allure-results --clean-alluredir -v -n auto --durations=10
         continue-on-error: true
 
       - name: Debug Check Results
