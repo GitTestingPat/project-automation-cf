@@ -54,8 +54,9 @@ jobs:
 
       - name: Run Tests (Pytest with Allure)
         run: |
-          # Usar -n 2 para estabilidad en runners gratuitos de GitHub
-          pytest . --alluredir=./allure-results --clean-alluredir -v -n 2 --durations=10
+          # Ejecutar sin paralelismo (-n 0) para estabilidad en UI
+          # Si hay tests de API separados, podría usarse -n auto solo para ellos
+          pytest . --alluredir=./allure-results --clean-alluredir -v --durations=10
         continue-on-error: true
 
       - name: Debug Check Results
