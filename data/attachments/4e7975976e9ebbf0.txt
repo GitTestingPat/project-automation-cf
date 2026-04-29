@@ -1,1 +1,0 @@
-✅ Carrito vacío verificado correctamente con POM CartPage.

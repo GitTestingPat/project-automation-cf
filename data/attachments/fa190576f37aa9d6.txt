@@ -1,2 +1,0 @@
-✅ Spinner de carga desapareció.
-✅ Registro de usuario exitoso. El botón de 'Sign Up' ya no está presente en la página actual. Título: ShopHub - Your Ultimate Shopping Destination

@@ -1,3 +1,0 @@
-✅ Spinner de carga desapareció.
-🐛 BUG: La app no muestra mensaje de error con la clase esperada.
-   El método get_error_message() del POM fue ejecutado (cobertura ✅).

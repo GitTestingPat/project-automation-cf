@@ -1,4 +1,0 @@
-✅ Página principal cargada
-📊 Contador inicial del carrito: 0
-✅ Menú Categories desplegado
-✅ Navegación a Electronics exitosa

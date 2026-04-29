@@ -1,1 +1,0 @@
-✅ Endpoint 'client-error' devolvió 400 Bad Request correctamente. Mensaje: Simulated 4xx bug
