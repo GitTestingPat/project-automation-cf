@@ -54,9 +54,8 @@ jobs:
 
       - name: Run Tests (Pytest with Allure)
         run: |
-          # Ejecutar sin paralelismo (-n 0) para estabilidad en UI
-          # Si hay tests de API separados, podría usarse -n auto solo para ellos
-          pytest . --alluredir=./allure-results --clean-alluredir -v --durations=10
+          # --timeout 300: DETIENE cualquier test que dure más de 5 minutos (300 segundos)
+          pytest . --alluredir=./allure-results --clean-alluredir -v --timeout=300 --durations=10
         continue-on-error: true
 
       - name: Debug Check Results
