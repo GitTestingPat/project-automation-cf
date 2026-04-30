@@ -1,43 +1,188 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"passed","Wed Apr 29 19:45:17 UTC 2026","Wed Apr 29 19:45:17 UTC 2026","82","api_tests","test_create_airport","","","","test_create_airport","
-    TC-API-11: Crear aeropuerto.
-    Este test recibe 'admin_token' de los fixtures.
+"failed","Thu Apr 30 00:08:18 UTC 2026","Thu Apr 30 00:08:42 UTC 2026","23635","web_tests.tests_fake_cinema","test_page_reload_during_checkout_process","","","","test_page_reload_during_checkout_process","
+    TC-WEB-34: Verifica que, tras recargar la página durante el proceso de checkout,
+    el sistema mantenga el estado del carrito (asientos, productos) si se usa almacenamiento local o sesión segura,
+    y que NO aparezca el mensaje ""No hay productos en el carrito"". La prueba refleja la verdad funcional
+    para el usuario.
     "
-"passed","Wed Apr 29 19:45:29 UTC 2026","Wed Apr 29 19:45:29 UTC 2026","61","api_tests","test_get_aircraft","","","","test_get_aircraft_by_id","
+"passed","Thu Apr 30 00:08:56 UTC 2026","Thu Apr 30 00:12:41 UTC 2026","225387","web_tests.tests_fake_cinema","test_select_and_deselect_multiple_seats","","","","test_select_and_deselect_multiple_seats","
+    TC-WEB-26 y TC-WEB-27: Selección y Deselección de Múltiples Asientos
+    - Descripción: Validar que el usuario pueda seleccionar múltiples asientos y luego cancelar/deseleccionarlos.
+    - Resultado esperado:
+        1. Los asientos se marcan como seleccionados y el precio total refleja la suma correcta.
+        2. Al deseleccionar, el precio total desaparece o vuelve a cero, y los asientos vuelven a estado disponible.
+    "
+"passed","Thu Apr 30 00:17:01 UTC 2026","Thu Apr 30 00:17:12 UTC 2026","10580","web_tests.tests_shophub","test_empty_cart","","","","test_empty_cart_shows_no_items","
+    TC-WEB-10b: Verificar que el carrito vacío no tiene items.
+    Navega directamente al carrito sin agregar productos.
+
+    COBERTURA: Ejecuta la rama 'except TimeoutException' de CartPage.get_cart_items(),
+    donde el mensaje 'Your Cart is Empty' permanece visible → retorna lista vacía.
+    "
+"failed","Thu Apr 30 00:07:37 UTC 2026","Thu Apr 30 00:07:47 UTC 2026","10587","web_tests.tests_fake_cinema","test_filtered_by_cinema","","","","test_filtered_by_cinema",""
+"passed","Thu Apr 30 00:04:21 UTC 2026","Thu Apr 30 00:04:43 UTC 2026","21985","web_tests.tests_fake_cinema","test_attempt_to_pay_with_empty_card_number_field","","","","test_attempt_to_pay_with_empty_card_number_field","
+    TC-WEB-39: Intento de Pago con Campo de Número de Tarjeta Vacío
+    Esta prueba verifica que se muestra un mensaje de error: ""Completa este campo"".
+    El sistema no permite continuar. El formulario no se envía. El usuario no puede continuar con el pago.
+    "
+"passed","Thu Apr 30 00:17:13 UTC 2026","Thu Apr 30 00:17:14 UTC 2026","236","web_tests.tests_shophub","test_shophub_homepage","","","","test_can_open_shophub_and_check_title",""
+"failed","Wed Apr 29 23:08:15 UTC 2026","Wed Apr 29 23:08:17 UTC 2026","1876","api_tests","test_update_user","","","","test_update_user_as_admin","
+    TC-API-08: Actualizar usuario.
+    Este test recibe 'admin_token' y 'new_user_data' de los fixtures.
+    "
+"passed","Wed Apr 29 23:08:22 UTC 2026","Wed Apr 29 23:08:22 UTC 2026","116","api_tests","test_user_signup_invalid","","","","test_signup_with_invalid_email","
+    TC-API-02: Registrar con email inválido (Negativo).
+    "
+"passed","Wed Apr 29 23:07:52 UTC 2026","Wed Apr 29 23:07:52 UTC 2026","106","api_tests","test_get_airport","","","","test_get_airport_by_iata_code","
+    TC-API-15: Obtener aeropuerto.
+    "
+"failed","Thu Apr 30 00:04:43 UTC 2026","Thu Apr 30 00:05:06 UTC 2026","22554","web_tests.tests_fake_cinema","test_attempt_to_pay_with_invalid_cvv","","","","test_attempt_to_pay_with_invalid_cvv_field","
+    TC-WEB-40: Intento de Pago con CVV Inválido
+    Esta prueba verifica que se muestra un mensaje de error: ""CVV debe tener exactamente 3 dígitos"".
+    El sistema no permite continuar. El formulario no se envía.
+    El usuario no puede continuar con el pago.
+
+    ⚠️ VERDAD FUNCIONAL ACTUAL: El sistema NO muestra mensaje de error y permite continuar.
+    Esta prueba debe FALLAR hasta que se implemente la validación adecuada.
+    "
+"passed","Wed Apr 29 23:07:52 UTC 2026","Wed Apr 29 23:07:52 UTC 2026","134","api_tests","test_get_aircraft","","","","test_get_aircraft_by_id","
     TC-API-28: Obtener aeronave por ID.
     Este test recibe 'admin_token' y 'test_aircraft_id_for_get' de los fixtures.
     "
-"broken","Wed Apr 29 19:58:16 UTC 2026","Wed Apr 29 20:07:14 UTC 2026","537889","web_tests.tests_fake_cinema","test_attempt_to_pay_empty_email_field","","","","test_attempt_to_pay_empty_email_field","
+"broken","Wed Apr 29 23:54:31 UTC 2026","Thu Apr 30 00:03:28 UTC 2026","537855","web_tests.tests_fake_cinema","test_attempt_purchase_with_previously_used_email_adress","","","","test_attempt_purchase_with_previously_used_email_adress","
+    TC-WEB-46: Intento de compra con email utilizado anteriormente
+    Esta prueba verifica que el sistema permite el uso del email. No se muestra error ni restricción.
+    "
+"passed","Wed Apr 29 23:08:17 UTC 2026","Wed Apr 29 23:08:18 UTC 2026","1683","api_tests","test_user_login_invalid","","","","test_login_with_invalid_password","
+    TC-API-04: Login con contraseña incorrecta.
+    "
+"skipped","Wed Apr 29 23:08:00 UTC 2026","Wed Apr 29 23:08:00 UTC 2026","0","api_tests","test_get_payment","","","","test_get_payment_by_id","
+    TC-API-25: Obtener pago por ID.
+    Este test recibe 'user_token' y 'test_payment_id' de los fixtures.
+    "
+"passed","Wed Apr 29 23:18:23 UTC 2026","Wed Apr 29 23:18:24 UTC 2026","545","pytest_bdd_tests","test_shophub_homepage","","","","test_verificar_carga_de_la_página_principal","/home/runner/work/project-automation-cf/project-automation-cf/pytest_bdd_tests/features/shophub_homepage_pytestbdd.feature: Verificar carga de la página principal"
+"passed","Wed Apr 29 23:07:39 UTC 2026","Wed Apr 29 23:07:39 UTC 2026","126","api_tests","test_cancel_booking","","","","test_cancel_booking_as_owner","
+    TC-API-23: Cancelar reserva.
+    Este test recibe 'user_token' y 'test_booking_id' de los fixtures.
+    "
+"passed","Wed Apr 29 23:07:39 UTC 2026","Wed Apr 29 23:07:39 UTC 2026","256","api_tests","test_create_aircraft","","","","test_create_aircraft_as_admin","
+    TC-API-27: Crear aeronave.
+    Este test recibe 'admin_token' de los fixtures.
+    "
+"passed","Thu Apr 30 00:17:14 UTC 2026","Thu Apr 30 00:17:15 UTC 2026","573","web_tests.tests_shophub","test_shophub_homepage","","","","test_can_click_mens_category",""
+"passed","Thu Apr 30 00:12:56 UTC 2026","Thu Apr 30 00:12:56 UTC 2026","559","web_tests.tests_fake_cinema","test_select_movie_from_billboard","","","","test_select_movie_from_billboard","
+    TC-WEB-16: Selección de Película desde la Cartelera
+    - Descripción: Validar que el usuario pueda seleccionar 'Jurassic World: Renace' desde la cartelera.
+    - Resultado esperado: Se redirige al detalle de la película y muestra su título.
+    "
+"failed","Thu Apr 30 00:05:06 UTC 2026","Thu Apr 30 00:05:30 UTC 2026","23992","web_tests.tests_fake_cinema","test_card_format_validation","","","","test_reject_invalid_card_number","
+    TC-WEB-32: Verifica que el sistema rechace un número de tarjeta inválido
+    durante el proceso de pago, reflejando la verdad funcional para el usuario.
+    Ejemplo de tarjeta inválida: '1234-1234-1234-1234'
+    "
+"passed","Wed Apr 29 23:07:57 UTC 2026","Wed Apr 29 23:07:57 UTC 2026","188","api_tests","test_get_my_profile","","","","test_get_my_profile","
+    TC-API-07: Obtener mi perfil.
+    Este test recibe 'admin_token' de los fixtures.
+    "
+"passed","Wed Apr 29 23:18:25 UTC 2026","Wed Apr 29 23:18:36 UTC 2026","11594","web_tests.tests_fake_cinema","test_attempt_change_movie_without_confirming_selection","","","","test_attempt_change_movie_without_confirming_selection",""
+"passed","Wed Apr 29 23:18:24 UTC 2026","Wed Apr 29 23:18:25 UTC 2026","933","pytest_bdd_tests","test_shophub_homepage","","","","test_navegar_a_la_categoría_mens_clothes","/home/runner/work/project-automation-cf/project-automation-cf/pytest_bdd_tests/features/shophub_homepage_pytestbdd.feature: Navegar a la categoría Men's Clothes"
+"skipped","Wed Apr 29 23:07:43 UTC 2026","Wed Apr 29 23:07:43 UTC 2026","0","api_tests","test_create_payment","","","","test_create_payment_as_user","
+    TC-API-24: Crear pago.
+    Este test recibe 'user_token' y 'test_booking_id' de los fixtures.
+    "
+"failed","Thu Apr 30 00:14:43 UTC 2026","Thu Apr 30 00:14:44 UTC 2026","963","web_tests.tests_fake_cinema","test_wheelchair_accessibility","","","","test_wheelchair_accessibility_button","
+    TC-WEB-31: Verifica que se pueda hacer clic en el icono de ""Silla de ruedas"" en la sala.
+    La prueba debe fallar porque el botón del icono de silla de ruedas no hace nada.
+    "
+"passed","Thu Apr 30 00:03:59 UTC 2026","Thu Apr 30 00:04:20 UTC 2026","21515","web_tests.tests_fake_cinema","test_attempt_to_pay_empty_email_field","","","","test_attempt_to_pay_empty_email_field","
     TC-WEB-38: Intento de Pago con Campo Correo Electrónico Vacío
     Esta prueba verifica que se muestra un mensaje de error: ""Completa este campo"".
     El formulario no se envía. El usuario no puede continuar con el pago.
     "
-"passed","Wed Apr 29 19:45:41 UTC 2026","Wed Apr 29 19:45:41 UTC 2026","64","api_tests","test_list_user_bookings","","","","test_list_user_bookings_as_authenticated_user","
-    TC-API-20: Listar reservas del usuario.
-    Este test recibe 'user_token', 'admin_token' y 'aircraft_id' de los fixtures.
+"failed","Wed Apr 29 23:08:09 UTC 2026","Wed Apr 29 23:08:11 UTC 2026","1702","api_tests","test_simulated_errors","","","","test_signup_endpoint_returns_known_error","
+    Verificar que el endpoint /auth/signup devuelve un error conocido (500),
+    como parte del comportamiento simulado de la API.
     "
-"passed","Wed Apr 29 20:24:22 UTC 2026","Wed Apr 29 20:24:36 UTC 2026","13653","web_tests.tests_fake_cinema","test_select_seat_in_hall","","","","test_select_seat_in_hall","
-    TC-WEB-18: Selección de Asiento en la Sala (CORREGIDO)
+"broken","Thu Apr 30 00:16:39 UTC 2026","Thu Apr 30 00:17:00 UTC 2026","21478","web_tests.tests_shophub","test_add_product_to_cart_not_logged_in","","","","test_add_product_to_cart_as_guest","
+    TC-WEB-09: Agregar producto al carrito (no logueado).
+
+    Validaciones completas:
+    - Estado inicial del carrito (vacío o con contador 0)
+    - Navegación a categoría correcta
+    - Producto visible antes de agregar
+    - Feedback visual al agregar (badge, animación, mensaje)
+    - Incremento del contador del carrito
+    - Producto aparece en la página del carrito
+    - Datos del producto correctos (nombre, precio)
     "
-"passed","Wed Apr 29 20:39:12 UTC 2026","Wed Apr 29 20:39:49 UTC 2026","37785","web_tests.tests_shophub","test_shophub_signup_valid","","","","test_register_new_user_with_valid_credentials","
+"passed","Thu Apr 30 00:19:55 UTC 2026","Thu Apr 30 00:20:31 UTC 2026","35937","web_tests.tests_shophub","test_shophub_signup_valid","","","","test_register_new_user_with_valid_credentials","
     TC-WEB-06: Registrar nuevo usuario con datos válidos.
     Este test recibe 'driver' del fixture.
     "
-"broken","Wed Apr 29 20:24:36 UTC 2026","Wed Apr 29 20:33:34 UTC 2026","538222","web_tests.tests_fake_cinema","test_select_ticket_type","","","","test_confirm_ticket_type","
-    TC-WEB-19: Confirmación de Tipo de Boleto
-    REFACTORIZADO: Usa más métodos del POM para aumentar cobertura.
+"passed","Thu Apr 30 00:07:10 UTC 2026","Thu Apr 30 00:07:37 UTC 2026","26708","web_tests.tests_fake_cinema","test_fill_payment_data","","","","test_fill_payment_data","
+    TC-WEB-22: Relleno de Datos de Pago (Formulario Checkout)
+    TC-WEB-23: Completar el Pago Exitoso
+    TC-WEB-24: Volver al Inicio tras Compra Exitosa
+    TC-WEB-25: Validación de Campos Obligatorios en Checkout
     "
-"passed","Wed Apr 29 19:56:19 UTC 2026","Wed Apr 29 19:56:33 UTC 2026","14457","web_tests.tests_fake_cinema","test_attempt_purchase_whithout_seat_selection","","","","test_attempt_purchase_whithout_seat_selection","
+"passed","Thu Apr 30 00:08:42 UTC 2026","Thu Apr 30 00:08:56 UTC 2026","13563","web_tests.tests_fake_cinema","test_seat_selection_occupied","","","","test_cannot_select_occupied_seat","
+    TC-WEB-41: Validación de asiento ocupado
+    "
+"passed","Thu Apr 30 00:14:42 UTC 2026","Thu Apr 30 00:14:43 UTC 2026","335","web_tests.tests_fake_cinema","test_verify_name_title","","","","test_homepage_has_hero_text",""
+"passed","Wed Apr 29 23:07:49 UTC 2026","Wed Apr 29 23:07:49 UTC 2026","103","api_tests","test_delete_flight","","","","test_delete_flight_as_admin","
+    TC-API-19: Eliminar vuelo.
+    Este test recibe 'admin_token' y 'flight_id' de los fixtures.
+    "
+"passed","Wed Apr 29 23:08:11 UTC 2026","Wed Apr 29 23:08:11 UTC 2026","114","api_tests","test_success_but_error","","","","test_success_but_error_endpoint","
+    TC-API-29: Probar endpoint que simula éxito con error.
+    "
+"skipped","Wed Apr 29 23:08:11 UTC 2026","Wed Apr 29 23:08:11 UTC 2026","0","api_tests","test_update_booking_status","","","","test_update_booking_status_as_admin","
+    TC-API-34: Actualizar estado de reserva.
+    Este test recibe 'admin_token' y 'test_booking_id' de los fixtures.
+    "
+"failed","Wed Apr 29 23:27:35 UTC 2026","Wed Apr 29 23:36:33 UTC 2026","537998","web_tests.tests_fake_cinema","test_attempt_purchase_whithout_seat_selection","","","","test_attempt_purchase_whithout_seat_selection","
     TC-WEB-35: Intento de Compra sin Selección de Asiento
     La prueba que el botón ""Comprar boletos"" debe estar deshabilitado.
     O bien, al intentar hacer clic, aparece un mensaje de error: ""Por favor, seleccione al menos un asiento"".
     "
-"passed","Wed Apr 29 19:56:33 UTC 2026","Wed Apr 29 19:56:54 UTC 2026","20149","web_tests.tests_fake_cinema","test_attempt_purchase_with_empty_name_field","","","","test_attempt_purchase_with_empty_name_field","
-    TC-WEB-37: Intento de Pago con Campo de Nombre Vacío
-    Esta prueba verifica que aparece un mensaje de error: ""Completa este campo"".
-    El formulario no se envía y el botón queda inactivo hasta completar el campo.
+"passed","Wed Apr 29 23:07:43 UTC 2026","Wed Apr 29 23:07:43 UTC 2026","114","api_tests","test_create_flight","","","","test_create_flight_as_admin","
+    TC-API-16: Crear vuelo.
+    Este test recibe 'admin_token' y 'test_aircraft_id' de los fixtures.
     "
-"passed","Wed Apr 29 20:36:51 UTC 2026","Wed Apr 29 20:38:13 UTC 2026","81662","web_tests.tests_shophub","test_shophub_login","","","","test_successful_login","
+"passed","Thu Apr 30 00:08:03 UTC 2026","Thu Apr 30 00:08:18 UTC 2026","14442","web_tests.tests_fake_cinema","test_navigate_to_checkout","","","","test_navigate_to_checkout","
+    TC-WEB-21: Navegación al Checkout
+    "
+"failed","Wed Apr 29 23:45:32 UTC 2026","Wed Apr 29 23:54:30 UTC 2026","537891","web_tests.tests_fake_cinema","test_attempt_purchase_with_invalid_ticket_type","","","","test_attempt_purchase_with_invalid_ticket_type","
+    TC-WEB-36: Intento de compra con tipo de boleto inválido, seleccionando un solo asiento
+    El sistema debe mostrar un mensaje de error: ""La cantidad debe coincidir con los asientos seleccionados"".
+    El botón ""Confirmar"" permanece inactivo hasta que se ingrese un valor válido.
+    "
+"broken","Wed Apr 29 23:18:37 UTC 2026","Wed Apr 29 23:27:35 UTC 2026","537931","web_tests.tests_fake_cinema","test_attempt_enter_text_in_numeric_fields_during_checkout","","","","test_attempt_to_enter_text_in_numeric_fields",""
+"passed","Thu Apr 30 00:17:13 UTC 2026","Thu Apr 30 00:17:13 UTC 2026","397","web_tests.tests_shophub","test_search_product_by_nonexistent_name","","","","test_search_product_by_nonexistent_name","
+    TC-WEB-12: Buscar producto por nombre inexistente.
+    Dado que la tienda de prueba no tiene funcionalidad de búsqueda implementada,
+    esta prueba valida que el campo de búsqueda acepte cualquier texto sin errores,
+    y que la página no se rompa al realizar la búsqueda.
+    "
+"failed","Thu Apr 30 00:06:46 UTC 2026","Thu Apr 30 00:07:09 UTC 2026","23558","web_tests.tests_fake_cinema","test_email_validation","","","","test_reject_invalid_email_format","
+    TC-WEB-33: Validación de Email Inválido
+    ⚠️ ESTA PRUEBA DOCUMENTA UN BUG: La app acepta emails inválidos como 'admin@demo'
+    RESULTADO ESPERADO: Debería rechazar el email y quedarse en checkout
+    RESULTADO REAL: Permite avanzar a confirmation (BUG)
+    "
+"passed","Wed Apr 29 23:07:56 UTC 2026","Wed Apr 29 23:07:56 UTC 2026","111","api_tests","test_get_booking","","","","test_get_booking_by_id","
+    TC-API-22: Obtener reserva.
+    "
+"passed","Thu Apr 30 00:17:15 UTC 2026","Thu Apr 30 00:17:25 UTC 2026","10370","web_tests.tests_shophub","test_shophub_homepage","","","","test_shophub_search_uses_homepage_methods","
+    COBERTURA: Cubre los métodos search_product() y get_products_count() del POM HomePage.
+    Verifica que la búsqueda funcione a través del POM.
+    "
+"failed","Thu Apr 30 00:14:25 UTC 2026","Thu Apr 30 00:14:26 UTC 2026","752","web_tests.tests_fake_cinema","test_selection_aditional_food","","","","test_add_food_to_cart","
+       TC-WEB-28: Selección de comida adicional
+    "
+"failed","Thu Apr 30 00:14:27 UTC 2026","Thu Apr 30 00:14:41 UTC 2026","13872","web_tests.tests_fake_cinema","test_using_navigation_buttons_without_saved_data","","","","test_cart_persists_after_page_reload",""
+"failed","Wed Apr 29 23:08:24 UTC 2026","Wed Apr 29 23:08:44 UTC 2026","20895","pytest_bdd_tests","test_cinema_navigation","","","","test_seleccionar_película_desde_la_cartelera","/home/runner/work/project-automation-cf/project-automation-cf/pytest_bdd_tests/features/cinema_navigation_pytestbdd.feature: Seleccionar película desde la cartelera"
+"passed","Thu Apr 30 00:17:37 UTC 2026","Thu Apr 30 00:18:50 UTC 2026","72504","web_tests.tests_shophub","test_shophub_login","","","","test_successful_login","
     Verificar que un usuario puede iniciar sesión correctamente usando credenciales válidas.
 
     Validaciones completas:
@@ -46,25 +191,82 @@
     - Ausencia de mensajes de error
     - URL actualizada (si aplica)
     "
-"passed","Wed Apr 29 19:45:29 UTC 2026","Wed Apr 29 19:45:29 UTC 2026","61","api_tests","test_get_airport","","","","test_get_airport_by_iata_code","
-    TC-API-15: Obtener aeropuerto.
+"passed","Wed Apr 29 23:08:08 UTC 2026","Wed Apr 29 23:08:09 UTC 2026","149","api_tests","test_list_user_bookings","","","","test_list_user_bookings_as_authenticated_user","
+    TC-API-20: Listar reservas del usuario.
+    Este test recibe 'user_token', 'admin_token' y 'aircraft_id' de los fixtures.
     "
-"passed","Wed Apr 29 19:45:47 UTC 2026","Wed Apr 29 19:45:47 UTC 2026","138","api_tests","test_update_flight","","","","test_update_flight_as_admin","
-    TC-API-18: Actualizar vuelo.
-    Este test ahora recibe 'admin_token' y 'flight_id' de los fixtures.
+"skipped","Thu Apr 30 00:18:50 UTC 2026","Thu Apr 30 00:19:34 UTC 2026","43495","web_tests.tests_shophub","test_shophub_login","","","","test_failed_login","
+    Verificar el comportamiento al ingresar credenciales inválidas.
+
+    Validaciones completas:
+    - Usuario permanece en página de login
+    - Mensaje de error visible (o comportamiento alternativo documentado)
+    - Estado NO cambia a logueado
+    - Botón Login sigue presente
     "
-"passed","Wed Apr 29 20:36:28 UTC 2026","Wed Apr 29 20:36:28 UTC 2026","180","web_tests.tests_shophub","test_shophub_homepage","","","","test_can_open_shophub_and_check_title",""
-"failed","Wed Apr 29 20:19:45 UTC 2026","Wed Apr 29 20:20:08 UTC 2026","23013","web_tests.tests_fake_cinema","test_page_reload_during_checkout_process","","","","test_page_reload_during_checkout_process","
-    TC-WEB-34: Verifica que, tras recargar la página durante el proceso de checkout,
-    el sistema mantenga el estado del carrito (asientos, productos) si se usa almacenamiento local o sesión segura,
-    y que NO aparezca el mensaje ""No hay productos en el carrito"". La prueba refleja la verdad funcional
-    para el usuario.
+"passed","Wed Apr 29 23:07:56 UTC 2026","Wed Apr 29 23:07:57 UTC 2026","135","api_tests","test_get_flight","","","","test_get_flight_by_id","
+    TC-API-17: Obtener vuelo.
     "
-"failed","Wed Apr 29 19:45:38 UTC 2026","Wed Apr 29 19:45:38 UTC 2026","71","api_tests","test_list_aircrafts","","","","test_list_aircrafts_as_admin","
+"passed","Wed Apr 29 23:07:47 UTC 2026","Wed Apr 29 23:07:49 UTC 2026","1862","api_tests","test_create_user_admin","","","","test_create_user_as_admin","
+    TC-API-06: Crear usuario como admin.
+    Este test recibe 'admin_token' y 'new_user_data' de los fixtures.
+    "
+"skipped","Wed Apr 29 23:08:11 UTC 2026","Wed Apr 29 23:08:11 UTC 2026","0","api_tests","test_update_airport","","","","test_update_airport_as_admin","
+    TC-API-13: Actualizar aeropuerto.
+    Este test recibe 'admin_token' y 'airport_iata' de los fixtures.
+    "
+"passed","Wed Apr 29 23:08:09 UTC 2026","Wed Apr 29 23:08:09 UTC 2026","156","api_tests","test_response_time","","","","test_get_airports_response_time_under_2_seconds","
+    Verificar que el endpoint /airports responda en menos de 2 segundos.
+    "
+"skipped","Thu Apr 30 00:19:34 UTC 2026","Thu Apr 30 00:19:55 UTC 2026","20746","web_tests.tests_shophub","test_shophub_signup_existing_email","","","","test_register_with_existing_email","
+    TC-WEB-07: Registrar con email ya existente (Negativo).
+    Este test recibe 'driver' del fixture.
+
+    REFACTORIZADO: Usa signup_page.get_error_message() del POM en vez de
+    driver.find_element(By.CSS_SELECTOR, "".error-message, .alert-danger"").
+    "
+"passed","Thu Apr 30 00:23:07 UTC 2026","Thu Apr 30 00:23:33 UTC 2026","25350","web_tests.tests_shophub","test_womens_clothes","","","","test_navigate_to_womens_clothes","
+    TC-WEB-03: Ir a ""Women's Clothes"".
+    REFACTORIZADO v2: Cubre get_category_title, get_product_cards,
+    get_first_product_link del POM CategoryPage.
+    "
+"passed","Thu Apr 30 00:05:30 UTC 2026","Thu Apr 30 00:06:46 UTC 2026","75198","web_tests.tests_fake_cinema","test_cart_visualization","","","","test_cart_visualization_before_payment","
+    TC-WEB-20: Visualización del Carrito antes del Pago
+    REFACTORIZADO: Cubre más métodos POM (is_summary_page_loaded, is_pay_button_visible,
+    get_summary_adults_text, get_summary_total_price_text).
+    "
+"passed","Thu Apr 30 00:14:41 UTC 2026","Thu Apr 30 00:14:42 UTC 2026","962","web_tests.tests_fake_cinema","test_validation_film_classification","","","","test_verify_film_classification_labels","
+    TC-WEB-29: Verifica que aparezca el texto de la clasificación en cada película.
+    Las clasificaciones esperadas son: A, B, B15, C.
+    "
+"failed","Wed Apr 29 23:08:04 UTC 2026","Wed Apr 29 23:08:05 UTC 2026","122","api_tests","test_list_aircrafts","","","","test_list_aircrafts_as_admin","
     TC-API-26: Listar aeronaves.
     Este test recibe 'admin_token' de los fixtures.
     "
-"passed","Wed Apr 29 19:45:52 UTC 2026","Wed Apr 29 19:45:54 UTC 2026","1694","api_tests","test_user_schema","","","","test_signup_returns_valid_schema","
+"passed","Thu Apr 30 00:13:11 UTC 2026","Thu Apr 30 00:14:25 UTC 2026","74209","web_tests.tests_fake_cinema","test_select_ticket_type","","","","test_confirm_ticket_type","
+    TC-WEB-19: Confirmación de Tipo de Boleto
+    REFACTORIZADO: Usa más métodos del POM para aumentar cobertura.
+    "
+"passed","Wed Apr 29 23:07:39 UTC 2026","Wed Apr 29 23:07:39 UTC 2026","124","api_tests","test_create_airport","","","","test_create_airport","
+    TC-API-11: Crear aeropuerto.
+    Este test recibe 'admin_token' de los fixtures.
+    "
+"passed","Wed Apr 29 23:07:51 UTC 2026","Wed Apr 29 23:07:51 UTC 2026","184","api_tests","test_flight_search_nyc_lon","","","","test_list_airports",""
+"passed","Thu Apr 30 00:12:57 UTC 2026","Thu Apr 30 00:13:11 UTC 2026","13860","web_tests.tests_fake_cinema","test_select_seat_in_hall","","","","test_select_seat_in_hall","
+    TC-WEB-18: Selección de Asiento en la Sala (CORREGIDO)
+    "
+"passed","Thu Apr 30 00:07:49 UTC 2026","Thu Apr 30 00:08:03 UTC 2026","13749","web_tests.tests_fake_cinema","test_movie_navigation","","","","test_navigate_to_movie_detail_and_verify_title","
+    TC-WEB-14: Verificar información de película (CORREGIDO USANDO POM)
+    "
+"passed","Wed Apr 29 23:08:18 UTC 2026","Wed Apr 29 23:08:20 UTC 2026","1701","api_tests","test_user_login_valid","","","","test_login_with_valid_credentials","
+    TC-API-03: Iniciar sesión con credenciales válidas.
+    "
+"passed","Thu Apr 30 00:03:29 UTC 2026","Thu Apr 30 00:03:58 UTC 2026","29577","web_tests.tests_fake_cinema","test_attempt_return_home_page_from_cart","","","","test_test_attempt_return_home_page_from_cart_without_purchase","
+    TC-WEB-42: Verifica que el sistema redirige a la página principal.
+    Resultado esperado: el carrito no se vacía automáticamente o se mantiene con sesión de compra abierta.
+    "
+"passed","Wed Apr 29 23:08:22 UTC 2026","Wed Apr 29 23:08:23 UTC 2026","1707","pytest_bdd_tests","test_cinema_navigation","","","","test_verificar_acceso_a_la_página_principal_del_cine","/home/runner/work/project-automation-cf/project-automation-cf/pytest_bdd_tests/features/cinema_navigation_pytestbdd.feature: Verificar acceso a la página principal del cine"
+"passed","Wed Apr 29 23:08:20 UTC 2026","Wed Apr 29 23:08:22 UTC 2026","1704","api_tests","test_user_schema","","","","test_signup_returns_valid_schema","
     TC-API-01: Registrar usuario válido
 
     Precondiciones:
@@ -81,7 +283,63 @@
     - Código: 201 Created
     - Respuesta cumple con USER_SCHEMA
     "
-"passed","Wed Apr 29 20:33:53 UTC 2026","Wed Apr 29 20:35:53 UTC 2026","120342","web_tests.tests_shophub","test_add_product_to_cart_logged_in","","","","test_add_product_to_cart_as_logged_in_user","
+"broken","Wed Apr 29 23:08:45 UTC 2026","Wed Apr 29 23:17:43 UTC 2026","538186","pytest_bdd_tests","test_cinema_navigation","","","","test_seleccionar_asiento_en_la_sala","/home/runner/work/project-automation-cf/project-automation-cf/pytest_bdd_tests/features/cinema_navigation_pytestbdd.feature: Seleccionar asiento en la sala"
+"passed","Wed Apr 29 23:07:39 UTC 2026","Wed Apr 29 23:07:39 UTC 2026","119","api_tests","test_client_error","","","","test_client_error_endpoint_returns_400","
+    TC-API-30: Probar error 400.
+    "
+"passed","Thu Apr 30 00:07:48 UTC 2026","Thu Apr 30 00:07:49 UTC 2026","651","web_tests.tests_fake_cinema","test_home_page_access","","","","test_verify_home_page_access","
+    TC-WEB-15: Verificación del Acceso a la Página Principal
+    "
+"passed","Thu Apr 30 00:17:26 UTC 2026","Thu Apr 30 00:17:26 UTC 2026","568","web_tests.tests_shophub","test_shophub_homepage","","","","test_click_category_by_visible_text","
+    COBERTURA: Cubre el método click_category_by_visible_text() del POM HomePage.
+    Este método busca categorías por texto visible en vez de por localizador fijo.
+    "
+"skipped","Wed Apr 29 23:07:39 UTC 2026","Wed Apr 29 23:07:39 UTC 2026","0","api_tests","test_create_booking","","","","test_create_booking_as_user","
+    TC-API-20: Crear reserva.
+    Este test recibe 'user_token' y 'flight_id' de los fixtures.
+    "
+"broken","Wed Apr 29 23:36:34 UTC 2026","Wed Apr 29 23:45:32 UTC 2026","537941","web_tests.tests_fake_cinema","test_attempt_purchase_with_empty_name_field","","","","test_attempt_purchase_with_empty_name_field","
+    TC-WEB-37: Intento de Pago con Campo de Nombre Vacío
+    Esta prueba verifica que aparece un mensaje de error: ""Completa este campo"".
+    El formulario no se envía y el botón queda inactivo hasta completar el campo.
+    "
+"failed","Wed Apr 29 23:08:09 UTC 2026","Wed Apr 29 23:08:09 UTC 2026","200","api_tests","test_list_users","","","","test_list_users_as_admin","
+    TC-API-05: Listar todos los usuarios (autenticado).
+    Este test recibe 'admin_token' de los fixtures.
+    "
+"passed","Wed Apr 29 23:07:51 UTC 2026","Wed Apr 29 23:07:51 UTC 2026","127","api_tests","test_delete_user","","","","test_delete_user_as_admin","
+    TC-API-09: Eliminar usuario.
+    Este test recibe 'admin_token' y 'test_user_id_to_delete' de los fixtures.
+    "
+"skipped","Thu Apr 30 00:20:31 UTC 2026","Thu Apr 30 00:23:07 UTC 2026","155752","web_tests.tests_shophub","test_view_cart_contents","","","","test_view_cart_content_as_logged_in_user","
+    Caso de prueba: TC-WEB-10: Ver contenido del carrito
+    Objetivo: Verificar que un usuario autenticado pueda ver el contenido de su carrito de compras.
+    Esta prueba requiere un usuario autenticado y un producto agregado al carrito.
+
+    REFACTORIZADO: Usa métodos POM de LoginPage, CategoryPage, ProductPage y CartPage
+    en lugar de manipular el driver directamente.
+    "
+"passed","Wed Apr 29 23:06:59 UTC 2026","Wed Apr 29 23:07:33 UTC 2026","33241","api_tests","test_airports_list","","","","test_list_airports",""
+"passed","Thu Apr 30 00:17:12 UTC 2026","Thu Apr 30 00:17:12 UTC 2026","382","web_tests.tests_shophub","test_find_product_by_existing_name","","","","test_search_input_accepts_text","
+    TC-WEB-11: Verificar que el campo de búsqueda acepta texto.
+    La prueba valida que el campo de búsqueda esté presente y funcional dentro de la UI.
+    "
+"passed","Wed Apr 29 23:07:49 UTC 2026","Wed Apr 29 23:07:49 UTC 2026","132","api_tests","test_delete_airport","","","","test_delete_airport_as_admin","
+    TC-API-14: Eliminar aeropuerto.
+    Este test recibe 'admin_token' y 'airport_iata_code' de los fixtures.
+    "
+"skipped","Wed Apr 29 23:08:15 UTC 2026","Wed Apr 29 23:08:15 UTC 2026","0","api_tests","test_update_flight","","","","test_update_flight_as_admin","
+    TC-API-18: Actualizar vuelo.
+    Este test ahora recibe 'admin_token' y 'flight_id' de los fixtures.
+    "
+"passed","Wed Apr 29 23:08:09 UTC 2026","Wed Apr 29 23:08:09 UTC 2026","112","api_tests","test_root_endpoint","","","","test_root_endpoint_returns_welcome_message","
+    TC-API-33: Probar raíz de la API.
+    "
+"passed","Thu Apr 30 00:17:27 UTC 2026","Thu Apr 30 00:17:37 UTC 2026","10307","web_tests.tests_shophub","test_shophub_homepage","","","","test_login_button_visible_before_login","
+    COBERTURA: Cubre los métodos is_login_button_visible() e is_logout_button_visible()
+    del POM HomePage. Verifica el estado de botones cuando NO hay sesión.
+    "
+"passed","Thu Apr 30 00:14:44 UTC 2026","Thu Apr 30 00:16:39 UTC 2026","114284","web_tests.tests_shophub","test_add_product_to_cart_logged_in","","","","test_add_product_to_cart_as_logged_in_user","
     TC-WEB-08: Agregar producto al carrito como usuario autenticado.
 
     Precondiciones:
@@ -100,271 +358,13 @@
     - Producto: {TestData.TC_WEB_08.PRODUCT_NAME}
     - Categoría: {TestData.TC_WEB_08.CATEGORY}
     "
-"passed","Wed Apr 29 19:55:52 UTC 2026","Wed Apr 29 19:56:03 UTC 2026","11401","web_tests.tests_fake_cinema","test_attempt_change_movie_without_confirming_selection","","","","test_attempt_change_movie_without_confirming_selection",""
-"skipped","Wed Apr 29 19:45:34 UTC 2026","Wed Apr 29 19:45:34 UTC 2026","0","api_tests","test_get_payment","","","","test_get_payment_by_id","
-    TC-API-25: Obtener pago por ID.
-    Este test recibe 'user_token' y 'test_payment_id' de los fixtures.
-    "
-"passed","Wed Apr 29 19:45:26 UTC 2026","Wed Apr 29 19:45:26 UTC 2026","62","api_tests","test_delete_airport","","","","test_delete_airport_as_admin","
-    TC-API-14: Eliminar aeropuerto.
-    Este test recibe 'admin_token' y 'airport_iata_code' de los fixtures.
-    "
-"passed","Wed Apr 29 19:45:32 UTC 2026","Wed Apr 29 19:45:33 UTC 2026","116","api_tests","test_get_my_profile","","","","test_get_my_profile","
-    TC-API-07: Obtener mi perfil.
-    Este test recibe 'admin_token' de los fixtures.
-    "
-"passed","Wed Apr 29 20:20:08 UTC 2026","Wed Apr 29 20:20:22 UTC 2026","13417","web_tests.tests_fake_cinema","test_seat_selection_occupied","","","","test_cannot_select_occupied_seat","
-    TC-WEB-41: Validación de asiento ocupado
-    "
-"skipped","Wed Apr 29 19:45:27 UTC 2026","Wed Apr 29 19:45:27 UTC 2026","0","api_tests","test_delete_user","","","","test_delete_user_as_admin","
-    TC-API-09: Eliminar usuario.
-    Este test recibe 'admin_token' y 'test_user_id_to_delete' de los fixtures.
-    "
-"passed","Wed Apr 29 19:55:50 UTC 2026","Wed Apr 29 19:55:51 UTC 2026","464","pytest_bdd_tests","test_shophub_homepage","","","","test_verificar_carga_de_la_página_principal","/home/runner/work/project-automation-cf/project-automation-cf/pytest_bdd_tests/features/shophub_homepage_pytestbdd.feature: Verificar carga de la página principal"
-"skipped","Wed Apr 29 20:39:50 UTC 2026","Wed Apr 29 20:42:11 UTC 2026","141090","web_tests.tests_shophub","test_view_cart_contents","","","","test_view_cart_content_as_logged_in_user","
-    Caso de prueba: TC-WEB-10: Ver contenido del carrito
-    Objetivo: Verificar que un usuario autenticado pueda ver el contenido de su carrito de compras.
-    Esta prueba requiere un usuario autenticado y un producto agregado al carrito.
-
-    REFACTORIZADO: Usa métodos POM de LoginPage, CategoryPage, ProductPage y CartPage
-    en lugar de manipular el driver directamente.
-    "
-"failed","Wed Apr 29 20:07:36 UTC 2026","Wed Apr 29 20:07:58 UTC 2026","22209","web_tests.tests_fake_cinema","test_attempt_to_pay_with_invalid_cvv","","","","test_attempt_to_pay_with_invalid_cvv_field","
-    TC-WEB-40: Intento de Pago con CVV Inválido
-    Esta prueba verifica que se muestra un mensaje de error: ""CVV debe tener exactamente 3 dígitos"".
-    El sistema no permite continuar. El formulario no se envía.
-    El usuario no puede continuar con el pago.
-
-    ⚠️ VERDAD FUNCIONAL ACTUAL: El sistema NO muestra mensaje de error y permite continuar.
-    Esta prueba debe FALLAR hasta que se implemente la validación adecuada.
-    "
-"failed","Wed Apr 29 20:07:59 UTC 2026","Wed Apr 29 20:08:22 UTC 2026","23693","web_tests.tests_fake_cinema","test_card_format_validation","","","","test_reject_invalid_card_number","
-    TC-WEB-32: Verifica que el sistema rechace un número de tarjeta inválido
-    durante el proceso de pago, reflejando la verdad funcional para el usuario.
-    Ejemplo de tarjeta inválida: '1234-1234-1234-1234'
-    "
-"failed","Wed Apr 29 20:33:37 UTC 2026","Wed Apr 29 20:33:50 UTC 2026","13630","web_tests.tests_fake_cinema","test_using_navigation_buttons_without_saved_data","","","","test_cart_persists_after_page_reload",""
-"passed","Wed Apr 29 19:45:43 UTC 2026","Wed Apr 29 19:45:43 UTC 2026","71","api_tests","test_success_but_error","","","","test_success_but_error_endpoint","
-    TC-API-29: Probar endpoint que simula éxito con error.
-    "
-"failed","Wed Apr 29 19:45:41 UTC 2026","Wed Apr 29 19:45:41 UTC 2026","112","api_tests","test_list_users","","","","test_list_users_as_admin","
-    TC-API-05: Listar todos los usuarios (autenticado).
-    Este test recibe 'admin_token' de los fixtures.
-    "
-"passed","Wed Apr 29 19:45:25 UTC 2026","Wed Apr 29 19:45:26 UTC 2026","1640","api_tests","test_create_user_admin","","","","test_create_user_as_admin","
-    TC-API-06: Crear usuario como admin.
-    Este test recibe 'admin_token' y 'new_user_data' de los fixtures.
-    "
-"passed","Wed Apr 29 19:45:27 UTC 2026","Wed Apr 29 19:45:27 UTC 2026","87","api_tests","test_delete_flight","","","","test_delete_flight_as_admin","
-    TC-API-19: Eliminar vuelo.
-    Este test recibe 'admin_token' y 'flight_id' de los fixtures.
-    "
-"passed","Wed Apr 29 19:45:21 UTC 2026","Wed Apr 29 19:45:21 UTC 2026","106","api_tests","test_create_flight","","","","test_create_flight_as_admin","
-    TC-API-16: Crear vuelo.
-    Este test recibe 'admin_token' y 'test_aircraft_id' de los fixtures.
-    "
-"passed","Wed Apr 29 20:08:23 UTC 2026","Wed Apr 29 20:09:38 UTC 2026","75485","web_tests.tests_fake_cinema","test_cart_visualization","","","","test_cart_visualization_before_payment","
-    TC-WEB-20: Visualización del Carrito antes del Pago
-    REFACTORIZADO: Cubre más métodos POM (is_summary_page_loaded, is_pay_button_visible,
-    get_summary_adults_text, get_summary_total_price_text).
-    "
-"passed","Wed Apr 29 19:45:32 UTC 2026","Wed Apr 29 19:45:32 UTC 2026","66","api_tests","test_get_booking","","","","test_get_booking_by_id","
-    TC-API-22: Obtener reserva.
-    "
-"failed","Wed Apr 29 20:33:35 UTC 2026","Wed Apr 29 20:33:36 UTC 2026","1569","web_tests.tests_fake_cinema","test_selection_aditional_food","","","","test_add_food_to_cart","
-       TC-WEB-28: Selección de comida adicional
-    "
-"failed","Wed Apr 29 20:33:52 UTC 2026","Wed Apr 29 20:33:53 UTC 2026","692","web_tests.tests_fake_cinema","test_wheelchair_accessibility","","","","test_wheelchair_accessibility_button","
-    TC-WEB-31: Verifica que se pueda hacer clic en el icono de ""Silla de ruedas"" en la sala.
-    La prueba debe fallar porque el botón del icono de silla de ruedas no hace nada.
-    "
-"passed","Wed Apr 29 20:42:11 UTC 2026","Wed Apr 29 20:42:40 UTC 2026","29112","web_tests.tests_shophub","test_womens_clothes","","","","test_navigate_to_womens_clothes","
-    TC-WEB-03: Ir a ""Women's Clothes"".
-    REFACTORIZADO v2: Cubre get_category_title, get_product_cards,
-    get_first_product_link del POM CategoryPage.
-    "
-"passed","Wed Apr 29 20:18:37 UTC 2026","Wed Apr 29 20:19:04 UTC 2026","26736","web_tests.tests_fake_cinema","test_fill_payment_data","","","","test_fill_payment_data","
-    TC-WEB-22: Relleno de Datos de Pago (Formulario Checkout)
-    TC-WEB-23: Completar el Pago Exitoso
-    TC-WEB-24: Volver al Inicio tras Compra Exitosa
-    TC-WEB-25: Validación de Campos Obligatorios en Checkout
-    "
-"passed","Wed Apr 29 19:45:42 UTC 2026","Wed Apr 29 19:45:42 UTC 2026","67","api_tests","test_root_endpoint","","","","test_root_endpoint_returns_welcome_message","
-    TC-API-33: Probar raíz de la API.
-    "
-"broken","Wed Apr 29 19:46:18 UTC 2026","Wed Apr 29 19:55:16 UTC 2026","538004","pytest_bdd_tests","test_cinema_navigation","","","","test_seleccionar_asiento_en_la_sala","/home/runner/work/project-automation-cf/project-automation-cf/pytest_bdd_tests/features/cinema_navigation_pytestbdd.feature: Seleccionar asiento en la sala"
-"passed","Wed Apr 29 19:55:16 UTC 2026","Wed Apr 29 19:55:50 UTC 2026","33970","pytest_bdd_tests","test_login","","","","test_usuario_inicia_sesión_con_credenciales_válidas","/home/runner/work/project-automation-cf/project-automation-cf/pytest_bdd_tests/features/login_pytestbdd.feature: Usuario inicia sesión con credenciales válidas"
-"failed","Wed Apr 29 19:45:43 UTC 2026","Wed Apr 29 19:45:44 UTC 2026","66","api_tests","test_update_airport","","","","test_update_airport_as_admin","
-    TC-API-13: Actualizar aeropuerto.
-    Este test recibe 'admin_token' y 'airport_iata' de los fixtures.
-    "
-"passed","Wed Apr 29 19:45:21 UTC 2026","Wed Apr 29 19:45:21 UTC 2026","78","api_tests","test_create_booking","","","","test_create_booking_as_user","
-    TC-API-20: Crear reserva.
-    Este test recibe 'user_token' y 'flight_id' de los fixtures.
-    "
-"passed","Wed Apr 29 19:45:41 UTC 2026","Wed Apr 29 19:45:42 UTC 2026","158","api_tests","test_response_time","","","","test_get_airports_response_time_under_2_seconds","
-    Verificar que el endpoint /airports responda en menos de 2 segundos.
-    "
-"skipped","Wed Apr 29 19:45:33 UTC 2026","Wed Apr 29 19:45:33 UTC 2026","0","api_tests","test_get_my_profile","","","","test_get_my_profile_as_regular_user","
+"passed","Wed Apr 29 23:17:43 UTC 2026","Wed Apr 29 23:18:23 UTC 2026","39969","pytest_bdd_tests","test_login","","","","test_usuario_inicia_sesión_con_credenciales_válidas","/home/runner/work/project-automation-cf/project-automation-cf/pytest_bdd_tests/features/login_pytestbdd.feature: Usuario inicia sesión con credenciales válidas"
+"passed","Wed Apr 29 23:08:00 UTC 2026","Wed Apr 29 23:08:00 UTC 2026","185","api_tests","test_get_my_profile","","","","test_get_my_profile_as_regular_user","
     TC-API-07b: Obtener mi perfil como usuario regular.
     ✅ COBERTURA: Usa fixture auth_token (conftest líneas 78-134) que creaba 0 consumers.
     "
-"passed","Wed Apr 29 19:45:17 UTC 2026","Wed Apr 29 19:45:17 UTC 2026","112","api_tests","test_client_error","","","","test_client_error_endpoint_returns_400","
-    TC-API-30: Probar error 400.
-    "
-"passed","Wed Apr 29 20:19:16 UTC 2026","Wed Apr 29 20:19:30 UTC 2026","13464","web_tests.tests_fake_cinema","test_movie_navigation","","","","test_navigate_to_movie_detail_and_verify_title","
-    TC-WEB-14: Verificar información de película (CORREGIDO USANDO POM)
-    "
-"passed","Wed Apr 29 20:36:41 UTC 2026","Wed Apr 29 20:36:51 UTC 2026","10183","web_tests.tests_shophub","test_shophub_homepage","","","","test_login_button_visible_before_login","
-    COBERTURA: Cubre los métodos is_login_button_visible() e is_logout_button_visible()
-    del POM HomePage. Verifica el estado de botones cuando NO hay sesión.
-    "
-"failed","Wed Apr 29 19:45:56 UTC 2026","Wed Apr 29 19:46:18 UTC 2026","21688","pytest_bdd_tests","test_cinema_navigation","","","","test_seleccionar_película_desde_la_cartelera","/home/runner/work/project-automation-cf/project-automation-cf/pytest_bdd_tests/features/cinema_navigation_pytestbdd.feature: Seleccionar película desde la cartelera"
-"skipped","Wed Apr 29 20:38:13 UTC 2026","Wed Apr 29 20:38:50 UTC 2026","36383","web_tests.tests_shophub","test_shophub_login","","","","test_failed_login","
-    Verificar el comportamiento al ingresar credenciales inválidas.
-
-    Validaciones completas:
-    - Usuario permanece en página de login
-    - Mensaje de error visible (o comportamiento alternativo documentado)
-    - Estado NO cambia a logueado
-    - Botón Login sigue presente
-    "
-"failed","Wed Apr 29 19:56:03 UTC 2026","Wed Apr 29 19:56:18 UTC 2026","15095","web_tests.tests_fake_cinema","test_attempt_enter_text_in_numeric_fields_during_checkout","","","","test_attempt_to_enter_text_in_numeric_fields",""
-"broken","Wed Apr 29 20:35:54 UTC 2026","Wed Apr 29 20:36:15 UTC 2026","21389","web_tests.tests_shophub","test_add_product_to_cart_not_logged_in","","","","test_add_product_to_cart_as_guest","
-    TC-WEB-09: Agregar producto al carrito (no logueado).
-
-    Validaciones completas:
-    - Estado inicial del carrito (vacío o con contador 0)
-    - Navegación a categoría correcta
-    - Producto visible antes de agregar
-    - Feedback visual al agregar (badge, animación, mensaje)
-    - Incremento del contador del carrito
-    - Producto aparece en la página del carrito
-    - Datos del producto correctos (nombre, precio)
-    "
-"passed","Wed Apr 29 19:45:32 UTC 2026","Wed Apr 29 19:45:32 UTC 2026","59","api_tests","test_get_flight","","","","test_get_flight_by_id","
-    TC-API-17: Obtener vuelo.
-    "
-"passed","Wed Apr 29 19:45:17 UTC 2026","Wed Apr 29 19:45:17 UTC 2026","113","api_tests","test_create_aircraft","","","","test_create_aircraft_as_admin","
-    TC-API-27: Crear aeronave.
-    Este test recibe 'admin_token' de los fixtures.
-    "
-"failed","Wed Apr 29 19:56:54 UTC 2026","Wed Apr 29 19:57:08 UTC 2026","13728","web_tests.tests_fake_cinema","test_attempt_purchase_with_invalid_ticket_type","","","","test_attempt_purchase_with_invalid_ticket_type","
-    TC-WEB-36: Intento de compra con tipo de boleto inválido, seleccionando un solo asiento
-    El sistema debe mostrar un mensaje de error: ""La cantidad debe coincidir con los asientos seleccionados"".
-    El botón ""Confirmar"" permanece inactivo hasta que se ingrese un valor válido.
-    "
-"passed","Wed Apr 29 19:45:54 UTC 2026","Wed Apr 29 19:45:54 UTC 2026","78","api_tests","test_user_signup_invalid","","","","test_signup_with_invalid_email","
-    TC-API-02: Registrar con email inválido (Negativo).
-    "
-"passed","Wed Apr 29 20:36:29 UTC 2026","Wed Apr 29 20:36:40 UTC 2026","10329","web_tests.tests_shophub","test_shophub_homepage","","","","test_shophub_search_uses_homepage_methods","
-    COBERTURA: Cubre los métodos search_product() y get_products_count() del POM HomePage.
-    Verifica que la búsqueda funcione a través del POM.
-    "
-"passed","Wed Apr 29 20:36:40 UTC 2026","Wed Apr 29 20:36:40 UTC 2026","473","web_tests.tests_shophub","test_shophub_homepage","","","","test_click_category_by_visible_text","
-    COBERTURA: Cubre el método click_category_by_visible_text() del POM HomePage.
-    Este método busca categorías por texto visible en vez de por localizador fijo.
-    "
-"passed","Wed Apr 29 20:33:52 UTC 2026","Wed Apr 29 20:33:52 UTC 2026","231","web_tests.tests_fake_cinema","test_verify_name_title","","","","test_homepage_has_hero_text",""
-"passed","Wed Apr 29 20:36:28 UTC 2026","Wed Apr 29 20:36:29 UTC 2026","471","web_tests.tests_shophub","test_shophub_homepage","","","","test_can_click_mens_category",""
-"passed","Wed Apr 29 20:19:15 UTC 2026","Wed Apr 29 20:19:16 UTC 2026","463","web_tests.tests_fake_cinema","test_home_page_access","","","","test_verify_home_page_access","
-    TC-WEB-15: Verificación del Acceso a la Página Principal
-    "
-"failed","Wed Apr 29 19:45:25 UTC 2026","Wed Apr 29 19:45:25 UTC 2026","80","api_tests","test_create_payment","","","","test_create_payment_as_user","
-    TC-API-24: Crear pago.
-    Este test recibe 'user_token' y 'test_booking_id' de los fixtures.
-    "
-"passed","Wed Apr 29 19:45:51 UTC 2026","Wed Apr 29 19:45:52 UTC 2026","1608","api_tests","test_user_login_valid","","","","test_login_with_valid_credentials","
-    TC-API-03: Iniciar sesión con credenciales válidas.
-    "
-"failed","Wed Apr 29 19:45:47 UTC 2026","Wed Apr 29 19:45:49 UTC 2026","1715","api_tests","test_update_user","","","","test_update_user_as_admin","
-    TC-API-08: Actualizar usuario.
-    Este test recibe 'admin_token' y 'new_user_data' de los fixtures.
-    "
-"passed","Wed Apr 29 20:24:21 UTC 2026","Wed Apr 29 20:24:22 UTC 2026","392","web_tests.tests_fake_cinema","test_select_movie_from_billboard","","","","test_select_movie_from_billboard","
-    TC-WEB-16: Selección de Película desde la Cartelera
-    - Descripción: Validar que el usuario pueda seleccionar 'Jurassic World: Renace' desde la cartelera.
-    - Resultado esperado: Se redirige al detalle de la película y muestra su título.
-    "
-"passed","Wed Apr 29 19:45:54 UTC 2026","Wed Apr 29 19:45:56 UTC 2026","2124","pytest_bdd_tests","test_cinema_navigation","","","","test_verificar_acceso_a_la_página_principal_del_cine","/home/runner/work/project-automation-cf/project-automation-cf/pytest_bdd_tests/features/cinema_navigation_pytestbdd.feature: Verificar acceso a la página principal del cine"
-"passed","Wed Apr 29 20:36:27 UTC 2026","Wed Apr 29 20:36:27 UTC 2026","243","web_tests.tests_shophub","test_find_product_by_existing_name","","","","test_search_input_accepts_text","
-    TC-WEB-11: Verificar que el campo de búsqueda acepta texto.
-    La prueba valida que el campo de búsqueda esté presente y funcional dentro de la UI.
-    "
-"passed","Wed Apr 29 19:55:51 UTC 2026","Wed Apr 29 19:55:51 UTC 2026","678","pytest_bdd_tests","test_shophub_homepage","","","","test_navegar_a_la_categoría_mens_clothes","/home/runner/work/project-automation-cf/project-automation-cf/pytest_bdd_tests/features/shophub_homepage_pytestbdd.feature: Navegar a la categoría Men's Clothes"
-"skipped","Wed Apr 29 20:38:50 UTC 2026","Wed Apr 29 20:39:11 UTC 2026","21547","web_tests.tests_shophub","test_shophub_signup_existing_email","","","","test_register_with_existing_email","
-    TC-WEB-07: Registrar con email ya existente (Negativo).
-    Este test recibe 'driver' del fixture.
-
-    REFACTORIZADO: Usa signup_page.get_error_message() del POM en vez de
-    driver.find_element(By.CSS_SELECTOR, "".error-message, .alert-danger"").
-    "
-"passed","Wed Apr 29 20:19:30 UTC 2026","Wed Apr 29 20:19:45 UTC 2026","14723","web_tests.tests_fake_cinema","test_navigate_to_checkout","","","","test_navigate_to_checkout","
-    TC-WEB-21: Navegación al Checkout
-    "
-"broken","Wed Apr 29 20:09:39 UTC 2026","Wed Apr 29 20:18:37 UTC 2026","538049","web_tests.tests_fake_cinema","test_email_validation","","","","test_reject_invalid_email_format","
-    TC-WEB-33: Validación de Email Inválido
-    ⚠️ ESTA PRUEBA DOCUMENTA UN BUG: La app acepta emails inválidos como 'admin@demo'
-    RESULTADO ESPERADO: Debería rechazar el email y quedarse en checkout
-    RESULTADO REAL: Permite avanzar a confirmation (BUG)
-    "
-"passed","Wed Apr 29 19:43:58 UTC 2026","Wed Apr 29 19:45:11 UTC 2026","73174","api_tests","test_airports_list","","","","test_list_airports",""
-"passed","Wed Apr 29 20:36:27 UTC 2026","Wed Apr 29 20:36:28 UTC 2026","314","web_tests.tests_shophub","test_search_product_by_nonexistent_name","","","","test_search_product_by_nonexistent_name","
-    TC-WEB-12: Buscar producto por nombre inexistente.
-    Dado que la tienda de prueba no tiene funcionalidad de búsqueda implementada,
-    esta prueba valida que el campo de búsqueda acepte cualquier texto sin errores,
-    y que la página no se rompa al realizar la búsqueda.
-    "
-"passed","Wed Apr 29 20:20:22 UTC 2026","Wed Apr 29 20:24:07 UTC 2026","225199","web_tests.tests_fake_cinema","test_select_and_deselect_multiple_seats","","","","test_select_and_deselect_multiple_seats","
-    TC-WEB-26 y TC-WEB-27: Selección y Deselección de Múltiples Asientos
-    - Descripción: Validar que el usuario pueda seleccionar múltiples asientos y luego cancelar/deseleccionarlos.
-    - Resultado esperado:
-        1. Los asientos se marcan como seleccionados y el precio total refleja la suma correcta.
-        2. Al deseleccionar, el precio total desaparece o vuelve a cero, y los asientos vuelven a estado disponible.
-    "
-"passed","Wed Apr 29 20:33:51 UTC 2026","Wed Apr 29 20:33:51 UTC 2026","668","web_tests.tests_fake_cinema","test_validation_film_classification","","","","test_verify_film_classification_labels","
-    TC-WEB-29: Verifica que aparezca el texto de la clasificación en cada película.
-    Las clasificaciones esperadas son: A, B, B15, C.
-    "
-"passed","Wed Apr 29 20:07:14 UTC 2026","Wed Apr 29 20:07:36 UTC 2026","21648","web_tests.tests_fake_cinema","test_attempt_to_pay_with_empty_card_number_field","","","","test_attempt_to_pay_with_empty_card_number_field","
-    TC-WEB-39: Intento de Pago con Campo de Número de Tarjeta Vacío
-    Esta prueba verifica que se muestra un mensaje de error: ""Completa este campo"".
-    El sistema no permite continuar. El formulario no se envía. El usuario no puede continuar con el pago.
-    "
-"passed","Wed Apr 29 19:45:49 UTC 2026","Wed Apr 29 19:45:51 UTC 2026","1635","api_tests","test_user_login_invalid","","","","test_login_with_invalid_password","
-    TC-API-04: Login con contraseña incorrecta.
-    "
-"passed","Wed Apr 29 20:36:16 UTC 2026","Wed Apr 29 20:36:26 UTC 2026","10673","web_tests.tests_shophub","test_empty_cart","","","","test_empty_cart_shows_no_items","
-    TC-WEB-10b: Verificar que el carrito vacío no tiene items.
-    Navega directamente al carrito sin agregar productos.
-
-    COBERTURA: Ejecuta la rama 'except TimeoutException' de CartPage.get_cart_items(),
-    donde el mensaje 'Your Cart is Empty' permanece visible → retorna lista vacía.
-    "
-"passed","Wed Apr 29 19:45:17 UTC 2026","Wed Apr 29 19:45:17 UTC 2026","78","api_tests","test_cancel_booking","","","","test_cancel_booking_as_owner","
-    TC-API-23: Cancelar reserva.
-    Este test recibe 'user_token' y 'test_booking_id' de los fixtures.
-    "
-"passed","Wed Apr 29 19:45:28 UTC 2026","Wed Apr 29 19:45:28 UTC 2026","100","api_tests","test_flight_search_nyc_lon","","","","test_list_airports",""
-"failed","Wed Apr 29 19:45:42 UTC 2026","Wed Apr 29 19:45:43 UTC 2026","1749","api_tests","test_simulated_errors","","","","test_signup_endpoint_returns_known_error","
-    Verificar que el endpoint /auth/signup devuelve un error conocido (500),
-    como parte del comportamiento simulado de la API.
-    "
-"passed","Wed Apr 29 19:57:46 UTC 2026","Wed Apr 29 19:58:15 UTC 2026","28890","web_tests.tests_fake_cinema","test_attempt_return_home_page_from_cart","","","","test_test_attempt_return_home_page_from_cart_without_purchase","
-    TC-WEB-42: Verifica que el sistema redirige a la página principal.
-    Resultado esperado: el carrito no se vacía automáticamente o se mantiene con sesión de compra abierta.
-    "
-"skipped","Wed Apr 29 19:45:44 UTC 2026","Wed Apr 29 19:45:44 UTC 2026","0","api_tests","test_update_booking_status","","","","test_update_booking_status_as_admin","
-    TC-API-34: Actualizar estado de reserva.
-    Este test recibe 'admin_token' y 'test_booking_id' de los fixtures.
-    "
-"passed","Wed Apr 29 19:57:08 UTC 2026","Wed Apr 29 19:57:46 UTC 2026","38107","web_tests.tests_fake_cinema","test_attempt_purchase_with_previously_used_email_adress","","","","test_attempt_purchase_with_previously_used_email_adress","
-    TC-WEB-46: Intento de compra con email utilizado anteriormente
-    Esta prueba verifica que el sistema permite el uso del email. No se muestra error ni restricción.
-    "
-"passed","Wed Apr 29 20:24:08 UTC 2026","Wed Apr 29 20:24:21 UTC 2026","13330","web_tests.tests_fake_cinema","test_select_date_and_time","","","","test_select_date_and_time","
+"passed","Thu Apr 30 00:12:42 UTC 2026","Thu Apr 30 00:12:55 UTC 2026","13504","web_tests.tests_fake_cinema","test_select_date_and_time","","","","test_select_date_and_time","
     TC-WEB-17: Selección de Fecha y Hora de Proyección
     - Descripción: Verificar que el usuario pueda elegir una fecha y la primera hora disponible.
     - Resultado esperado: El sistema muestra la sala disponible y los asientos libres.
     "
-"failed","Wed Apr 29 20:19:04 UTC 2026","Wed Apr 29 20:19:15 UTC 2026","10727","web_tests.tests_fake_cinema","test_filtered_by_cinema","","","","test_filtered_by_cinema",""
