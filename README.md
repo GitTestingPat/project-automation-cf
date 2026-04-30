@@ -2,7 +2,7 @@
 
 [![Dependabot enabled](https://img.shields.io/badge/Dependabot-enabled-brightgreen.svg)](https://dependabot.com/)
 
-![Tests Status](https://img.shields.io/badge/Tests-Running-blue?logo=githubactions)
+[![Tests Status](https://img.shields.io/badge/Tests-Running-blue?logo=githubactions)](https://github.com/GitTestingPat/project-automation-cf/actions/)
 [![Allure Report](https://img.shields.io/badge/Allure-Report-brightgreen)](https://gittestingpat.github.io/project-automation-cf/)
 
 Proyecto de Automatización de Pruebas para el Bootcamp de Testing Automatizado de Código Facilito.
