@@ -1,0 +1,55 @@
+
+======================================================================
+TC-WEB-08: Agregar 'Denim Jeans' al carrito (usuario autenticado)
+======================================================================
+Usuario: admin@demo.com
+Categoría: Men's Clothes
+Producto: Denim Jeans
+======================================================================
+
+PASO 1: Autenticación del usuario
+✅ Overlay inicial desapareció.
+🔐 Botón 'Sign In' clickeado.
+⚠️  No apareció overlay de carga.
+✅ Overlay de carga desapareció (login procesado).
+✅ Página /login/success detectada
+⏳ Esperando establecimiento de token JWT...
+✅ Click en 'Go to Home'
+⚠️  Botón 'Logout' no detectado (bug conocido de la app).
+ℹ️  Asumiendo usuario autenticado - verificación al agregar al carrito.
+ℹ️  Botones Login/SignUp presentes pero ignorados (bug de UI)
+✅ Usuario autenticado - Continuando con el flujo
+
+   (La autenticación se confirmará al verificar el carrito)
+
+PASO 2: Verificar estado inicial del carrito
+   Items en carrito: 0
+
+PASO 3: Navegar a categoría 'Men's Clothes'
+✅ Navegación a 'Men's Clothes' exitosa
+
+PASO 4: Buscar y seleccionar producto 'Denim Jeans'
+✅ Overlay desapareció antes de buscar 'Denim Jeans'.
+   📦 Productos disponibles: 10
+   ✅ Producto encontrado: 'Denim Jeans'
+   ✅ Click en 'Denim Jeans' (clic normal)
+✅ Producto 'Denim Jeans' seleccionado
+
+PASO 5: Agregar 'Denim Jeans' al carrito
+✅ Overlay desapareció antes de 'Add to Cart'.
+🔧 Usando JavaScript click en Add to Cart...
+✅ Botón 'Add to Cart' clickeado (JavaScript).
+✅ Producto agregado al carrito
+
+PASO 6: Verificar producto en carrito
+   Contador inicial: 0
+   Contador actual: 1
+   ✅ Contador incrementó (0 → 1)
+
+======================================================================
+✅ TEST EXITOSO - 'Denim Jeans' agregado correctamente al carrito
+   Usuario: admin@demo.com
+   Categoría: Men's Clothes
+   Items agregados: 1
+======================================================================
+
