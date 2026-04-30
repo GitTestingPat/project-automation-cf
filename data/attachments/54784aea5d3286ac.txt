@@ -1,1 +1,0 @@
-[INFO] Iniciando compra #1 con email: admin@demo.com

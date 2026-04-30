@@ -1,1 +1,0 @@
-✅ Usuario de prueba creado en fixture 'user_token': fixture_user_04059_7j4@test.com
