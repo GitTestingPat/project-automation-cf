@@ -3,7 +3,9 @@ name: QA Tests & Allure Report Deployment
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 9 * * 1-5' # Lunes a Viernes a las 9 AM UTC
+    # 12:00 UTC = 9:00 AM Chile (Verano)
+    # 12:00 UTC = 8:00 AM Chile (Invierno)
+    - cron: '0 12 * * 1-5' # Se ejecuta de Lunes a Viernes
   push:
     branches: [ main ]
 
@@ -14,8 +16,13 @@ jobs:
       contents: write
       pages: write
       id-token: write
-
+    # Comandos 'date' dentro de los pasos muestran la hora de Chile, aunque el trigger sea UTC
+    env:
+      TZ: 'America/Santiago'
     steps:
+      - name: Check time
+        run: date
+
       - name: Checkout code
         uses: actions/checkout@v4
 
