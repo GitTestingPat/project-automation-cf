@@ -39,7 +39,7 @@ jobs:
         continue-on-error: true
 
       - name: Upload pytest HTML Report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: api-html-test-report
@@ -47,7 +47,7 @@ jobs:
           retention-days: 30
 
       - name: Upload Allure Results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: allure-results
