@@ -1,0 +1,8 @@
+✅ Título de la página verificado: 'ShopHub - Your Ultimate Shopping Destination'
+✅ Título de categoría obtenido con POM: 'Shop by Category'
+📦 Elementos encontrados con get_product_cards(): 1
+✅ get_product_cards() verificado con POM CategoryPage.
+✅ Overlay desapareció antes de hacer clic en producto.
+✅ Primer producto clickeado (clic normal).
+✅ get_first_product_link() ejecutado con POM CategoryPage
+✅ Título del producto: 'Women's Clothes'
