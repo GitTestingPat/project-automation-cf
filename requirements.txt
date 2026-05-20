@@ -6,7 +6,7 @@ certifi==2026.4.22
 charset-normalizer==3.4.7
 colorama==0.4.6
 cucumber-expressions==18.0.1
-cucumber-tag-expressions==6.2.0
+cucumber-tag-expressions==9.1.0
 debugpy==1.8.15
 execnet==2.1.2
 Faker==40.15.0
