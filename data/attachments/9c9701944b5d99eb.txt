@@ -1,0 +1,4 @@
+✅ Overlay inicial desapareció.
+🔐 Botón 'Sign In' clickeado.
+⚠️  No apareció overlay de carga.
+✅ Overlay de carga desapareció (login procesado).
