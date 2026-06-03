@@ -32,6 +32,7 @@ updates:
         update-types: ["version-update:semver-major"]
       - dependency-name: "pytest"
         update-types: ["version-update:semver-major"]
+      - dependency-name: "rpds-py"
 
   # ─────────────────────────────────────────────────────────────
   # 2. GitHub Actions - workflows en .github/workflows/
