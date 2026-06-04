@@ -7,7 +7,7 @@ charset-normalizer==3.4.7
 colorama==0.4.6
 cucumber-expressions==18.0.1
 cucumber-tag-expressions==9.1.0
-debugpy==1.8.20
+debugpy==1.8.21
 execnet==2.1.2
 Faker==40.20.0
 gherkin-official==39.1.0
