@@ -30,7 +30,7 @@ pytest-bdd==8.1.0
 python-dotenv==1.2.2
 pytest-xdist==3.8.0
 referencing==0.37.0
-requests==2.33.0
+requests==2.34.2
 rpds-py==0.29.0
 selenium==4.34.2
 six==1.17.0
