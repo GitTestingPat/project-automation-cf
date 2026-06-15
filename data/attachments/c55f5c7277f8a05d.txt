@@ -1,0 +1,2 @@
+✅ Usuario de prueba creado en fixture 'user_token': fixture_user_40123_hpe@test.com
+✅ Reserva creada exitosamente. ID: bkg-8cd3f9c8, Vuelo ID: flt-fd01af40, Estado: draft

@@ -1,1 +1,0 @@
-✅ Usuario creado exitosamente como admin. ID: usr-1e1192ac, Email: new_user_60819_cpf@test.com
