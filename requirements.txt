@@ -10,7 +10,7 @@ cucumber-tag-expressions==9.1.0
 debugpy==1.8.21
 execnet==2.1.2
 Faker==40.20.0
-gherkin-official>=29.0.0
+gherkin-official>=40.0.0
 h11==0.16.0
 idna==3.18
 iniconfig==2.1.0
