@@ -1,1 +1,0 @@
-✅ Perfil obtenido con auth_token. Email: user_cb8ae10f-e1fc-4bf5-917d-fa86a91b7f95@test.com
