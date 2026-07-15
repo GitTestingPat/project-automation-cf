@@ -1,0 +1,37 @@
+[DEBUG] Iniciando prueba de validación de email inválido...
+[DEBUG] Navegando a detalle de Jurassic World...
+[DEBUG] Seleccionando primera hora disponible...
+[DEBUG] Verificando que el botón 'Comprar boletos' esté deshabilitado inicialmente...
+[DEBUG] ✅ Botón correctamente deshabilitado sin selección de asientos.
+[DEBUG] ✅ Clic bloqueado como se esperaba: Message: element click intercepted: Element <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 text-primary-foreground h-10 px-4 py-2 w-full bg-blue-600 hover:bg-blue-700" disabled="" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-«r0»" data-state="closed">...</button> is not clickable at point (1408, 773). Other element would receive the click: <div class="flex items-center p-6 pt-0">...</div>
+  (Session info: chrome=150.0.7871.46); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#elementclickinterceptedexception
+Stacktrace:
+#0 0x5581d08000fa <unknown>
+#1 0x5581d01d9939 <unknown>
+#2 0x5581d02359e5 <unknown>
+#3 0x5581d0233ac2 <unknown>
+#4 0x5581d02314ac <unknown>
+#5 0x5581d02305a7 <unknown>
+#6 0x5581d0224432 <unknown>
+#7 0x5581d0223d77 <unknown>
+#8 0x5581d027730d <unknown>
+#9 0x5581d022249f <unknown>
+#10 0x5581d0223301 <unknown>
+#11 0x5581d07c6167 <unknown>
+#12 0x5581d07c4948 <unknown>
+#13 0x5581d07afdc6 <unknown>
+#14 0x5581d07c550a <unknown>
+#15 0x5581d0797e70 <unknown>
+#16 0x5581d07ebc38 <unknown>
+#17 0x5581d07ebdd5 <unknown>
+#18 0x5581d07fecae <unknown>
+#19 0x7f105c29caa4 <unknown>
+#20 0x7f105c329c6c <unknown>
+
+[DEBUG] Seleccionando un asiento para habilitar el botón...
+[DEBUG] Buscando asientos por número (1-9)...
+[DEBUG] Encontré el asiento: 1
+[DEBUG] Clic ejecutado con JavaScript.
+[DEBUG] ✅ Asiento '1' seleccionado. Botón de compra habilitado.
+[DEBUG] Esperando que el botón se habilite tras seleccionar asiento...
+[DEBUG] ✅ Botón correctamente habilitado tras seleccionar asiento.
