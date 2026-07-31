@@ -1,2 +1,0 @@
-✅ Usuario de prueba creado en fixture 'user_token': fixture_user_17726_nky@test.com
-✅ Reserva creada exitosamente. ID: bkg-e9a16caf, Vuelo ID: flt-a670d8b2, Estado: draft
