@@ -1,0 +1,2 @@
+
+[INFO] Hora seleccionada dinámicamente: 10:30 AM
