@@ -1,3 +1,0 @@
-✅ Usuario de prueba creado en fixture 'user_token': fixture_user_28442_nqg@test.com
-✅ Booking validado contra BOOKING_SCHEMA
-✅ Reserva obtenida exitosamente. ID: bkg-12460eca, Estado: draft
