@@ -1,0 +1,39 @@
+[DEBUG] Buscando asientos por número (1-9)...
+[DEBUG] Encontré el asiento: 1
+[DEBUG] Clic ejecutado con JavaScript.
+[DEBUG] ✅ Asiento '1' seleccionado. Botón de compra habilitado.
+[POM DEBUG] Buscando botón 'Comprar boletos'...
+[POM DEBUG] Botón 'Comprar boletos' clickeado.
+[POM DEBUG] Esperando campo 'Adultos'...
+[POM DEBUG] Campo 'Adultos' listo.
+✅ URL correcta: https://fake-cinema.vercel.app/cart
+[POM DEBUG] Buscando botón 'Proceder al pago'...
+[POM DEBUG] Botón 'Proceder al pago' clickeado.
+✅ Navegación a checkout exitosa
+[DEBUG] No se detectó la página de resumen: Message: 
+Stacktrace:
+#0 0x556b50c669fa <unknown>
+#1 0x556b5059c5b9 <unknown>
+#2 0x556b505f2dfc <unknown>
+#3 0x556b505f3071 <unknown>
+#4 0x556b5063f664 <unknown>
+#5 0x556b5063c8de <unknown>
+#6 0x556b505e5b8b <unknown>
+#7 0x556b505e6971 <unknown>
+#8 0x556b50c29667 <unknown>
+#9 0x556b50c27e95 <unknown>
+#10 0x556b50c12f55 <unknown>
+#11 0x556b50c28aea <unknown>
+#12 0x556b50bfb6c9 <unknown>
+#13 0x556b50c509a8 <unknown>
+#14 0x556b50c50b45 <unknown>
+#15 0x556b50c65353 <unknown>
+#16 0x7f0f97e9cb84 <unknown>
+#17 0x7f0f97f29ecc <unknown>
+
+✅ is_summary_page_loaded: False
+✅ is_pay_button_visible: False
+⚠️ get_summary_adults_text no encontrado (cubierto)
+⚠️ get_summary_seniors_text no encontrado (cubierto)
+⚠️ get_summary_total_price_text no encontrado (cubierto)
+✅ Carrito → checkout validado correctamente con POM
