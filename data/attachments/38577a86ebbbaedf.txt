@@ -1,1 +1,0 @@
-WARNING  selenium.webdriver.common.selenium_manager:selenium_manager.py:137 Exception managing chrome: error sending request for url (https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json)
