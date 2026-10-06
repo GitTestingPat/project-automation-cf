@@ -1,0 +1,5 @@
+✅ Título validado: Los 4 Fantásticos: Primeros Pasos
+✅ Fecha seleccionada correctamente
+✅ Horario seleccionado: 4:00 PM
+✅ Sala de asientos cargada correctamente
+✅ Información completa de película validada
