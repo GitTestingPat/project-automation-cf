@@ -1,0 +1,33 @@
+🔍 [1] Navegando a la página principal...
+🔍 [2] Iniciando sesión usando POM LoginPage...
+✅ Overlay inicial desapareció.
+🔐 Botón 'Sign In' clickeado.
+⏳ Overlay de carga apareció (procesando login)...
+✅ Overlay de carga desapareció (login procesado).
+✅ Página /login/success detectada
+⏳ Esperando establecimiento de token JWT...
+✅ Click en 'Go to Home'
+⚠️  Botón 'Logout' no detectado (bug conocido de la app).
+ℹ️  Asumiendo usuario autenticado - verificación al agregar al carrito.
+ℹ️  Botones Login/SignUp presentes pero ignorados (bug de UI)
+✅ Login verificado con POM.
+🔍 [3] Navegando a 'Electronics'...
+✅ Título de categoría obtenido con POM: 'Shop by Category'
+🔍 [4] Buscando producto por nombre con POM CategoryPage...
+✅ Overlay desapareció antes de buscar 'Smartphone'.
+   📦 Productos disponibles: 10
+   ✅ Producto encontrado: 'Smartphone'
+   ✅ Click en 'Smartphone' (clic normal)
+✅ Producto 'Smartphone' seleccionado con POM CategoryPage.
+🔍 [5] Obteniendo título del producto con POM ProductPage...
+✅ Título del producto obtenido con POM: 'Electronics'
+🔍 [6] Agregando producto al carrito con POM ProductPage...
+✅ Overlay desapareció antes de 'Add to Cart'.
+🔧 Usando JavaScript click en Add to Cart...
+✅ Botón 'Add to Cart' clickeado (JavaScript).
+✅ Producto agregado al carrito con POM ProductPage.
+🔍 [7] Navegando al carrito con POM HomePage...
+ℹ️  Items en carrito (POM CartPage): 0
+ℹ️  Producto 'Smartphone' en carrito (POM): False
+🐛 BUG DETECTADO: Carrito vacío después de agregar producto.
+   Este es un bug conocido de ShopHub donde el carrito no persiste.
