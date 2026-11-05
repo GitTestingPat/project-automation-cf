@@ -1,0 +1,2 @@
+✅ Usuario de prueba creado en fixture 'user_token': fixture_user_05793_s24@test.com
+✅ Lista de reservas del usuario obtenida exitosamente. Total: 1, Reserva buscada ID: bkg-b3cef3bd
