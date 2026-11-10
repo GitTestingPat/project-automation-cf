@@ -1,3 +1,0 @@
-✅ Usuario de prueba creado en fixture 'user_token': fixture_user_60540_6tm@test.com
-✅ Booking validado contra BOOKING_SCHEMA
-✅ Reserva obtenida exitosamente. ID: bkg-87dd6a54, Estado: draft
