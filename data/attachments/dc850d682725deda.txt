@@ -1,0 +1,11 @@
+✅ Asiento ocupado está deshabilitado
+✅ Atributo disabled presente: true
+✅ Clases del asiento ocupado: inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border hover:bg-accent hover:text-accent-foreground w-8 h-8 p-0 text-xs font-mono rounded-md bg-gray-200 border-gray-300 text-gray-400 cursor-not-allowed relative
+✅ Asiento ocupado no cambió de estado al intentar clic
+[DEBUG] Buscando asientos por número (1-9)...
+[DEBUG] Encontré el asiento: 1
+[DEBUG] Clic ejecutado con JavaScript.
+[DEBUG] ✅ Asiento '1' seleccionado. Botón de compra habilitado.
+✅ Asiento disponible seleccionado correctamente: 1
+✅ Botón de compra habilitado tras seleccionar asiento disponible
+✅ Validación completa de asiento ocupado exitosa
