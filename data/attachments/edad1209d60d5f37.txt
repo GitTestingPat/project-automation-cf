@@ -1,0 +1,57 @@
+[DEBUG] Iniciando prueba TC-WEB-42...
+[DEBUG] Navegando a detalle de Jurassic World...
+[DEBUG] Seleccionando primera hora disponible...
+[DEBUG] Seleccionando primer asiento disponible...
+[DEBUG] Buscando asientos por número (1-9)...
+[DEBUG] Encontré el asiento: 1
+[DEBUG] Clic ejecutado con JavaScript.
+[DEBUG] ✅ Asiento '1' seleccionado. Botón de compra habilitado.
+[DEBUG] Esperando que el botón 'Comprar boletos' esté clickeable...
+[DEBUG] Botón 'Comprar boletos' listo.
+[DEBUG] Clic en 'Comprar boletos'...
+[POM DEBUG] Buscando botón 'Comprar boletos'...
+[POM DEBUG] Botón 'Comprar boletos' clickeado.
+[POM DEBUG] Esperando campo 'Adultos'...
+[POM DEBUG] Campo 'Adultos' listo.
+[DEBUG] Espera a que el modal esté visible...
+[DEBUG] Seleccionando 1 boleto adulto...
+[DEBUG] Clic en 'Confirmar'...
+[DEBUG] URL ACTUAL DESPUÉS DE CONFIRMAR: https://fake-cinema.vercel.app/cart
+[DEBUG] URL ACTUAL DESPUÉS DE 3 SEGUNDOS: https://fake-cinema.vercel.app/cart
+[DEBUG] ✅ Encontrado indicador de producto: 'C
+Películas
+Alimentos
+Promos
+Especiales
+Próximos lanzamientos
+Carrito
+Elige tu cine
+Carrito
+Boletos (1)
+$80.00
+Subtotal
+$80.00
+Total
+$80.00
+Proceder al pago'
+[DEBUG] ✅ Mensaje de carrito vacío no está visible. Bien.
+[INFO] ¡Prueba TC-WEB-42 completada con éxito! Carrito cargado con productos.
+[DEBUG] Navegando a la página principal desde el carrito...
+[DEBUG] Navegando nuevamente al carrito...
+[DEBUG] ✅ Productos aún presentes tras regresar: 'C
+Películas
+Alimentos
+Promos
+Especiales
+Próximos lanzamientos
+Carrito
+Elige tu cine
+Carrito
+Boletos (1)
+$80.00
+Subtotal
+$80.00
+Total
+$80.00
+Proceder al pago'
+[INFO] ¡Prueba TC-WEB-42 completada con éxito! El carrito persiste tras navegar a Home y regresar.
